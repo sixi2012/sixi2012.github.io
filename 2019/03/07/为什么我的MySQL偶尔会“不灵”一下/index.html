@@ -6,23 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>为什么我的MYSQL偶尔会”不灵“一下 | 依然在路上</title>
+  <title>为什么我的MySQL偶尔会”不灵“一下 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。 看上去，就像数据库“不灵”了一样。 InnDB在处理更新语句的时候，只在内存更新了redo log，就返回给客户端，本次更新成功；">
+  <meta name="description" content="执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。 看上去，就像数据库“不灵”了一样。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为什么我的MYSQL偶尔会”不灵“一下">
+<meta property="og:title" content="为什么我的MySQL偶尔会”不灵“一下">
 <meta property="og:url" content="https://sixi2012.github.io/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。 看上去，就像数据库“不灵”了一样。 InnDB在处理更新语句的时候，只在内存更新了redo log，就返回给客户端，本次更新成功；">
+<meta property="og:description" content="执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。 看上去，就像数据库“不灵”了一样。">
 <meta property="og:locale" content="php">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/1.jpeg">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/3.png">
-<meta property="og:updated_time" content="2019-03-07T12:53:17.545Z">
+<meta property="og:updated_time" content="2019-03-07T12:57:56.095Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么我的MYSQL偶尔会”不灵“一下">
-<meta name="twitter:description" content="执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。 看上去，就像数据库“不灵”了一样。 InnDB在处理更新语句的时候，只在内存更新了redo log，就返回给客户端，本次更新成功；">
+<meta name="twitter:title" content="为什么我的MySQL偶尔会”不灵“一下">
+<meta name="twitter:description" content="执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。 看上去，就像数据库“不灵”了一样。">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
@@ -158,7 +158,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      为什么我的MYSQL偶尔会”不灵“一下
+      为什么我的MySQL偶尔会”不灵“一下
     </h1>
   
 
@@ -173,8 +173,8 @@
       
         <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/1.jpeg" alt="doudong"></p>
 <p>执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。</p>
-<p>看上去，就像数据库“不灵”了一样。</p>
-<p><strong>InnDB在处理更新语句的时候，只在内存更新了redo log，就返回给客户端，本次更新成功；</strong><br><a id="more"></a></p>
+<p>看上去，就像数据库“不灵”了一样。<br><a id="more"></a></p>
+<p><strong>InnDB在处理更新语句的时候，只在内存更新了redo log，就返回给客户端，本次更新成功；</strong></p>
 <ul>
 <li>当内存数据跟磁盘数据不一致时，我们称这个内存页为“脏页”；</li>
 <li>内存数据写到磁盘后，二者的数据就一致了，称为“干净页”；</li>
