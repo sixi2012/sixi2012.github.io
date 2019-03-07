@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/3.png">
-<meta property="og:updated_time" content="2019-03-07T12:57:56.095Z">
+<meta property="og:updated_time" content="2019-03-07T13:02:50.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为什么我的MySQL偶尔会”不灵“一下">
 <meta name="twitter:description" content="执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。 看上去，就像数据库“不灵”了一样。">
@@ -207,9 +207,9 @@
 <p>3、无论是查询语句需要内存的时候淘汰一个脏页，还是由于刷脏页的逻辑占用IO资源并可能影响到更新语句，都会造成业务端感知MYSQL“不灵”一下；</p>
 <p>4、要合理的设置innodb_io_capacity 的值，平时多关注脏页的比例，不要让它接近75%；<br><br>脏页比例是通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Innodb_buffer_pool_pages_dirty/Innodb_buffer_pool_pages_total</span><br></pre></td></tr></table></figure></p>
 <p>得到的，具体命令代码：<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select VARIABLE_VALUE into @a from global_status where VARIABLE_NAME = &apos;Innodb_buffer_pool_pages_dirty&apos;;</span><br><span class="line">select VARIABLE_VALUE into @b from global_status where VARIABLE_NAME = &apos;Innodb_buffer_pool_pages_total&apos;;</span><br><span class="line">select @a/@b;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select VARIABLE_VALUE into @a from global_status where VARIABLE_NAME = &apos;Innodb_buffer_pool_pages_dirty&apos;;</span><br><span class="line">select VARIABLE_VALUE into @b from global_status where VARIABLE_NAME = &apos;Innodb_buffer_pool_pages_total&apos;;</span><br><span class="line">select @a/@b;</span><br></pre></td></tr></table></figure>
 <p><strong>Mysql刷脏页的机制：</strong></p>
-<p>1、准备刷一个脏页时，如果旁边的数据页也是脏页，那会把旁边的脏页也一起刷掉，同样，刷旁边脏页的逻辑可以继续蔓延…也会被放到一起刷掉。<br><br>2、参数<strong>innodb_flush_neighbors</strong>用来控制这个行为，值为1的时候会刷相邻的脏页，0的时候只刷自己；<br><br>3、机械硬盘设置为1，可以减少随机IO；固态硬盘的IOPS很高，建议设置为0，更快的完成刷脏页的举动;<br><br>4、在MySQL8.0中，<strong>innodb_flush_neighbors</strong>参数的默认值已经是0了。</p>
+<p>1、准备刷一个脏页时，如果旁边的数据页也是脏页，那会把旁边的脏页也一起刷掉，同样，刷旁边脏页的逻辑可以继续蔓延…也会被放到一起刷掉。<br>2、参数<strong>innodb_flush_neighbors</strong>用来控制这个行为，值为1的时候会刷相邻的脏页，0的时候只刷自己；<br>3、机械硬盘设置为1，可以减少随机IO；固态硬盘的IOPS很高，建议设置为0，更快的完成刷脏页的举动;<br>4、在MySQL8.0中，<strong>innodb_flush_neighbors</strong>参数的默认值已经是0了。</p>
 
       
 
