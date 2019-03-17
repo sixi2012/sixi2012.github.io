@@ -6,18 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019 | 依然在路上</title>
+  <title>拯救MySQL的从删库到跑路 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/index.html">
+  <meta name="description" content="MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。 误删数据的情况：  使用delete语句误删数据行； 使用drop table 或是 truncate table 语句误删数据表； 使用drop database语句误删数据库； 使用rm 命令误删整个MySQL实例；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拯救MySQL的从删库到跑路">
+<meta property="og:url" content="https://sixi2012.github.io/2019/03/17/拯救MySQL的从删库到跑路/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。 误删数据的情况：  使用delete语句误删数据行； 使用drop table 或是 truncate table 语句误删数据表； 使用drop database语句误删数据库； 使用rm 命令误删整个MySQL实例；">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/3.png">
+<meta property="og:updated_time" content="2019-03-17T02:30:02.450Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="拯救MySQL的从删库到跑路">
+<meta name="twitter:description" content="MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。 误删数据的情况：  使用delete语句误删数据行； 使用drop table 或是 truncate table 语句误删数据表； 使用drop database语句误删数据库； 使用rm 命令误删整个MySQL实例；">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,157 +150,194 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-拯救MySQL的从删库到跑路" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      拯救MySQL的从删库到跑路
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
+
+        
+          <a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
   	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/1.jpeg" alt="wushan"></p>
+<p>MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。</p>
+<p><strong>误删数据的情况</strong>：</p>
+<ol>
+<li>使用delete语句误删数据行；</li>
+<li>使用drop table 或是 truncate table 语句误删数据表；</li>
+<li>使用drop database语句误删数据库；</li>
+<li>使用rm 命令误删整个MySQL实例；</li>
+</ol>
+<a id="more"></a>
+<p><strong>误删行</strong></p>
+<p>用Flashback工具通过闪回把数据恢复回来，确保<strong>binlog_format=row和binlog_row_image=FULL</strong>。</p>
+<p>对单个事务做如下处理</p>
+<ol>
+<li>insert语句，对应的binlog event 类型是rite_rows event;把它改写为Delete_rows event即可；</li>
+<li>对于delete语句，将 Delete_rows event 改为Write_rows event;</li>
+<li>Update 语句，binlog里面记录了修改前和修改后的值，对调这两行的位置即可；</li>
+</ol>
+<p>对多个事务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(A)delete ...</span><br><span class="line">(B)insert ...</span><br><span class="line">(C)update ...</span><br></pre></td></tr></table></figure>
+<p>用Flashback工具解析binlog后，需要将事务的顺序调回来再执行，写回主库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(reverse C)update ...</span><br><span class="line">(reverse B)delete ...</span><br><span class="line">(reverse A)insert ...</span><br></pre></td></tr></table></figure>
+<p>注：<br><br>1、不建议直接在主库上操作;<br><br>2、找一个从库作为临时库，在临时库上执行这些操作，再恢复回主库；</p>
+<p><strong>事先预防的方法：</strong><br><br>1、参数sql_safe_update设置为on，这样当delete或update时忘了写where条件，或where条件语句里没有包含索引字段的话，这条语句会报错；<br><br>2、上线前，必须经过SQL审计；</p>
+<p><strong>误删库/表</strong></p>
+<p>需要使用全量备份，加增量日志的方式</p>
+<ol>
+<li>取最近一次全量备份；</li>
+<li>用备份恢复出一个临时库；</li>
+<li>从日志备份里面，除了误删数据的语句外，全部应用到临时库；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/2.png" alt="wushan"></p>
+<p>注：<br><br>1、如果临时库有多个数据库，可以使用mysqlbinlog命令，加上一个–database参数，用来指定误删表所在的库，避免了恢复数据时还要应用其它库日志的情况；</p>
+<p>2、需要跳过误删语句的binlog：</p>
+<ul>
+<li>若原实例没有使用GTID模式，先用参数-stop-position执行到误删操作之前的日志，然后再用-start-position从误删操作之后的日志继续执行；</li>
+<li>若实例使用了GTID模式，假设误操作命令的GTID是gtid1，那么只需要执行 set gtid_next=gtid1;begin;commit;把这个GTID加到临时实例的GTID集合，之后按顺序执行binlog的时候，自动跳过误操作的语句；</li>
+</ul>
+<p>3、mysqlbinlog方法恢复数据的方法比较慢：</p>
+<ul>
+<li>mysqlbinlog并不能指定只解析一个表的日志；</li>
+<li>用mysqlbinlog解析日志应用，应用日志的过程只能是单线程；</li>
+</ul>
+<p>4、加速的方法：</p>
+<ul>
+<li>start slave之前，先通过执行change replication filter replication_do_table =(tbl_name)命令，可以让临时库只同步误操作的表；</li>
+<li>这样可以用上并行复制技术，来加速整个数据恢复过程；</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/3.png" alt="wushan"></p>
+<p>注：<br><br>1、建议把数据恢复功能做成自动化工具，并经常拿出来演练；<br><br>2、如果时间太久，备库上已经删除了临时实例需要的binlog的话，可以从binlog备份系统中找到需要的binlog，再放回备库中。</p>
+<p>eg:<br></p>
+<ol>
+<li>需要的binlog是从master.000005开始的，但在备库上执行show binlogs显示的最小的binlog文件是master.000007，意味着少了两个binlog文件，找回的方法：</li>
+<li>从备份下载master.00005和master.000006这两个文件，放到备库日志目录下；</li>
+<li>打开日志目录下的master.index文件，在文件开头加入两行，“./master.000005”和“./master.000006”;</li>
+<li>重启备库，目的是要让备库重新识别这两个日志文件；</li>
+<li>这个备库上就有了临时库需要的所有的binlog，建立了主备关系，就可以正常同步;</li>
+</ol>
+<p><strong>搭建延迟复制的备库:</strong></p>
+<p>1、通过设置 change master  to master_delay = N ，让备库与主库有N秒的延迟；<br><br>2、在备库上执行stop slave ，跳过误操作命令，就可以恢复需要的数据；</p>
+<p><strong>预防误删库/表的方法：</strong></p>
+<p>1、账号分离</p>
+<ul>
+<li>只给业务开发同学DML权限，而不给truncate/drop权限；</li>
+<li>即使DBA团队成员，日常也只使用只读账号，必须的时候才使用有更新权限的账号；</li>
+</ul>
+<p>2、避免写错要删除的表名</p>
+<ul>
+<li>删除数据表之前先对表进行改名操作，观察一段时间，确保对业务无影响以后再删除这张表；</li>
+<li>改表名的时候，要求给表名加固定的后缀（比如加_to_do_delete）,然后删除表的动作必须通过管理系统执行；</li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/03/17/拯救MySQL的从删库到跑路/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为什么我的MySQL偶尔会”不灵“一下</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -321,8 +363,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
