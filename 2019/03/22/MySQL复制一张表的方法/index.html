@@ -6,18 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>依然在路上</title>
+  <title>拯救MySQL的从删库到跑路 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/index.html">
+  <meta name="description" content="表结构如下: 12345678910111213141516171819create database db1;use db1;create table t(id int primary key, a int, b int, index(a))engine=innodb;delimiter ;;  create procedure idata()  begin    declare i int;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="拯救MySQL的从删库到跑路">
+<meta property="og:url" content="https://sixi2012.github.io/2019/03/22/MySQL复制一张表的方法/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="表结构如下: 12345678910111213141516171819create database db1;use db1;create table t(id int primary key, a int, b int, index(a))engine=innodb;delimiter ;;  create procedure idata()  begin    declare i int;">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/4.png">
+<meta property="og:updated_time" content="2019-03-22T06:18:15.977Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="拯救MySQL的从删库到跑路">
+<meta name="twitter:description" content="表结构如下: 12345678910111213141516171819create database db1;use db1;create table t(id int primary key, a int, b int, index(a))engine=innodb;delimiter ;;  create procedure idata()  begin    declare i int;">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,16 +151,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-MySQL复制一张表的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-MySQL复制一张表的方法" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/22/MySQL复制一张表的方法/">拯救MySQL的从删库到跑路</a>
+    <h1 class="article-title" itemprop="name">
+      拯救MySQL的从删库到跑路
     </h1>
   
 
@@ -170,83 +174,73 @@
         <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/1.jpeg" alt="fuzhi"></p>
 <p>表结构如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">create database db1;</span><br><span class="line">use db1;</span><br><span class="line"></span><br><span class="line">create table t(id int primary key, a int, b int, index(a))engine=innodb;</span><br><span class="line">delimiter ;;</span><br><span class="line">  create procedure idata()</span><br><span class="line">  begin</span><br><span class="line">    declare i int;</span><br><span class="line">    set i=1;</span><br><span class="line">    while(i&lt;=1000)do</span><br><span class="line">      insert into t values(i,i,i);</span><br><span class="line">      set i=i+1;</span><br><span class="line">    end while;</span><br><span class="line">  end;;</span><br><span class="line">delimiter ;</span><br><span class="line">call idata();</span><br><span class="line"></span><br><span class="line">create database db2;</span><br><span class="line">create table db2.t like db1.t</span><br></pre></td></tr></table></figure>
-<p><strong>需求：</strong><br>把db1.t里面a&gt;900的数据行导出来，插入到db2.t中；<br>
-        
-          <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-拯救MySQL的从删库到跑路" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/1.jpeg" alt="wushan"></p>
-<p>MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。</p>
-<p><strong>误删数据的情况</strong>：</p>
+<p><strong>需求：</strong><br>把db1.t里面a&gt;900的数据行导出来，插入到db2.t中；<br><a id="more"></a></p>
+<p><strong>mysqldump方法：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -h$host -P$port -u$user --add-locks=0 --no-create-info --single-transaction  --set-gtid-purged=OFF db1 t --where=&quot;a&gt;900&quot; --result-file=/client_tmp/t.sql</span><br></pre></td></tr></table></figure>
+<p>注：</p>
 <ol>
-<li>使用delete语句误删数据行；</li>
-<li>使用drop table 或是 truncate table 语句误删数据表；</li>
-<li>使用drop database语句误删数据库；</li>
-<li>使用rm 命令误删整个MySQL实例；</li>
+<li>-single-transaction：在导出数据的时候不需要对表db1.t加表锁，而是使用START TRANSACTION WITH CONSISTENT SNAPSHOT的方法；</li>
+<li>-add-locks 设置为0，表示在输出的文件结果里，不增加“LOCK TABLES t WRITE”;</li>
+<li>-no-create-info:不需要导出表结构；</li>
+<li>-set-gtid-purged=OFF ：不输出GTID相关的信息；</li>
+<li>-result-file 指定了输出文件的路径，其中client表示生成的文件在客户端机器上</li>
 </ol>
-        
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/#more">more >></a>
-        
+<p>mysql输出文件的部分结果:</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/2.png" alt="fuzhi"></p>
+<p>将insert语句放到db2库里执行的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h127.0.0.1 -P13000  -uroot db2 -e &quot;source /client_tmp/t.sql&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>导出CSV文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from db1.t where a&gt;900 into outfile &apos;/server_tmp/t.csv&apos;;</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<ol>
+<li>这条语句会将结果保存在服务端，如果执行命令的客户端和服务端不在同一台机器上，客户端的临时目录下不会生成t.csv文件；</li>
+<li>into outfile 指定了文件的生成位置,这个位置必须接收参数 secure_file_priv 的限制。参数secure_file_priv 的可选值和作用：</li>
+</ol>
+<ul>
+<li>如果设置为empty，表示不限制文件的生成位置，这是不安全的设置；</li>
+<li>如果设置为一个表示路径的字符串，要求生成的文件只能放在这个指定的目录，或它的子目录；</li>
+<li>如果设置为null，表示禁止在这个mysql实例上执行select … into outfile操作；</li>
+</ul>
+<ol start="3">
+<li>这条命令不会覆盖文件，需要确保’/server_tmp/t.csv’文件不存在，否则执行语句时就会有同名文件的存在而报错；</li>
+</ol>
+<p>用load data 命令将.csv数据导入目标表db2.t中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load data infile &apos;/server_tmp/t.csv&apos; into table db2.t;</span><br></pre></td></tr></table></figure>
+<p>该语句的执行流程：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/3.png" alt="fuzhi"></p>
+<p>注：</p>
+<ol>
+<li>load data里不添“local”，读取服务端的文件，必须在secure_file_priv指定的目录或子目录下；</li>
+<li>加上“local”，读取的是客户端文件，只要MySQL客户端有访问这个文件的权限即可。</li>
+<li>select … into outfile 不会生成表结构文件；需要mysqldump的-tab参数：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqldump -h$host -P$port -u$user ---single-transaction  --set-gtid-purged=OFF db1 t --where=&quot;a&gt;900&quot; --tab=$secure_file_priv</span><br></pre></td></tr></table></figure>
+<p><strong>物理拷贝的方法</strong></p>
+<ol>
+<li>执行create table r like t，创建一个相同表结构的空表；</li>
+<li>执行flush table r discard tablespace，这时候r.ibd文件会被删除；</li>
+<li>执行 flush table t for export，这时候db1目录下会生成一个t.cfg文件；</li>
+<li>在db1目录下执行cp t.cfg r.cfg; cp t.ibd r.ibd;</li>
+<li>执行unlock tables，这时候t.cfg文件会被删除；</li>
+<li>执行 alter table r import tablespace，将这个r.ibd 文件作为表r的新的表空间。</li>
+<li>执行过程图如下：</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/4.png" alt="fuzhi"></p>
+<p>注：</p>
+<ol>
+<li>flush table 后db1.t整个表处于只读状态，直到执行unlock  tables命令后才释放；</li>
+<li>import tablespace 的时候，会修改r.ibd的表空间id，因此执行需要一定的时间；</li>
+</ol>
+<p><strong>三种方法优缺点的对比</strong><br><br>1、物理拷贝：<br><br>优点：<br>速度最快；<br><br>缺点：</p>
+<ul>
+<li>必须是拷贝全表，不能拷贝部分数据；</li>
+<li>需要到服务器上拷贝数据；</li>
+<li>源表和目标表都是InnoDB引擎时才能使用；</li>
+</ul>
+<p>2、mysqldump生成包含insert语句文件：<br><br>优点：<br>可以用where增加过滤条件，导出部分数据；<br><br>缺点：不能用join这种比较复杂的where条件；</p>
+<p>3、select … into outfile：<br><br>优点：最灵活；<br><br>缺点：每次只能导出一张表备份，而且表结构需要单独的语句备份；</p>
+<p>4、后两种方法都可以跨引擎使用；</p>
+
       
 
       
@@ -257,16 +251,64 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/03/22/MySQL复制一张表的方法/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/17/拯救MySQL的从删库到跑路/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">拯救MySQL的从删库到跑路</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -286,277 +328,14 @@
 
 
 
-
-  
-    <article id="post-为什么我的MySQL偶尔会“不灵”一下" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
   
 
-        
-          <a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/1.jpeg" alt="doudong"></p>
-<p>执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。</p>
-<p>看上去，就像数据库“不灵”了一样。<br>
-        
-          <a class="article-more-a" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我有一个不成熟的小建议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
   
 
-        
-          <a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/Xiaodao/xiaodao-1.jpeg" alt="晓岛"></p>
-<p>据说高晓松和韩寒的对谈是晓说系列的最后一期，节目中两人从小说聊起，谈了写作、音乐、电影，人生的高潮和低谷等等，看完后有两点收获：</p>
-<p><strong>1、每个人都有至暗时刻。</strong></p>
-<p>造成低谷的原因，是自己没把事做好，或者想做成而不可达，如同汪洋中的浮萍，无力改变风暴眼，自然郁闷不已。我们只能修炼强大的内心，提升能力，自己消化，还要避免去看那些垃圾信息，<strong>不必过度在意他人的评价</strong>。<br>
-        
-          <a class="article-more-a" href="/2019/03/02/我有一个不成熟的小建议/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/02/我有一个不成熟的小建议/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-众生皆苦，你是草莓味" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
   
 
-        
-          <a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/G13/%E7%8B%97%E5%8D%81%E4%B8%89-1.jpeg" alt="终生皆苦，你是草莓味"></p>
-<p>看完了《狗十三》，突然明白为什么有的人会从头哭到尾。</p>
-<p>这部禁播了5年，豆瓣评分高达8.4的青春片，呈现了一部中国孩子的成长史。</p>
-<p>更准确地说，是『<strong>驯化史</strong>』。</p>
-<p>13岁的李玩是被驯化的对象。</p>
-<p>从敏感、倔强、有兴趣、开放、心软，到后来的懂事、麻木、忧郁，不过短短几个环节。<br>
-        
-          <a class="article-more-a" href="/2019/02/23/众生皆苦，你是草莓味/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/23/众生皆苦，你是草莓味/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
   
 
-        
-          <a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;我觉得这个世界美好无比。晴时满树花开，雨天一湖涟漪，阳光席卷城市，微风穿越指间，入夜每个电台播放的情歌，沿途每条山路铺开的影子，全部是你不经意写的一字一句，留我年复一年诵读。</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/HelloWorld.jpeg" alt="Hello World"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/18/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
 
 
@@ -582,8 +361,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
