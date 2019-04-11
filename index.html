@@ -376,9 +376,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/1.jpeg" alt="fuzhi"></p>
-<p>表结构如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">create database db1;</span><br><span class="line">use db1;</span><br><span class="line"></span><br><span class="line">create table t(id int primary key, a int, b int, index(a))engine=innodb;</span><br><span class="line">delimiter ;;</span><br><span class="line">  create procedure idata()</span><br><span class="line">  begin</span><br><span class="line">    declare i int;</span><br><span class="line">    set i=1;</span><br><span class="line">    while(i&lt;=1000)do</span><br><span class="line">      insert into t values(i,i,i);</span><br><span class="line">      set i=i+1;</span><br><span class="line">    end while;</span><br><span class="line">  end;;</span><br><span class="line">delimiter ;</span><br><span class="line">call idata();</span><br><span class="line"></span><br><span class="line">create database db2;</span><br><span class="line">create table db2.t like db1.t</span><br></pre></td></tr></table></figure>
-<p><strong>需求：</strong><br>把db1.t里面a&gt;900的数据行导出来，插入到db2.t中；<br>
+<p><strong>需求：</strong><br>把db1.t里面a&gt;900的数据行导出来，插入到db2.t中；</p>
+<p>该如何操作呢？<br>
         
           <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/#more">more >></a>
         
