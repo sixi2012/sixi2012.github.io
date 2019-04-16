@@ -6,18 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>MySQL是如何执行count(*)命令的 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/index.html">
+  <meta name="description" content="当需要计算一张表的行数的时候，一条select count(*) from t 就可以解决，但问题是随着系统中的记录越来越多，这条语句执行得也会越来越慢，该如何优化呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL是如何执行count(*)命令的">
+<meta property="og:url" content="https://sixi2012.github.io/2019/04/16/MySQL是如何执行count()命令的/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="当需要计算一张表的行数的时候，一条select count(*) from t 就可以解决，但问题是随着系统中的记录越来越多，这条语句执行得也会越来越慢，该如何优化呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-count/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-count/2.png">
+<meta property="og:updated_time" content="2019-04-16T06:38:27.666Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL是如何执行count(*)命令的">
+<meta name="twitter:description" content="当需要计算一张表的行数的时候，一条select count(*) from t 就可以解决，但问题是随着系统中的记录越来越多，这条语句执行得也会越来越慢，该如何优化呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-count/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,292 +149,154 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-MySQL是如何执行count()命令的" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      MySQL是如何执行count(*)命令的
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/16/MySQL是如何执行count()命令的/" class="archive-article-date">
+
+        
+          <a href="/2019/04/16/MySQL是如何执行count()命令的/" class="archive-article-date">
   	<time datetime="2019-04-16T06:36:51.462Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/16/MySQL是如何执行count()命令的/">MySQL是如何执行count(*)命令的</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-count/1.jpeg" alt="count"></p>
+<p>当需要计算一张表的行数的时候，一条select count(*) from t 就可以解决，但问题是随着系统中的记录越来越多，这条语句执行得也会越来越慢，该如何优化呢？<br><a id="more"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count(*)的实现方式：</span><br></pre></td></tr></table></figure>
+<ul>
+<li>MyISAM引擎把表的总行数存在了磁盘上，count(*)时直接返回了这个数；</li>
+<li>InnoDB引擎执行count(*)的时候，把数据一行一行地从引擎里读出来，然后累计计数；</li>
+</ul>
+<p>注：由于多版本并发控制（MVCC）的原因。即使在同一时刻的多个查询的结果也是不确定的；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-count/2.png" alt="count"></p>
+<p>每一行记录都要判断自己是否对这个会话可见，需要一行行读出数据依次判断，可见的行才能算入总行数；<br><br>注：<br></p>
+<ol>
+<li>MyISAM表虽然count(*）很快，但是不支持事务；</li>
+<li>show table status 不准确；</li>
+<li>InnoDB直接count(*)会遍历全表，结果准确，但会导致性能问题；</li>
+</ol>
+<p>一个页面经常要显示交易系统的操作记录总数的方法：<strong>自己计数</strong></p>
+<p><strong>1、用缓存系统保存计数</strong><br><br>问题：丢失更新；<br><br>eg：既要显示操作记录的总数，还要显示最近操作的100条记录，则需要先要到Redis里面取出计数，再到数据库表里取数据记录；</p>
+<p>T3时刻会话B来查询的时候，会显示出新插入R这个记录，但Redis的记录还没有加1，<br>会出现数据不一致的情况；</p>
+<p>注：<br>在并发系统里，无法精确控制不同线程的执行时刻，存在图中这种操作序列，所以，即使Redis正常工作，这个计数逻辑上是不正确的；</p>
+<p><strong>2、数据库保存计数</strong><br></p>
+<ul>
+<li>会话B的读操作虽然是在T3执行的，这时候更新事务还没提交，所以计数+1这个操作对B不可见；</li>
+<li>所以会话B看到结果，逻辑上是一致的；</li>
+</ul>
+<p><strong>不同的count()用法：</strong></p>
+<p>1、count(id):<br><br>遍历整张表，把每一行id的值都取出来，返回给server层，server层拿到id后，判断是不可能为空的，就按行累加；<br><br>2、count(1):<br><br>遍历整张表，但不取值，server层对返回的每一行，放一个数字1进去，判断不可能为空，按行累加；<br><br>3、count(字段):<br></p>
+<ul>
+<li>如果这个字段定义是not null的话，一行行从这个记录里面读这个字段，判断不为null，按行累加；</li>
+<li>如果是null，执行的时候，需要把值取出来再判断一下，不是null才累加；</li>
+</ul>
+<p>count(字段) &lt; count(id) &lt; count(1) = count(*)</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/04/16/MySQL是如何执行count()命令的/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/09/MySQL的kill大全/" class="archive-article-date">
-  	<time datetime="2019-04-09T06:44:20.421Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/09/MySQL的kill大全/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL的kill大全</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/09/MySQL的kill大全/">MySQL的kill大全</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/03/MySQL里说好的join呢/" class="archive-article-date">
-  	<time datetime="2019-04-03T12:07:49.781Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/03/MySQL里说好的join呢/">MySQL里说好的join呢</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -456,8 +322,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
