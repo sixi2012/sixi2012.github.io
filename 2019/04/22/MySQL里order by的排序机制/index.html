@@ -24,7 +24,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/7.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/8.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/9.png">
-<meta property="og:updated_time" content="2019-04-22T11:45:48.160Z">
+<meta property="og:updated_time" content="2019-04-22T11:48:26.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL里order by的排序机制">
 <meta name="twitter:description" content="eg： 1select city,name,age from t where city=&amp;apos;杭州&amp;apos; order by name limit 1000  ; 这个语句的执行流程是怎么样的，以及有什么参数会影响执行行为呢？">
@@ -231,7 +231,8 @@
 <p><strong>当查询的数据是有序的时候，就不需要再排序了：</strong></p>
 <p>eg:<br><br>1、创建一个city，name，age的联合索引：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table t add index city_user_age(city, name, age);</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/8.png" alt="count"><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/9.png" alt="count"></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/8.png" alt="count"></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/9.png" alt="count"></p>
 <p>可以看到，extra字段里多了一个“using index”，表示使用了覆盖索引，性能上回快很多；</p>
 <p>2、select * from t where city in (“杭州”,”苏州”) order by name in limit 100; 这条SQL是否要排序，有什么方法可以避免排序；</p>
 <p>a：虽然有（name，city）联合索引，对于单个city内部，name是递增的，但是对于这条SQL语句是要同时查“杭州”和“苏州”两个城市，因此满足条件的name就不是递增了，这条SQL需要排序。<br><br>b：避免排序的方法，将sql拆开改写;</p>
