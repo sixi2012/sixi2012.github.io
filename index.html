@@ -147,6 +147,72 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-MySQL的两阶段提交" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/23/MySQL的两阶段提交/">MySQL的两阶段提交</a>
+    </h1>
+  
+
+        
+          <a href="/2019/05/23/MySQL的两阶段提交/" class="archive-article-date">
+  	<time datetime="2019-05-23T08:53:13.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/1.jpeg" alt="liangjd"></p>
+<p>在两阶段体检的瞬间，MySQL发生异常重启，是怎样保证数据完整性的？</p>
+        
+          <a class="article-more-a" href="/2019/05/23/MySQL的两阶段提交/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/23/MySQL的两阶段提交/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-MySQL的自增id用完了怎么办" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -726,79 +792,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-拯救MySQL的从删库到跑路" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/1.jpeg" alt="wushan"></p>
-<p>MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。</p>
-<p><strong>误删数据的情况</strong>：</p>
-<ol>
-<li>使用delete语句误删数据行；</li>
-<li>使用drop table 或是 truncate table 语句误删数据表；</li>
-<li>使用drop database语句误删数据库；</li>
-<li>使用rm 命令误删整个MySQL实例；</li>
-</ol>
-        
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/">展开全文 >></a>
         </p>
       
 
