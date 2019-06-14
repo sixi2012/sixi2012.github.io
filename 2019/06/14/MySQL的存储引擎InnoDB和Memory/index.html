@@ -6,18 +6,31 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>依然在路上</title>
+  <title>MySQL的存储引擎InnoDB和Memory | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/page/2/index.html">
+  <meta name="description" content="这次我们了解一下MySQL的InnoDB和Memory存储引擎。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL的存储引擎InnoDB和Memory">
+<meta property="og:url" content="https://sixi2012.github.io/2019/06/14/MySQL的存储引擎InnoDB和Memory/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="这次我们了解一下MySQL的InnoDB和Memory存储引擎。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/11.png">
+<meta property="og:updated_time" content="2019-06-14T11:06:39.436Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL的存储引擎InnoDB和Memory">
+<meta name="twitter:description" content="这次我们了解一下MySQL的InnoDB和Memory存储引擎。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,174 +158,89 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-我的MySQL是不是挂了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-MySQL的存储引擎InnoDB和Memory" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL的存储引擎InnoDB和Memory
     </h1>
   
 
         
-          <a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
+          <a href="/2019/06/14/MySQL的存储引擎InnoDB和Memory/" class="archive-article-date">
+  	<time datetime="2019-06-14T11:05:05.033Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/1.jpeg" alt="guale"></p>
-<p>数据库主备切换有两种场景，一种是主动切换，一种是被动切换。而其中的被动切换，往往是因为主库出问题了，由HA系统发起的。</p>
-<p>那如何判断一个主库是否出问题了呢？<br>
-        
-          <a class="article-more-a" href="/2019/03/28/我的MySQL是不是挂了/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/28/我的MySQL是不是挂了/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL复制一张表的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/1.jpeg" alt="fuzhi"></p>
-<p><strong>需求：</strong><br>把db1.t里面a&gt;900的数据行导出来，插入到db2.t中；</p>
-<p>该如何操作呢？<br>
-        
-          <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-拯救MySQL的从删库到跑路" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/1.jpeg" alt="wushan"></p>
-<p>MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。</p>
-<p><strong>误删数据的情况</strong>：</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/1.jpeg" alt="liangjd"></p>
+<p>这次我们了解一下MySQL的InnoDB和Memory存储引擎。</p>
+<a id="more"></a>
+<p>eg：两张表t1和t2；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create table t1(id int primary key, c int) engine=Memory;</span><br><span class="line">create table t2(id int primary key, c int) engine=innodb;</span><br><span class="line">insert into t1 values(1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(0,0);</span><br><span class="line">insert into t2 values(1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(0,0);</span><br></pre></td></tr></table></figure>
+<p>然后分别执行select <em> from t1 和 select </em> from t2;</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/2.png" alt="liangjd"></p>
+<p>其中：<br><br>1、InnoDB表的数据放在主键索引上，主键索引是B+树，select * 的时候，按照叶子节点从左到右扫描；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/3.png" alt="liangjd"></p>
+<p>2、Memory引擎的数据和索引是分开的；主键id索引里，存的是每个数据的位置，主键id是hash索引，可以看到索引的key并不是有序的；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/4.png" alt="liangjd"></p>
+<p>InnoDB和Memory引擎数据组织方式是不同的：<br></p>
 <ol>
-<li>使用delete语句误删数据行；</li>
-<li>使用drop table 或是 truncate table 语句误删数据表；</li>
-<li>使用drop database语句误删数据库；</li>
-<li>使用rm 命令误删整个MySQL实例；</li>
+<li>InnoDB引擎把数据放在主键索引上，其他索引上保存的是主键id，称之为索引组织表；</li>
+<li>Memory引擎采用的是把数据单独存放，索引上保存数据位置，称之为堆组织表；</li>
 </ol>
-        
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/#more">more >></a>
-        
+<p><strong>二者的不同之处：</strong></p>
+<ol>
+<li>InnoDB表的数据总是有序存放的，而内存表的数据就是按照写入顺序存放的；</li>
+<li>当数据文件有空洞的时候，InnoDB表在插入新数据的时候，为了保证数据的有效性，只能在固定的位置写入新值，而内存表找到空位就可以插入新值；</li>
+<li>数据位置发生变化的时候，InnoDB表只需要修改主键索引，而内存表需要修改所有的索引；</li>
+<li>InnoDB表用主键索引查询的时候需要走一次索引查找，用普通索引查询的时候，需要走两次索引查询；而内存表没这个区别，所有索引的“地位”都是相同的；</li>
+<li>InnoDB支持长数据类型，不同记录的长度可能不同，内存表不支持BLob和Text字段，并且即使定义了varchar（N），实际也当作char（N），即固定长度字符串来存储，因此内存表的每行数据长度相同；</li>
+</ol>
+<p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">delete from t1 where id=5;</span><br><span class="line">insert into t1 values(10,10);</span><br><span class="line">select * from t1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/5.png" alt="liangjd"></p>
+<p>注：<br><br>内存表的每行数据被删除后，空出的位置可以被接下来要插入的数据复用</p>
+<p><strong>hash索引和B-Tree索引：</strong><br>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t1 where id&lt;5;</span><br></pre></td></tr></table></figure>
+<p>当执行范围查询的时候，是用不上主键索引的，需要走全表扫描；<br><br>解决方法，在id列上创建一个B-Tree索引,跟InnoDB的b+树索引组织类似：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table t1 add index a_btree_index using btree (id);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/6.png" alt="liangjd"></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/7.png" alt="liangjd"></p>
+<p>Memory引擎支持hash索引，内存表的所有数据保存在内存，速度很快，但是生产上不建议使用内存表：</p>
+<ol>
+<li>锁粒度问题；</li>
+<li>数据持久化问题；</li>
+</ol>
+<p><strong>内存表的锁:</strong></p>
+<ol>
+<li>内存表不支持行锁，只支持表锁，即只要有更新，就会堵住其他所有的读写操作；</li>
+<li>处理并发的时候，性能不好；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/8.png" alt="liangjd"></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/9.png" alt="liangjd"></p>
+<p><strong>数据持久性的问题</strong><br><br>数据库重启的时候，所有内存表会被清空；<br><strong>M-S架构下：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/10.png" alt="liangjd"></p>
+<p>注：</p>
+<ol>
+<li>业务可以正常访问主库；</li>
+<li>备库硬件升级，备库重启，内存表t1内容被清空；</li>
+<li>备库重启后，客户端发送一条update语句，修改表t1的数据行，备库应用线程就会报错“找不到更新的行”；</li>
+<li>会导致主备同步停止；</li>
+</ol>
+<p><strong>双M结构：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/11.png" alt="liangjd"></p>
+<p>注：<br><br>在备库重启的时候，备库binlog里的delete语句就会传到主库，把主库内存表的内容删除；</p>
+<p>所以，能放到内存表的数据量都不大，考虑到读性能的话，一个读QPS很高并且数据量不大的表，即使使用InnoDB，数据也都是缓存在InnoDB Buffer Pool里的，因此，使用InnoDB表的读性能也不会差；</p>
+<p><strong>使用内存表的场景</strong>（普通内存表可以都用InnoDB表来代替）：<br>1、临时表不会被其他线程访问，没有并发性问题；<br>2、临时表重启后也是需要删除的，清空数据这个问题不存在；<br>3、备库的临时表也不会影响主库的用户线程；</p>
+<p><strong>如何避免内存表突然丢失数据，导致主备同步停止的情况：</strong></p>
+<p>注：<br><br>1、把备库的内存表引擎改为InnoDB，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set sql_log_bin=off;</span><br><span class="line">alter table tbl_name engine=innodb;</span><br></pre></td></tr></table></figure>
+<p>2、主库重启后会往binlog里面写“delete from tbl_name”，这个命令传到备库，备库的同名表数据也会被清空，就不会出现主备同步停止的问题；<br><br>3、如果发生了主备切换，原来的主库变成了备库，就把新备库改成了InnoDB表；</p>
+
       
 
       
@@ -323,16 +251,64 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/06/14/MySQL的存储引擎InnoDB和Memory/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL里通常说的全表扫描是怎么回事</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -352,281 +328,14 @@
 
 
 
-
-  
-    <article id="post-为什么我的MySQL偶尔会“不灵”一下" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
   
 
-        
-          <a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/1.jpeg" alt="doudong"></p>
-<p>执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。</p>
-<p>看上去，就像数据库“不灵”了一样。<br>
-        
-          <a class="article-more-a" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我有一个不成熟的小建议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
   
 
-        
-          <a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/Xiaodao/xiaodao-1.jpeg" alt="晓岛"></p>
-<p>据说高晓松和韩寒的对谈是晓说系列的最后一期，节目中两人从小说聊起，谈了写作、音乐、电影，人生的高潮和低谷等等，看完后有两点收获：</p>
-<p><strong>1、每个人都有至暗时刻。</strong></p>
-<p>造成低谷的原因，是自己没把事做好，或者想做成而不可达，如同汪洋中的浮萍，无力改变风暴眼，自然郁闷不已。我们只能修炼强大的内心，提升能力，自己消化，还要避免去看那些垃圾信息，<strong>不必过度在意他人的评价</strong>。<br>
-        
-          <a class="article-more-a" href="/2019/03/02/我有一个不成熟的小建议/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/02/我有一个不成熟的小建议/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-众生皆苦，你是草莓味" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
   
 
-        
-          <a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/G13/%E7%8B%97%E5%8D%81%E4%B8%89-1.jpeg" alt="终生皆苦，你是草莓味"></p>
-<p>看完了《狗十三》，突然明白为什么有的人会从头哭到尾。</p>
-<p>这部禁播了5年，豆瓣评分高达8.4的青春片，呈现了一部中国孩子的成长史。</p>
-<p>更准确地说，是『<strong>驯化史</strong>』。</p>
-<p>13岁的李玩是被驯化的对象。</p>
-<p>从敏感、倔强、有兴趣、开放、心软，到后来的懂事、麻木、忧郁，不过短短几个环节。<br>
-        
-          <a class="article-more-a" href="/2019/02/23/众生皆苦，你是草莓味/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/23/众生皆苦，你是草莓味/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
   
 
-        
-          <a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>&emsp;&emsp;我觉得这个世界美好无比。晴时满树花开，雨天一湖涟漪，阳光席卷城市，微风穿越指间，入夜每个电台播放的情歌，沿途每条山路铺开的影子，全部是你不经意写的一字一句，留我年复一年诵读。</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/HelloWorld.jpeg" alt="Hello World"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/18/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -652,8 +361,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
