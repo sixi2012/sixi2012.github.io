@@ -6,18 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>MySQL索引的工作原理 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/page/2/index.html">
+  <meta name="description" content="索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。  但到底什么是索引呢，索引又是如何工作的呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL索引的工作原理">
+<meta property="og:url" content="https://sixi2012.github.io/2019/06/28/MySQL索引的工作原理/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。  但到底什么是索引呢，索引又是如何工作的呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/3.png">
+<meta property="og:updated_time" content="2019-06-28T09:24:03.492Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL索引的工作原理">
+<meta name="twitter:description" content="索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。  但到底什么是索引呢，索引又是如何工作的呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,268 +150,233 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySQL索引的工作原理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL索引的工作原理
+    </h1>
+  
+
+        
+          <a href="/2019/06/28/MySQL索引的工作原理/" class="archive-article-date">
+  	<time datetime="2019-06-28T09:23:10.332Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/1.jpeg" alt="suoyin"></p>
+<p> 索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。</p>
+<p> 但到底什么是索引呢，索引又是如何工作的呢？</p>
+<a id="more"></a>
+<p> <strong>索引的模型</strong>：哈希表，有序数组，搜索树；<br><br>注：</p>
+<ol>
+<li>解决哈希冲突的方法–链表；</li>
+<li>哈希表适用于只有等值查询的场景；</li>
+<li>有序数组在等值查询和范围查询场景中的性能非常优秀，但只适用于静态存储引擎（不会再修改的数据），而且更新效率低；</li>
+</ol>
+<p><strong>InnoDB索引模型：</strong><br><br>一个索引对应一颗B+树，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">eg：</span><br><span class="line">create table T(</span><br><span class="line">id int primary key,</span><br><span class="line">k int not null,</span><br><span class="line">name varchar(16),</span><br><span class="line">index (k))engine=InnoDB;</span><br></pre></td></tr></table></figure>
+<p> <img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/2.png" alt="liangjd"></p>
+<p>注：</p>
+<ol>
+<li>索引类型分为主键索引和非主键索引；</li>
+<li>主键索引的叶子节点存的是整行数据，也称为聚簇索引；</li>
+<li>非主键索引的叶子节点的内容是主键的值，也称为二级索引；</li>
+</ol>
+<p><strong>基于主键索引和非主键索引查询的区别：</strong></p>
+<ul>
+<li>主键查询：select  *  from  T where ID = 500,只需搜索ID这棵B+树；</li>
+<li>普通索引查询：select * from T where k=5,需先搜索k索引树，得到ID的值为500，再到ID索引树查询一次，这个过程称之为回表（需要多扫描一棵树）；</li>
+</ul>
+<p><strong>索引维护</strong><br><br>页分裂：<br><br>当数据页满的情况下插入数据需要申请新的数据页，然后挪动部分数据过去，会影响性能和页的利用率；<br><br>页合并：<br><br>分裂过程的逆过程</p>
+<p><strong>自增主键</strong>：NOT NULL PRIMARY KEY AUTO_INCREMENT<br><br>长度小，普通索引的叶子节点就越小，普通索引占用的空间越小，</p>
+<p><strong>使用业务字段直接做主键</strong>：<br>当KV场景–<br><br>1、只有一个索引，<br><br>2、该索引必须是唯一索引；</p>
+<p>eg：<br>重建索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table T drop index k;</span><br><span class="line">alter table T add index(k);</span><br></pre></td></tr></table></figure>
+<p>重建主键：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table T drop primary key;</span><br><span class="line">alter table T add primary key(id);</span><br></pre></td></tr></table></figure>
+<p>注：<br>1、重建索引的语句合理：可以省空间；<br><br>2、重建主键的过程不合理，因为不论删除和创建主键，都会将整张表重建，会导致之前索引的语句白做了，可以用下列语句代替：alter table T engine=InnoDB</p>
+<p><strong>覆盖索引：</strong><br>可以减少树的搜索次数，显著提升查询性能<br>eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select ID from T where k between 3 and 5；</span><br></pre></td></tr></table></figure>
+<p>只需要查ID的值，而ID的值已经在k索引树上了，可以直接提供查询结构，不需要回表；</p>
+<p><strong>最左前缀原则：</strong><br><br>不只是索引的全部定义，可以是联合索引的最左N个字段，也可以是字符串索引的最左M个字符，都可以利用索引；</p>
+<p><strong>联合索引：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `tuser` (</span><br><span class="line">  `id` int(11) NOT NULL,</span><br><span class="line">  `id_card` varchar(32) DEFAULT NULL,</span><br><span class="line">  `name` varchar(32) DEFAULT NULL,</span><br><span class="line">  `age` int(11) DEFAULT NULL,</span><br><span class="line">  `ismale` tinyint(1) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `id_card` (`id_card`),</span><br><span class="line">  KEY `name_age` (`name`,`age`)</span><br><span class="line">) ENGINE=InnoDB</span><br></pre></td></tr></table></figure>
+<p>通常在身份证号字段上建立索引就够了，但如果有一个高频请求–根据市民的身份证查询他的姓名，这个联合索引就有意义了；</p>
+<p><strong>联合索引内字段的顺序：</strong></p>
+<ol>
+<li>通过调整顺序，可以少维护一个索引，那这个顺序是可以优先考虑的；</li>
+<li>索引空间，因为name比age大，则需要创建一个（name，age）的联合索引和（age）的单字段索引；</li>
+</ol>
+<p><strong>索引下推：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from tuser where name like &apos;张 %&apos; and age=10 and ismale=1;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/3.png" alt="suoyin"></p>
+<p>在支持索引下推的情况下，在（name，age）索引内部判断了age是否等于10，减少回表的次数；</p>
+<p>主键索引也可以有多个字段：<br><br>eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `geek` (</span><br><span class="line">  `a` int(11) NOT NULL,</span><br><span class="line">  `b` int(11) NOT NULL,</span><br><span class="line">  `c` int(11) NOT NULL,</span><br><span class="line">  `d` int(11) NOT NULL,</span><br><span class="line">  PRIMARY KEY (`a`,`b`),</span><br><span class="line">  KEY `c` (`c`),</span><br><span class="line">  KEY `ca` (`c`,`a`),</span><br><span class="line">  KEY `cb` (`c`,`b`)</span><br><span class="line">) ENGINE=InnoDB;</span><br></pre></td></tr></table></figure>
+<p>当下面两条SQL的时候是否用到“ca”,”cb”两个索引？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from geek where c=N order by a limit 1;</span><br><span class="line">select * from geek where c=N order by b limit 1;</span><br></pre></td></tr></table></figure>
+<p>注：索引”ca”可以去掉，”cb”要保留；</p>
+<ol>
+<li>主键 a，b 的聚簇索引组织顺序相当于 order by a,b，也就是按a排序，再按b排序，c无序；</li>
+<li>索引ca的组织是先按c排序，再按a排序，同时记录主键，这和c索引的结果是一样的；</li>
+<li>索引cb的组织是先按c排序，在按b排序，同时记录主键；</li>
+</ol>
+<p><strong>唯一索引和普通索引 性能上的区别：</strong></p>
+<p><strong>change buffer：</strong></p>
+<ul>
+<li>更新一个数据页时，如果数据页在内存中就直接更新；</li>
+<li>而如果数据页没有在内存中的话，为了不影响数据一致性的前提下，InnoDB会将这些更新操作缓存在change buffer中，下次查询需要访问这个数据页的时候，将数据页读入内存，然后执行change buffer中于这个页有关的操作。通过这种方式可以保证这个数据逻辑的正确性。</li>
+<li>将change buffer中的操作应用到原数据页，得到最新的结果，这个过程称为merge；</li>
+</ul>
+<p><strong>merge的执行流程：</strong></p>
+<ol>
+<li>从磁盘读入数据页到内存（老版本数据页）；</li>
+<li>从change buffer 里找出这个数据页的change buffer记录（可能有多个），依次执行，得到新版本的数据页；</li>
+<li>写redo log，这个redo log包含了数据的变更和change buffer的变更；</li>
+</ol>
+<p><strong>触发merge的时机：</strong></p>
+<ol>
+<li>访问这个数据页触发merge；</li>
+<li>系统有后台线程定期merge；</li>
+<li>数据库正常关闭（shutdown）的过程，也会执行merge；</li>
+</ol>
+<p><strong>使用情况：</strong></p>
+<ul>
+<li>唯一索引在更新前要先判断这个操作是否违反唯一性约束，而判断前要先将数据页读入内存，因此没必要使用change buffer；</li>
+<li>只有普通索引在使用；</li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ul>
+<li>在一个数据页做merge之前，change buffer记录的变更越多，收益越大；</li>
+<li>写多读少的业务：写完马上被访问的概率比较小，change buffer的使用效果最好，例如账单类，日志类系统；</li>
+<li>当写入后马上会做查询，反而会增加维护change buffer的代价，反而起了副作用；</li>
+</ul>
+<p>注：</p>
+<ol>
+<li>change buffer是可以持久化的数据，在内存中有拷贝，也会被写入到磁盘；</li>
+<li>change buffer使用的是buffer pool里的内存，因此不能无限增大，大小可以通过innodb_change_buffer_max_size来设置。eg：参数设置为50的时候，表示change buffer的大小最多占buffer pool的50%；</li>
+<li>change buffer 因为减少了随机磁盘的IO，利于提升性能；</li>
+</ol>
+<p><strong>更新过程</strong>：<br><br>1、更新记录的目标页在内存中：</p>
+<ul>
+<li>唯一索引：找到更新位置，判断有没有冲突，执行；</li>
+<li>普通索引：找到更新位置，执行；</li>
+</ul>
+<p>2、更新记录的目标页不在内存中：<br></p>
+<ul>
+<li>唯一索引：将数据页读入内存，判断有没有冲突，插入这个值，执行结束；</li>
+<li>普通索引：将更新记录在change buffer，执行结束；</li>
+</ul>
+<p><strong>查询过程：</strong><br><br>InnoDB的数据是按照数据页为单位来读写的，也就是说，当需要读取一条记录的时候，并不是将这个记录本身从磁盘读出来，而是以页为单位，将其整体读入内存，每个数据页的大小默认为16KB；</p>
+<p><strong>普通索引</strong>：<br><br>查找到满足条件的记录后，需要查找下一条记录，直到碰到第一个不满足k=5条件的记录；<br><br><strong>唯一索引</strong>：<br><br>查找到满足条件的记录，就会停止检索；<br>所以二者性能上差距微乎其微；</p>
+<p><strong>综上：</strong></p>
+<ul>
+<li>尽量选择普通索引；</li>
+<li>change buffer和普通索引配合使用，对数据量大的表的更新优化还是很明显的；</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/09/MySQL的kill大全/" class="archive-article-date">
-  	<time datetime="2019-04-09T06:44:20.421Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/09/MySQL的kill大全/">MySQL的kill大全</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/06/28/MySQL索引的工作原理/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/03/MySQL里说好的join呢/" class="archive-article-date">
-  	<time datetime="2019-04-03T12:07:49.781Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/06/23/MySQL是如何进行语句更新操作的/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL是如何进行语句更新操作的</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/03/MySQL里说好的join呢/">MySQL里说好的join呢</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -433,8 +403,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
