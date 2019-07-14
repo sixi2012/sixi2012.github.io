@@ -8,22 +8,22 @@
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
   <title>MySQL里change buffer和redo log的区别 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
+  <meta name="description" content="WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL里change buffer和redo log的区别">
 <meta property="og:url" content="https://sixi2012.github.io/2019/07/14/MySQL里change buffer 和redo log 的区别/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
+<meta property="og:description" content="WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
 <meta property="og:locale" content="php">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/3.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/5.png">
-<meta property="og:updated_time" content="2019-07-14T08:22:08.884Z">
+<meta property="og:updated_time" content="2019-07-14T08:25:03.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL里change buffer和redo log的区别">
-<meta name="twitter:description" content="WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
+<meta name="twitter:description" content="WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
@@ -173,7 +173,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg" alt="buffer"></p>
-<p>WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。</p>
+<p>WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。</p>
 <a id="more"></a>
 <p><strong>change buffer 和redo log的区别：</strong></p>
 <ul>
