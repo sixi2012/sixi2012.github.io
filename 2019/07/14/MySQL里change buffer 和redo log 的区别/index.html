@@ -6,18 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>依然在路上</title>
+  <title>MySQL里change buffer和redo log的区别 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/page/2/index.html">
+  <meta name="description" content="WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL里change buffer和redo log的区别">
+<meta property="og:url" content="https://sixi2012.github.io/2019/07/14/MySQL里change buffer 和redo log 的区别/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/5.png">
+<meta property="og:updated_time" content="2019-07-14T08:22:08.884Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL里change buffer和redo log的区别">
+<meta name="twitter:description" content="WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,35 +152,96 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-MySQL里order by的排序机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-MySQL里change buffer 和redo log 的区别" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/22/MySQL里order by的排序机制/">MySQL里order by的排序机制</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL里change buffer和redo log的区别
     </h1>
   
 
         
-          <a href="/2019/04/22/MySQL里order by的排序机制/" class="archive-article-date">
-  	<time datetime="2019-04-22T11:44:11.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
+          <a href="/2019/07/14/MySQL里change buffer 和redo log 的区别/" class="archive-article-date">
+  	<time datetime="2019-07-14T08:21:04.102Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-14</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/1.jpeg" alt="count"></p>
-<p>eg：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select city,name,age from t where city=&apos;杭州&apos; order by name limit 1000  ;</span><br></pre></td></tr></table></figure>
-<p>这个语句的执行流程是怎么样的，以及有什么参数会影响执行行为呢？</p>
-        
-          <a class="article-more-a" href="/2019/04/22/MySQL里order by的排序机制/#more">more >></a>
-        
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg" alt="buffer"></p>
+<p>WAL提示性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。</p>
+<a id="more"></a>
+<p><strong>change buffer 和redo log的区别：</strong></p>
+<ul>
+<li>redo log节省的是随机写磁盘的I/O消耗（转成顺序写）；</li>
+<li>change buffer节省的是随机读磁盘的I/O消耗；</li>
+</ul>
+<p>eg：<br><br>假设 k1的数据在内存（InnoDB buffer pool）中，K2的数据不在内存中；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into t(id,k) values(id1,k1),(id2,k2);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/2.png" alt="buffer"></p>
+<ul>
+<li>page1在内存中，直接更新内存；</li>
+<li>page2没有在内存中，记录在 change buffer区域；</li>
+<li>将上述两个动作记录在 redo log中；</li>
+</ul>
+<p>即写了两次内存，然后写了一处磁盘（顺序写）；</p>
+<p>带change buffer的读操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where k in (k1, k2)；</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/3.png" alt="buffer"></p>
+<ul>
+<li>读Page1的时候，虽然磁盘还是之前的数据，但这是从内存中直接返回结果；</li>
+<li>读Page2的时候，需要把Page2从磁盘读入内存中，然后应用change buffer里面的操作日志，生成一个正确的结果并返回；</li>
+</ul>
+<p>所以，由于唯一索引用不上change buffer的优化机制，所以当“业务代码可以保证不会写入重复数据”的时候，优先考虑非唯一索引；</p>
+<p><strong>优化器的逻辑：</strong></p>
+<ul>
+<li>选择索引是优化器的工作；</li>
+<li>根据扫描行数（包括普通索引的回表），临时表和排序等找到一条最优的执行方案；</li>
+</ul>
+<p><strong>索引选择异常和处理：</strong></p>
+<ul>
+<li>analyze table t: 重新统计索引信息<br><br>当发现explain 的结预估的rows值和实际情况差距较大的时候，可以采用此方法进行处理;</li>
+<li>force index强行选择一个索引:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t force index(a) where a between 10000 and 20000;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>新建一个更合适的索引，来供给优化器做选择，或删掉误用的索引；<br><br>eg：确认索引b没有用的话直接删掉即可；</li>
+</ul>
+<p><strong>字符串创建索引</strong>：<br><br>eg1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table SUser add index index1(email);</span><br></pre></td></tr></table></figure></p>
+<p>index1包含了每个记录的整个字符串；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/4.png" alt="buffer"></p>
+<p>eg2：<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table SUser add index index2(email(6));</span><br></pre></td></tr></table></figure>
+<p>index2只取了前6个字节；占用空间更小；<br>缺点：<br><br>1、会导致查询的次数变多；<br><br>2、无法使用覆盖索引，需要回到ID索引再查一下（回表），因为系统不能确定前缀索引是否截断了完整信息；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/5.png" alt="buffer"></p>
+<p>在使用前缀索引时，需要定义好长度，即节省空间，又不用额外增加太多的查询成本；</p>
+<p><strong>确定索引前缀的方法：</strong></p>
+<ul>
+<li>先算出列上有多少不同的值：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(distinct email) as L from SUser;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>依次选取不同的长度的前缀看这个值：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">  count(distinct left(email,4)）as L4,</span><br><span class="line">  count(distinct left(email,5)）as L5,</span><br><span class="line">  count(distinct left(email,6)）as L6,</span><br><span class="line">  count(distinct left(email,7)）as L7,</span><br><span class="line">from SUser;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>按照能接受的损失比例来选择前缀；</li>
+</ul>
+<p>eg：对身份证号如何做索引<br><br>1、倒序存储：<br>最后6位没有地址码这样的重复逻辑，可以提供足够的区分度（使用count（distinct））去做验证；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select field_list from t where id_card = reverse(&apos;input_id_card_string&apos;);</span><br></pre></td></tr></table></figure>
+<p>2、使用hash字段：<br>在表上创建一个整数字段，用crc32（）得到校验码填充到新字段，由于校验码可能存在冲突，在查询的时候要判断id_card是否相同；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select field_list from t where id_card_crc=crc32(&apos;input_id_card_string&apos;) and id_card=&apos;input_id_card_string&apos;；</span><br></pre></td></tr></table></figure>
+<p>区别：</p>
+<ul>
+<li>倒序方式存在主键索引上，不消耗额外空间；</li>
+<li>从两个函数复杂度来看，reverse函数消耗CPU要小一些；</li>
+<li>hash方式更稳定一些；</li>
+</ul>
+
       
 
       
@@ -184,16 +252,64 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/22/MySQL里order by的排序机制/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/07/14/MySQL里change buffer 和redo log 的区别/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/07/MySQL常见的insert问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL常见的insert问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -213,631 +329,14 @@
 
 
 
-
-  
-    <article id="post-MySQL是如何执行count()命令的" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/16/MySQL是如何执行count()命令的/">MySQL是如何执行count(*)命令的</a>
-    </h1>
   
 
-        
-          <a href="/2019/04/16/MySQL是如何执行count()命令的/" class="archive-article-date">
-  	<time datetime="2019-04-16T06:36:51.462Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-count/1.jpeg" alt="count"></p>
-<p>当需要计算一张表的行数的时候，一条select count(*) from t 就可以解决，但问题是随着系统中的记录越来越多，这条语句执行得也会越来越慢，该如何优化呢？<br>
-        
-          <a class="article-more-a" href="/2019/04/16/MySQL是如何执行count()命令的/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/16/MySQL是如何执行count()命令的/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL的kill大全" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/09/MySQL的kill大全/">MySQL的kill大全</a>
-    </h1>
   
 
-        
-          <a href="/2019/04/09/MySQL的kill大全/" class="archive-article-date">
-  	<time datetime="2019-04-09T06:44:20.421Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-kill/1.jpeg" alt="kill"></p>
-<p>MySQL中的kill命令：</p>
-<ol>
-<li>kill query + 线程id，终止正在查询的语句；</li>
-<li>kill connection + 线程id, connection 可省略；</li>
-</ol>
-<p>问题是有的时候，使用了kill命令，却没能断开这个链接。再执行show processlist，看到这个语句的Command列显示的是Killed，为什么呢？<br>
-        
-          <a class="article-more-a" href="/2019/04/09/MySQL的kill大全/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/09/MySQL的kill大全/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL里说好的join呢" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/03/MySQL里说好的join呢/">MySQL里说好的join呢</a>
-    </h1>
   
 
-        
-          <a href="/2019/04/03/MySQL里说好的join呢/" class="archive-article-date">
-  	<time datetime="2019-04-03T12:07:49.781Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-join/1.jpeg" alt="join"></p>
-<p>关于join语句的使用问题，一般是如下两类：</p>
-<ol>
-<li>我们的DBA不让用join，那使用join有什么问题呢？</li>
-<li>如果有两个大小不同的表做join，应该用哪个表做驱动表呢？</li>
-</ol>
-        
-          <a class="article-more-a" href="/2019/04/03/MySQL里说好的join呢/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/03/MySQL里说好的join呢/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我的MySQL是不是挂了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
-    </h1>
   
 
-        
-          <a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/1.jpeg" alt="guale"></p>
-<p>数据库主备切换有两种场景，一种是主动切换，一种是被动切换。而其中的被动切换，往往是因为主库出问题了，由HA系统发起的。</p>
-<p>那如何判断一个主库是否出问题了呢？<br>
-        
-          <a class="article-more-a" href="/2019/03/28/我的MySQL是不是挂了/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/28/我的MySQL是不是挂了/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL复制一张表的方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-fzbiao/1.jpeg" alt="fuzhi"></p>
-<p><strong>需求：</strong><br>把db1.t里面a&gt;900的数据行导出来，插入到db2.t中；</p>
-<p>该如何操作呢？<br>
-        
-          <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/22/MySQL复制一张表的方法/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-拯救MySQL的从删库到跑路" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-wushansj/1.jpeg" alt="wushan"></p>
-<p>MySQL的高可用架构是不能预防误删数据的，因为主库的一个drop table命令，会通过binlog传给所有从库和级联从库，进而导致整个集群的实例都会执行这个命令。</p>
-<p><strong>误删数据的情况</strong>：</p>
-<ol>
-<li>使用delete语句误删数据行；</li>
-<li>使用drop table 或是 truncate table 语句误删数据表；</li>
-<li>使用drop database语句误删数据库；</li>
-<li>使用rm 命令误删整个MySQL实例；</li>
-</ol>
-        
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/17/拯救MySQL的从删库到跑路/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-为什么我的MySQL偶尔会“不灵”一下" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-doudong/1.jpeg" alt="doudong"></p>
-<p>执行一条SQL语句，正常执行的时候特别快，但有的时候不知道怎么回事，变的特别慢，而且这样的场景很难复现。</p>
-<p>看上去，就像数据库“不灵”了一样。<br>
-        
-          <a class="article-more-a" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我有一个不成熟的小建议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
-  
-
-        
-          <a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/Xiaodao/xiaodao-1.jpeg" alt="晓岛"></p>
-<p>据说高晓松和韩寒的对谈是晓说系列的最后一期，节目中两人从小说聊起，谈了写作、音乐、电影，人生的高潮和低谷等等，看完后有两点收获：</p>
-<p><strong>1、每个人都有至暗时刻。</strong></p>
-<p>造成低谷的原因，是自己没把事做好，或者想做成而不可达，如同汪洋中的浮萍，无力改变风暴眼，自然郁闷不已。我们只能修炼强大的内心，提升能力，自己消化，还要避免去看那些垃圾信息，<strong>不必过度在意他人的评价</strong>。<br>
-        
-          <a class="article-more-a" href="/2019/03/02/我有一个不成熟的小建议/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/03/02/我有一个不成熟的小建议/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-众生皆苦，你是草莓味" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        
-          <a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/G13/%E7%8B%97%E5%8D%81%E4%B8%89-1.jpeg" alt="终生皆苦，你是草莓味"></p>
-<p>看完了《狗十三》，突然明白为什么有的人会从头哭到尾。</p>
-<p>这部禁播了5年，豆瓣评分高达8.4的青春片，呈现了一部中国孩子的成长史。</p>
-<p>更准确地说，是『<strong>驯化史</strong>』。</p>
-<p>13岁的李玩是被驯化的对象。</p>
-<p>从敏感、倔强、有兴趣、开放、心软，到后来的懂事、麻木、忧郁，不过短短几个环节。<br>
-        
-          <a class="article-more-a" href="/2019/02/23/众生皆苦，你是草莓味/#more">more >></a>
-        
-      
-
-      
-    </p></div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/02/23/众生皆苦，你是草莓味/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -863,8 +362,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
