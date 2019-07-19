@@ -6,30 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>MySQL常见的insert问题 | 依然在路上</title>
+  <title>MySQL是如何保证主从一致的 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="如何在两张表中拷贝数据呢？ 如果可以控制对源表的扫描行锁和加锁范围很小的话，简单的使用insert…select 即可实现。">
+  <meta name="description" content="为什么从库执行了binlog就可以跟主库保持一致了呢？这次了解一下一主一从的基本原理。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL常见的insert问题">
-<meta property="og:url" content="https://sixi2012.github.io/2019/07/07/MySQL常见的insert问题/index.html">
+<meta property="og:title" content="MySQL是如何保证主从一致的">
+<meta property="og:url" content="https://sixi2012.github.io/2019/07/19/MySQL是如何保证主从一致的/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="如何在两张表中拷贝数据呢？ 如果可以控制对源表的扫描行锁和加锁范围很小的话，简单的使用insert…select 即可实现。">
+<meta property="og:description" content="为什么从库执行了binlog就可以跟主库保持一致了呢？这次了解一下一主一从的基本原理。">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/1.jpeg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/10.png">
-<meta property="og:updated_time" content="2019-07-07T06:54:41.943Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/WechatIMG145.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/8.png">
+<meta property="og:updated_time" content="2019-07-19T10:13:02.159Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL常见的insert问题">
-<meta name="twitter:description" content="如何在两张表中拷贝数据呢？ 如果可以控制对源表的扫描行锁和加锁范围很小的话，简单的使用insert…select 即可实现。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/1.jpeg">
+<meta name="twitter:title" content="MySQL是如何保证主从一致的">
+<meta name="twitter:description" content="为什么从库执行了binlog就可以跟主库保持一致了呢？这次了解一下一主一从的基本原理。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/WechatIMG145.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -157,68 +156,113 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-MySQL常见的insert问题" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-MySQL是如何保证主从一致的" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      MySQL常见的insert问题
+      MySQL是如何保证主从一致的
     </h1>
   
 
         
-          <a href="/2019/07/07/MySQL常见的insert问题/" class="archive-article-date">
-  	<time datetime="2019-07-07T06:51:30.677Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
+          <a href="/2019/07/19/MySQL是如何保证主从一致的/" class="archive-article-date">
+  	<time datetime="2019-07-19T10:11:54.979Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/1.jpeg" alt="insert"></p>
-<p>如何在两张表中拷贝数据呢？</p>
-<p>如果可以控制对源表的扫描行锁和加锁范围很小的话，简单的使用insert…select 即可实现。</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/WechatIMG145.jpeg" alt="gky"></p>
+<p>为什么从库执行了binlog就可以跟主库保持一致了呢？<br><br>这次了解一下一主一从的基本原理。</p>
 <a id="more"></a>
-<p>eg：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `t` (</span><br><span class="line">  `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `c` int(11) DEFAULT NULL,</span><br><span class="line">  `d` int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `c` (`c`)</span><br><span class="line">) ENGINE=InnoDB;</span><br><span class="line"></span><br><span class="line">insert into t values(null, 1,1);</span><br><span class="line">insert into t values(null, 2,2);</span><br><span class="line">insert into t values(null, 3,3);</span><br><span class="line">insert into t values(null, 4,4);</span><br><span class="line"></span><br><span class="line">create table t2 like t</span><br></pre></td></tr></table></figure>
-<p>可重复读隔离级别下，binlog_format=statement时执行；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into t2(c,d) select c,d from t;</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/2.png" alt="insert"></p>
-<p>实际执行效果：</p>
+<p><strong>MySQL主从的基本原理</strong></p>
+<p>1、主从切换流程</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/1.png" alt="gky"></p>
+<p>状态1将节点B（从库）设置成只读（readonly）模式：<br><br>a、运营类的查询语句放到备库上查，设置为只读，防止误操作；<br><br>b、防止切换逻辑有bug，比如切换时出现双写，造成主备不一致；<br><br>c、可以用readonly状态，来判断节点的角色；</p>
+<p>注：</p>
 <ul>
-<li>如果session B先执行，由于这个语句对表t主键索引加了(-∞,1]，这个next-key lock，在语句执行完成后，才允许session A的insert 语句执行；</li>
-<li>但如果没有锁的话，可能出现session B的insert 语句先执行，但是后写入binlog的情况，在binlog_format = statement 的情况下，binlog里面的记录：</li>
+<li>一开始创建主备关系的时候，是由备库指定的；</li>
+<li>例如：备库说：“我要从binlog文件A的位置P”开始同步，主库从这个指定的位置开始往后发；</li>
+<li>而主备复制关系搭建完成后，是主库来决定“要发送数据给备库”；</li>
+<li>所以，主库有新生成的日志，就会发给备库；</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into t values(-1,-1,-1);</span><br><span class="line">insert into t2(c,d) select c,d from t;</span><br></pre></td></tr></table></figure>
-<p>注：<br><br>语句到备库里执行，把id=-1这一行写到t2中，出现主备不一致；</p>
-<p><strong>insert 循环写入：</strong><br><br>eg：<br><br>往t2中插入一行，这一行的c值是表t中c值的最大值加1；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into t2(c,d)  (select c+1, d from t force index(c) order by c desc limit 1);</span><br></pre></td></tr></table></figure>
-<p>加锁范围：<br><br>表t索引c上的（3，4]和（4，supremum]这两个 next-key lock，以及主键索引上id=4这一行；</p>
-<p>这个语句的慢查询日志（slow log）：</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/3.png" alt="insert"><br>注：<br><br>rows_examined=1,扫描行数为1；</p>
-<p>执行以下语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into t(c,d)  (select c+1, d from t force index(c) order by c desc limit 1);</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/4.png" alt="insert"><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/5.png" alt="insert"></p>
-<p>从Extra字段中可以看到“using temporary”字段，说明需要把t的内容读出来，写入临时表；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/6.png" alt="insert"></p>
-<p>执行流程：</p>
+<p>2、一个update语句在节点A执行，然后同步到节点B完整流程：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/2.png" alt="gky"></p>
+<p>注：一个事务日志同步的完整过程<br><br>1、从库B上通过change master命令，设置主库A的IP、端口、用户名、密码、以及要从哪个位置开始请求binlog，这个位置包含文件名和日志偏移量；<br><br>2、在备库上执行start slave命令，这时备库会启动两个线程，就是图中的io_thread和sql_thread,<br>其中io_thread负责与主库建立连接；<br><br>3、主库A校验完用户名，密码后，开始按照备库B传来的位置，从本地读取binlog，发给B；<br><br>4、备库B拿到binlog后，写到本地文件，称为中转日志（relay log）；<br><br>5、sql_stread读取中转日志，解析日志里的命令，并执行；</p>
+<p><strong>binlog的三种格式对比</strong><br><br>1、statement；<br><br>2、row；<br><br>3、mixed，是前两种的混合；<br></p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `t` (</span><br><span class="line">  `id` int(11) NOT NULL,</span><br><span class="line">  `a` int(11) DEFAULT NULL,</span><br><span class="line">  `t_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  KEY `a` (`a`),</span><br><span class="line">  KEY `t_modified`(`t_modified`)</span><br><span class="line">) ENGINE=InnoDB;</span><br><span class="line"></span><br><span class="line">insert into t values(1,1,&apos;2018-11-13&apos;);</span><br><span class="line">insert into t values(2,2,&apos;2018-11-12&apos;);</span><br><span class="line">insert into t values(3,3,&apos;2018-11-11&apos;);</span><br><span class="line">insert into t values(4,4,&apos;2018-11-10&apos;);</span><br><span class="line">insert into t values(5,5,&apos;2018-11-09&apos;);</span><br></pre></td></tr></table></figure>
+<p>然后看一下delete语句的binlog是怎么记录的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from t /*comment*/  where a&gt;=4 and t_modified&lt;=&apos;2018-11-10&apos; limit 1;</span><br></pre></td></tr></table></figure>
+<p>当binlog_format = statement时，binlog里面记录的就是SQL语句的原文：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show binlog events in &apos;master.000001&apos;;</span><br></pre></td></tr></table></figure>
+<p>命令看binlog中的内容：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/3.png" alt="gky"></p>
+<p>注：</p>
+<ul>
+<li>第三行在delete之前，还有一个“use test”命令，这条命令不是我们主动执行的，而是mysql根据当前要操作的表所在的数据库，自行添加的；</li>
+<li>可以保证日志传到备库执行的时候，不论当前的工作线程在哪个库里，都能够正确的更新到test库的表t；</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/4.png" alt="gky"></p>
+<p>命令是unsafe的，因为delete带limit，可能会出现主从数据不一致的情况：</p>
+<ul>
+<li>delete语句使用a，会使用索引a找到第一个满足条件的行，也就是说删除a=4的这一行；</li>
+<li>使用的是索引t_modified,那删除的就是t_modefied=”2018-11-09”,也就是a=5的这一行；</li>
+<li>即：statement格式下，记录到binlog里的是语句原文，会出现主库和备库执行相同的SQL，用的是不同的索引这种情况，mysql认为这样是有风险的；</li>
+</ul>
+<p><strong>当binlog_format=’row’的时候：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/5.png" alt="gky"></p>
+<p>row格式的binlog里面没有了SQL原文，替换了两个event：Table_map和Delete_rows;</p>
 <ol>
-<li>创建临时表，表里有两个字段c和d；</li>
-<li>按照索引c扫描表t，依次取c=4，3，2，1，然后回表，读到c和d的值写入临时表，这时，rows_examined=4;</li>
-<li>由于语义里面有limit 1，所以只取了临时表的第一行，再插入到表t中，Rows_examined 的值加1，变成了5；<br><br>即：<br><br>这个语句会导致在表t上做全表扫描，并且会给索引c上的所有间隙加上共享的next-key lock，这个语句执行期间，其它事务不能在这个表上插入数据；</li>
+<li>Table_map event：用于说明接下来要操作的是test库的表t；</li>
+<li>Delete_rows event：用于定义删除行为；</li>
+<li>同时需要借助mysqlbinlog工具，解析和查看binlog中的内容，可以用start-position参数来指定从这个位置的日志开始解析：</li>
 </ol>
-<p>语句没有在子查询中，直接使用limit 1，从而导致语句的执行要遍历整个表t；<br><br>优化方法：先insert into 到临时表 temp_t,从表temp_t里面取出这行数据插入表t1；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create temporary table temp_t(c int,d int) engine=memory;</span><br><span class="line">insert into temp_t  (select c+1, d from t force index(c) order by c desc limit 1);</span><br><span class="line">insert into t select * from temp_t;</span><br><span class="line">drop table temp_t;</span><br></pre></td></tr></table></figure>
-<p><strong>insert 唯一键冲突</strong></p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/7.png" alt="insert"></p>
-<p>注：<br><br>一个next-key lock就是由它右边界的值定义的，这时候，session A 持有索引c上的（5，10]共享next-key lock（读锁）；</p>
-<p><strong>唯一键冲突导致的死锁：</strong></p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/8.png" alt="insert"></p>
-<p>注：<br><br>1、T1时刻，启动session A，并执行insert语句，此时在索引c的c=5上加了记录锁（唯一索引，退化为记录锁）；<br><br>2、T2时刻，session B要执行相同的insert 语句，发现了唯一键冲突，加上读锁，同样的session C也在c=5这个记录上加了读锁；<br><br>3、T3时刻，session A回滚，session B和session C试图执行插入操作，都要加上写锁，两个session都在等待对方的行锁，出现了死锁；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/9.png" alt="insert"></p>
-<p><strong>insert into … on  duplicate key update</strong><br>插入一行数据，如果碰到唯一键约束，就执行后面的更新语句；<br>eg：表t里面有（1，1）和（2，2，2）这两行</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-insert/10.png" alt="insert"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog  -vv data/master.000001 --start-position=8900;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/6.png" alt="gky"></p>
+<p>注：</p>
+<ul>
+<li>server id 表示这个事务是在server_id=1的库上执行的；</li>
+<li>每个event都有crc32的值，这是因为将参数binlog_checksum 设置成了crc32；</li>
+<li>Table_map event 表示要操作的表；</li>
+<li>要操作多张表的时候，每个表都有一个对应的Table_map event,都会map到一个单独的数字，用来区分对不同表的操作；</li>
+<li>在mysqlbinlog的命令中，使用了-vv参数是为了把内容都解析出来，所以从结果里可以看到各个字段的值；</li>
+<li>binlog_row_image的默认配置的是FULL，因此Delete_event里面，包含了删掉的行的所有的值，如果把binlog_row_image设置为MINIMAL，则只会记录必要的信息，</li>
+<li>最后的Xid event，用于表示事务被正确的提交了；</li>
+<li>因此，binlog里面记录了真实删除行的主键id，不会存在删除不同行的问题；</li>
+</ul>
+<p><strong>Mixed这种binlog格式存在的场景</strong>：<br>1、statement格式的binlog可能导致主备不一致；<br><br>2、row格式的缺点是很占空间，同时写binlog也要耗费IO资源，影响执行速度；<br><br>3、mixeg格式的binlog，表示；MySQL自己会判断这条SQL语句是否可能引起主备不一致，如果有可能，用row格式，否则用statement格式；<br></p>
+<p>现在大多数binlog设置为row格式，<br>好处：<strong>恢复数据</strong></p>
+<p>1、delete语句：<br>row格式会把删掉的整行信息保存起来，可以直接把binlog中记录的delete语句转成insert，把误删的数据插入回去就可以恢复了；<br><br>2、insert语句：<br>row格式会记录所有字段信息，用来定位刚刚被插入的那一行，将insert语句转成delete语句，删除即可<br><br>3、update语句<br>binlog里面会记录修改前整行的数据和修改后整行数据，所以将event前后的两行信息对调一下，再去数据库里执行，就可以恢复了；<br><br>注：MariaDB的Flashback工具就基于上面介绍的原理来回滚数据的；</p>
+<p>用binlog还恢复数据的标准做法：</p>
+<p>用mysqlbinlog工具解析出来，然后把解析结果整个发给MYSQL执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog master.000001  --start-position=2738 --stop-position=2973 | mysql -h127.0.0.1 -P13000 -u$user -p$pwd;</span><br></pre></td></tr></table></figure>
+<p>注：将master.000001文件里面从第2738字节到2973字节中间这段内容解析出来，放到MySQL去执行</p>
+<p><strong>循环复制的问题：</strong></p>
+<p>binlog的特性确保了在备库执行相同的binlog，可以得到与主库相同的状态：<br>实际生产上使用的比较多的双M结构：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/7.png" alt="gky"></p>
+<p>注：<br><br>1、AB之间互为主备关系；<br><br>2、导致的问题：A更新了语句，将生产的binlog发给节点B，节点B执行完后也生成binlog（将参数log_slave_updates设置为on），AB会不断循环执行这个更新语句；<br></p>
+<p>解决方法：</p>
+<ul>
+<li>两个库的server id必须不同，如果相同，则他们之间不能设为主备；</li>
+<li>一个备库接到binlog并在重放的过程，生成与原binlog的server id相同的新的binlog；</li>
+<li>每个库在收到从自己的主库发过来的日志后，先判断server id，如果跟自己的相同，表示这个日志是自己生成的，直接丢弃这个日志；</li>
+</ul>
+<p>双M结构会出现循环复制的情况：</p>
+<ul>
+<li>主库更新事务后，命令set global server_id=x,修改了server_id，这样日志传回来的时候，发现server_id 跟自己的不同，只能执行；</li>
+<li>有三个节点的时候，即trx1在节点B执行，因此binlog上的server_id就是B，binlog传给节点A，然后A和A’搭建了双M结构，出现循环复制；</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/8.png" alt="gky"></p>
+<p>注：这种场景在数据库迁移时候会出现<br>解决方法</p>
+<p>1、在A或A’上执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stop slave；</span><br><span class="line">CHANGE MASTER TO IGNORE_SERVER_IDS=(server_id_of_B);</span><br><span class="line">start slave;</span><br></pre></td></tr></table></figure>
+<p>2、这个节点收到日志后不会再执行，过段时间后，再执行下面的命令改回来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stop slave；</span><br><span class="line">CHANGE MASTER TO IGNORE_SERVER_IDS=();</span><br><span class="line">start slave;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -266,7 +310,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/07/07/MySQL常见的insert问题/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/07/19/MySQL是如何保证主从一致的/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,18 +324,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/14/MySQL里change buffer 和redo log 的区别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          MySQL里change buffer和redo log的区别
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/06/28/MySQL索引的工作原理/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MySQL索引的工作原理</div>
+    <a href="/2019/07/14/MySQL里change buffer 和redo log 的区别/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL里change buffer和redo log的区别</div>
       <i class="icon-circle-right"></i>
     </a>
   
