@@ -6,18 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>MySQL深入浅出高可用 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/page/3/index.html">
+  <meta name="description" content="正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。 但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL深入浅出高可用">
+<meta property="og:url" content="https://sixi2012.github.io/2019/07/27/MySQL深入浅出高可用/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。 但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/5.png">
+<meta property="og:updated_time" content="2019-07-27T10:01:26.382Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL深入浅出高可用">
+<meta name="twitter:description" content="正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。 但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,79 +152,175 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySQL深入浅出高可用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL深入浅出高可用
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
+        
+          <a href="/2019/07/27/MySQL深入浅出高可用/" class="archive-article-date">
+  	<time datetime="2019-07-27T10:00:07.876Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/1.jpeg" alt="bz"></p>
+<p>正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。</p>
+<p>但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？</p>
+<a id="more"></a>
+<p><strong>主从延迟</strong>：</p>
+<ul>
+<li>即从库执行完成的时间和主库执行完成的时间时间之差，</li>
+<li>在从库上执行 show slave status 命令，它的返回结果显示 seconds_behind_master（binlog里面有一个时间字段，记录主库上写入时间，从库执行的时候取出该时间字段的值，计算与当前系统时间的差值即为延时时间）,用于表示当前备库延迟多少秒；</li>
+<li>从库链接主库的时候，通过执行select Unix_timestamp()函数来获得当前主库的系统时间</li>
+</ul>
+<p><strong>造成延迟的原因：</strong><br><br>1、备库的查询耗费了大量的CPU资源，影响了同步速度，造成主备延迟；<br>解决方法：</p>
+<ul>
+<li>一主多从,让从库分担读的压力；</li>
+<li>通过binlog输出到外部系统，比如Hadoop这类系统，让外部系统提供统计类查询的能力；</li>
+<li>从库很适合做备份；</li>
+</ul>
+<p>2、大事务：</p>
+<ul>
+<li>不要一次性地用delete语句删除太多数据，控制每个事物删除的数据量，分多次删除；</li>
+<li>大表的DDL，建议使用gh-ost方案；</li>
+</ul>
+<p>3、备库的并行复制能力：</p>
+<p>由于主备延迟的存在，在主备切换的时候，相应有不同的策略；</p>
+<p><strong>可靠性优先策略：</strong><br>在双M结构下，从状态1到状态2的切换过程：</p>
+<ol>
+<li>判断备库B现在的second_behind_master，如果小于某个值（比如5s）继续下一步，否则持续重试这一步；</li>
+<li>把主库A改为只读状态，即 readonly设为true；</li>
+<li>备库B的second_behind_master的值，直到这个值变成0；</li>
+<li>把备库B改为可读写状态，也就是把readonly设置为false；</li>
+<li>把业务请求切刀备库B；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/2.png" alt="bz"></p>
+<p>注：<br><br>1、在步骤2之后，主库A和备库B都处于readonly状态，直到步骤5完成后才恢复；<br><br>2、步骤3可能耗费好几秒的时间；</p>
+<p><strong>可用性优先策略：</strong><br><br>把步骤4、5调整到最开始执行，即不等主备数据同步，直接把链接切到备库B，那系统几乎没有不可用的时间了，但是会导致数据不一致的情况；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE `t` (</span><br><span class="line">  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `c` int(11) unsigned DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB;</span><br><span class="line"></span><br><span class="line">insert into t(c) values(1),(2),(3);</span><br></pre></td></tr></table></figure>
+<p>然后再插入两条数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into t(c) values(4);</span><br><span class="line">insert into t(c) values(5);</span><br></pre></td></tr></table></figure>
+<p>假设，现在主库上其他数据表有大量的更新，导致主备延迟达到5s，在插入一条c=4的语句，发生了主备切换；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/3.png" alt="bz"></p>
+<p>注：<br></p>
+<ul>
+<li>步骤3，由于主备之间有5s的延迟，所以备库B还没来得及应用“插入c=4”这个中转日志，就开始接收客户端“插入c=5”的命令；</li>
+<li>步骤4，备库B插入了一行数据（4，5），并且把这个binlog发给主库A；</li>
+<li>步骤5，备库B执行“插入c=4”这个中专日志，插入一行（5，4），直接在备库B执行“插入c=5”，传到主库A，就插入了一行数据（5，5）；</li>
+<li>所以：主库A和备库B出现了两行不一致的数据；</li>
+</ul>
+<p>当设置binlog_format=row的情况：<br><br>只有最后一行不一致，而且，两边的主备同步的应用线程会报错，duplicate key error并停止；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/4.png" alt="bz"></p>
+<p>注：<br><br>1、row格式的binlog，数据不一致的问题更容易发现，使用mixed或者statement格式的binlog，数据可能悄悄的不一致，等发现时已经不可查；<br><br>2、建议设置成可靠性优先；</p>
+<p><strong>可靠性优先的思路，异常切换：</strong></p>
+<p>eg：<br>主库A和备库B的主备延迟是30分钟，这时候主库A掉电了，要切换B作为主库。</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/5.png" alt="bz"></p>
+<p>注：<br><br>1、采用可靠性优先策略的话，必须等到备库B的second_behind_master=0，才能切换；<br><br>2、直接切换的话，中转日志还没有完成，直接发起主备切换，客户端查询看不到之前执行完成的事务，会认为“数据丢失”；</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/07/27/MySQL深入浅出高可用/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/07/19/MySQL是如何保证主从一致的/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL是如何保证主从一致的</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -244,8 +347,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
