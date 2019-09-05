@@ -6,18 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>依然在路上</title>
+  <title>HTTP中的TCP和UDP协议（上） | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/index.html">
+  <meta name="description" content="传输层里面有两个比较重要的协议，一个是TCP，一个是UDP，这次二者结合来看下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP中的TCP和UDP协议（上）">
+<meta property="og:url" content="https://sixi2012.github.io/2019/09/05/HTTP中的TCP和UDP协议（上）/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="传输层里面有两个比较重要的协议，一个是TCP，一个是UDP，这次二者结合来看下。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/10.png">
+<meta property="og:updated_time" content="2019-09-05T10:28:13.663Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="HTTP中的TCP和UDP协议（上）">
+<meta name="twitter:description" content="传输层里面有两个比较重要的协议，一个是TCP，一个是UDP，这次二者结合来看下。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,16 +157,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-HTTP中的TCP和UDP协议（上）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-HTTP中的TCP和UDP协议（上）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/05/HTTP中的TCP和UDP协议（上）/">HTTP中的TCP和UDP协议（上）</a>
+    <h1 class="article-title" itemprop="name">
+      HTTP中的TCP和UDP协议（上）
     </h1>
   
 
@@ -169,9 +179,101 @@
       
         <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/1.jpeg" alt="tcp"></p>
 <p>传输层里面有两个比较重要的协议，一个是TCP，一个是UDP，这次二者结合来看下。</p>
-        
-          <a class="article-more-a" href="/2019/09/05/HTTP中的TCP和UDP协议（上）/#more">more >></a>
-        
+<a id="more"></a>
+<p><strong>建立链接：</strong><br>为了在客户端和服务端维护链接，而建立一定的数据结构来维护双方交互的状态，用这样的数据结构来保证所谓的面向链接的特性；</p>
+<p><strong>TCP</strong>：提供可靠交付，面向字节流（发的是一个流，没头没尾），可以有拥塞控制，是一个有状态的服务；<br><br><strong>UDP</strong>：继承了包的特性，不保证不丢失，不保证按序到达，一个一个的发送/接收，没有拥塞控制，无状态；</p>
+<p>无论是TCP还是UDP包头里面应该有端口号，将数据交给应用程序：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/2.png" alt="tcp"></p>
+<p><strong>UDP特性</strong>：</p>
+<ul>
+<li>沟通简单；</li>
+<li>谁都可以传给他数据，也可以传给任何人数据；</li>
+<li>不会根据网络的情况进行拥塞控制；</li>
+</ul>
+<p><strong>UDP的使用场景：</strong></p>
+<ul>
+<li>需要资源少，在网络比较好的内网，或对丢包不敏感的应用；</li>
+<li>不需要一对一沟通，建立连接，而是可以广播的应用（DHCP就是一种广播形式的，基于UDP协议的）；</li>
+<li>需要处理速度快，延时低，可容忍少数丢包；</li>
+</ul>
+<p><strong>UDP的实际应用：</strong></p>
+<ul>
+<li>网页或APP的访问：</li>
+<li>QUIC（快速UDP的互联网连接）能实现快速建立连接，减少重传时延，自适应拥塞控制；</li>
+<li>流媒体协议：</li>
+<li>直播，实时性比较重要，宁可丢包，也不要卡顿；</li>
+<li>实时游戏：</li>
+<li>采用自定义的可靠UDP协议，自定义重传策略，能够把丢包产生的延迟降到最低，减少网络造成的影响；</li>
+<li>移动通信领域：</li>
+</ul>
+<p><strong>TCP头格式：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/3.png" alt="tcp"></p>
+<ul>
+<li>Sequence Number是包的序号，用来解决网络包乱序（reordering）问题。</li>
+<li>Acknowledgement Number就是ACK——用于确认收到，用来解决不丢包的问题。</li>
+<li>Window又叫Advertised-Window，也就是著名的滑动窗口（Sliding Window），用于解决流控</li>
+<li>TCP Flag ，也就是包的类型，主要是用于操控TCP的状态机的。</li>
+</ul>
+<p><strong>注：</strong></p>
+<ul>
+<li>着重：顺序问题、丢包问题、连接维护、流量控制、拥塞控制；</li>
+<li>TCP的包是没有IP地址的，那是IP层上的事。但是有源端口和目标端口。</li>
+<li>一个TCP连接需要四个元组来表示是同一个连接（src_ip, src_port, dst_ip, dst_port）准确说是五元组，还有一个是协议</li>
+</ul>
+<p><strong>TCP三次握手和四次挥手</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/4.png" alt="tcp"></p>
+<p><strong>三次握手：</strong><br><br>  初始化Sequence Number 的初始值。通信的双方要互相通知对方自己的初始化的Sequence Number（缩写为ISN：Inital Sequence Number）——所以叫SYN，全称Synchronize Sequence Numbers。也就上图中的 x 和 y。这个号要作为以后的数据通信的序号，以保证应用层接收到的数据不会因为网络上的传输的问题而乱序（TCP会用这个序号来拼接数据）</p>
+<p> 四次挥手：<br><br> 其是2次，因为TCP是全双工的，所以，发送方和接收方都需要Fin和Ack。只不过，有一方是被动的，所以看上去就成了所谓的4次挥手。如果两边同时断连接，那就会就进入到CLOSING状态，然后到达TIME_WAIT状态。</p>
+<p><strong>端开连接时的状态时序图：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/5.png" alt="tcp"></p>
+<p><strong> 注：</strong><br><br>1、建立连接时SYN超时<br><br>如果server端接到了clien发的SYN后回了SYN-ACK后client掉线了，server端没有收到client回来的ACK，那么，这个连接处于一个中间状态，即没成功，也没失败。于是，server端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻售，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s都知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 2^6 -1 = 63s，TCP才会把断开这个连接。<br></p>
+<p>2、SYN Flood攻击<br><br>给服务器发了一个SYN后，就下线了，于是服务器需要默认等63s才会断开连接，服务器的syn连接的队列耗尽，让正常的连接请求不能处理。<br><br>tcp_syncookies不能用来处理正常的大负载的连接的情况。因为，synccookies是妥协版的TCP协议，并不严谨。<br><br>对于正常的请求，应该调整三个TCP参数可供你选择:<br>第一个是：tcp_synack_retries 可以用他来减少重试次数；第二个是：tcp_max_syn_backlog，可以增大SYN连接数；第三个是tcp_abort_on_overflow 处理不过来干脆就直接拒绝连接了。<br></p>
+<p>3、ISN的初始化ISN是不能hard code（写死）的，不然会出问题的。<br>比如：如果连接建好后始终用1来做ISN，如果client发了30个segment过去，但是网络断了，于是 client重连，又用了1做ISN，但是之前连接的那些包到了，于是就被当成了新连接的包，此时，client的Sequence Number 可能是3，而Server端认为client端的这个号是30了。全乱了。<br><br>TCP Segment在网络上的存活时间不会超过Maximum Segment Lifetime（缩写为MSL – Wikipedia语条），所以，只要MSL的值小于4.55小时，那么，我们就不会重用到ISN。</p>
+<p>4、关于 MSL 和 TIME_WAIT<br><br>在TCP的状态图中，从TIME_WAIT状态到CLOSED状态，有一个超时设置，这个超时设置是 2*MSL，<br>TIME_WAIT确保有足够的时间让对端收到了ACK，如果被动关闭的那方没有收到Ack，就会触发被动端重发Fin，一来一去正好2个MSL；<br>有足够的时间让这个连接不会跟后面的连接混在一起（你要知道，有些自做主张的路由器会缓存IP数据包，如果连接被重用了，那么这些延迟收到的包就有可能会跟新连接混在一起）。</p>
+<p>5、TIME_WAIT数量太多<br><br>在大并发的短链接下，TIME_WAIT 就会太多，这也会消耗很多系统资源。</p>
+<ul>
+<li>打开tcp_tw_reuse和tcp_timestamp选项；</li>
+<li>打开tcp_tw_recycle和tcp_timestamps选项；</li>
+<li>程序使用SO_LINGER,应用强制使用rst关闭；</li>
+</ul>
+<p><strong>TCP的状态机</strong><br><br>其实，网络上的传输是没有连接的，包括TCP也是一样的。而TCP所谓的“连接”，其实只不过是在通讯的双方维护一个“连接状态”，让它看上去好像有连接一样。</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/6.png" alt="tcp"></p>
+<p><strong>TCP重传机制</strong>：<br><br>1、超时重试<br><br>策略是超时间隔加倍，每当遇到一次超时重传的时候，都会将下一次超时时间间隔设为先前的两倍。两次超时，就说明网络环境差，不宜频繁发送。</p>
+<p>2、Selective Acknowledgment (SACK)<br><br>需要在TCP头里加一个SACK的东西，ACK还是Fast Retransmit的ACK，SACK则是汇报收到的数据碎版</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/8.png" alt="tcp"></p>
+<p>在发送端就可以根据回传的SACK来知道哪些数据到了，哪些没有到，在 Linux下，可以通过tcp_sack参数打开这个功能</p>
+<p>3、Duplicate SACK – 重复收到数据的问题</p>
+<ul>
+<li>又称D-SACK，主要使用了SACK来告诉发送方有哪些数据被重复接收了，优点：</li>
+<li>可以让发送方知道，是发出去的包丢了，还是回来的ACK包丢了。</li>
+<li>是不是自己的timeout太小了，导致重传。</li>
+<li>网络上出现了先发的包后到的情况（又称reordering）</li>
+<li>网络上是不是把我的数据包给复制了。</li>
+</ul>
+<p><strong>TCP滑动窗口</strong></p>
+<p>1、用来解决顺序问题，丢包问题，和流量控制；<br><br>2、发送方的滑动窗口（黑框部分）示意图：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/7.png" alt="tcp"></p>
+<ul>
+<li>#1已收到ack确认的数据。</li>
+<li>#2发还没收到ack的。</li>
+<li>#3在窗口中还没有发出的（接收方还有空间）。</li>
+<li>#4窗口以外的数据（接收方没空间）</li>
+</ul>
+<p>3、滑动后的示意图</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/9.png" alt="tcp"></p>
+<p><strong>拥塞控制</strong><br><br>通过拥塞窗口来避免包丢失和超时重传</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/10.png" alt="tcp"></p>
+<p>TCP的BBR拥塞算法：找到一个平衡点，通过不断的加快发展速度，将管道填满，但不填满中间设备的缓存（避免时延增加），在这个平衡点可以很好的达到高带宽和低时延的平衡；</p>
+<p><strong>注：</strong><br><br>1、设备缓存会导致延时<br><br>假如经过设备的包都不需要进入缓存，那么得到的速度是最快的。进入缓存且等待，等待的时间就是额外的延时，BBR就是为了避免这些问题；</p>
+<p>2、降低发送packet的速度，为何反而提速了？</p>
+<ul>
+<li>标准的TCP拥塞算法是遇到丢包的数据时快速下降发送速度，然后再重新启动，整个过程中对于带宽来说是浪费的；</li>
+<li>想比BBR更正确的处理了数据丢包，利用带宽的发送效率是最高的；<br>-<br>3、BBR是如何解决延时的：</li>
+<li>难启动开始时，以前期的延迟时间为延迟最小值TMin，然后监控延迟是否达到Tmin的n倍，达到这个阈值后判断带宽已经消耗且使用了一定的缓存，进入排空阶段；</li>
+<li>指数降低发送速度，直至延迟不再降低；</li>
+<li>协议进入稳定运行状态，交替探测带宽和延迟，且大多数时间下处于带宽探测状态；</li>
+</ul>
+
       
 
       
@@ -182,16 +284,64 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/05/HTTP中的TCP和UDP协议（上）/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/09/05/HTTP中的TCP和UDP协议（上）/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/08/26/HTTP和HTTPS协议的区别/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP和HTTPS协议的区别</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -211,610 +361,14 @@
 
 
 
-
-  
-    <article id="post-HTTP和HTTPS协议的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/26/HTTP和HTTPS协议的区别/">HTTP和HTTPS协议的区别</a>
-    </h1>
   
 
-        
-          <a href="/2019/08/26/HTTP和HTTPS协议的区别/" class="archive-article-date">
-  	<time datetime="2019-08-26T03:06:08.793Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/WechatIMG155.jpeg" alt="qb"></p>
-<p>HTTP协议，几乎是每个人上网用的第一个协议，同时也是很容易被人忽略的协议。</p>
-<p>但是在很多严肃的场景中，存在安全风险，需要加密，即我们说的HTTPS协议。</p>
-        
-          <a class="article-more-a" href="/2019/08/26/HTTP和HTTPS协议的区别/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/26/HTTP和HTTPS协议的区别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP的网络协议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/11/HTTP的网络协议/">HTTP网络协议</a>
-    </h1>
   
 
-        
-          <a href="/2019/08/11/HTTP的网络协议/" class="archive-article-date">
-  	<time datetime="2019-08-11T10:25:42.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/1.jpeg" alt="cj"></p>
-<p>当网络包到达一个城关的时候，可以通过一个路由表得到下一个城关的IP地址，直接通过IP地址就可以。</p>
-<p>为什么还要通过本地的MAC地址呢？</p>
-        
-          <a class="article-more-a" href="/2019/08/11/HTTP的网络协议/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/11/HTTP的网络协议/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL深入浅出高可用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/27/MySQL深入浅出高可用/">MySQL深入浅出高可用</a>
-    </h1>
   
 
-        
-          <a href="/2019/07/27/MySQL深入浅出高可用/" class="archive-article-date">
-  	<time datetime="2019-07-27T10:00:07.876Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/1.jpeg" alt="bz"></p>
-<p>正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。</p>
-<p>但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？</p>
-        
-          <a class="article-more-a" href="/2019/07/27/MySQL深入浅出高可用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/27/MySQL深入浅出高可用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL是如何保证主从一致的" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/19/MySQL是如何保证主从一致的/">MySQL是如何保证主从一致的</a>
-    </h1>
   
 
-        
-          <a href="/2019/07/19/MySQL是如何保证主从一致的/" class="archive-article-date">
-  	<time datetime="2019-07-19T10:11:54.979Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-gky/WechatIMG145.jpeg" alt="gky"></p>
-<p>为什么从库执行了binlog就可以跟主库保持一致了呢？<br><br>这次了解一下一主一从的基本原理。</p>
-        
-          <a class="article-more-a" href="/2019/07/19/MySQL是如何保证主从一致的/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/19/MySQL是如何保证主从一致的/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL里change buffer 和redo log 的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/14/MySQL里change buffer 和redo log 的区别/">MySQL里change buffer和redo log的区别</a>
-    </h1>
-  
-
-        
-          <a href="/2019/07/14/MySQL里change buffer 和redo log 的区别/" class="archive-article-date">
-  	<time datetime="2019-07-14T08:21:04.102Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg" alt="buffer"></p>
-<p>WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。</p>
-        
-          <a class="article-more-a" href="/2019/07/14/MySQL里change buffer 和redo log 的区别/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/14/MySQL里change buffer 和redo log 的区别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL索引的工作原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/28/MySQL索引的工作原理/">MySQL索引的工作原理</a>
-    </h1>
-  
-
-        
-          <a href="/2019/06/28/MySQL索引的工作原理/" class="archive-article-date">
-  	<time datetime="2019-06-28T09:23:10.332Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-suoyin/1.jpeg" alt="suoyin"></p>
-<p> 索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。</p>
-<p> 但到底什么是索引呢，索引又是如何工作的呢？</p>
-        
-          <a class="article-more-a" href="/2019/06/28/MySQL索引的工作原理/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/28/MySQL索引的工作原理/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL是如何进行语句更新操作的" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/23/MySQL是如何进行语句更新操作的/">MySQL是如何进行语句更新操作的</a>
-    </h1>
-  
-
-        
-          <a href="/2019/06/23/MySQL是如何进行语句更新操作的/" class="archive-article-date">
-  	<time datetime="2019-06-23T08:00:56.412Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-update/1.jpeg" alt="liangjd"></p>
-<p>Mysql 在处理更新语句的时候，内部都完成了哪些操作呢？</p>
-        
-          <a class="article-more-a" href="/2019/06/23/MySQL是如何进行语句更新操作的/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/23/MySQL是如何进行语句更新操作的/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL的存储引擎InnoDB和Memory" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/14/MySQL的存储引擎InnoDB和Memory/">MySQL的存储引擎InnoDB和Memory</a>
-    </h1>
-  
-
-        
-          <a href="/2019/06/14/MySQL的存储引擎InnoDB和Memory/" class="archive-article-date">
-  	<time datetime="2019-06-14T11:05:05.033Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-yinqing/1.jpeg" alt="liangjd"></p>
-<p>这次我们了解一下MySQL的InnoDB和Memory存储引擎。</p>
-        
-          <a class="article-more-a" href="/2019/06/14/MySQL的存储引擎InnoDB和Memory/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/14/MySQL的存储引擎InnoDB和Memory/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MySQL通常说的全表扫描是怎么回事" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/">MySQL里通常说的全表扫描是怎么回事</a>
-    </h1>
-  
-
-        
-          <a href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/" class="archive-article-date">
-  	<time datetime="2019-06-09T02:48:01.700Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/1.jpeg" alt="liangjd"></p>
-<p>我们通常说的发生了全表扫描到底是什么呢，又会有什么影响呢？</p>
-        
-          <a class="article-more-a" href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -840,8 +394,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
