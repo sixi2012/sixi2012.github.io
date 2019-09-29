@@ -6,18 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>HTTP的路由协议和ARP广播协议（上） | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/page/3/index.html">
+  <meta name="description" content="网络世界和复杂，一旦出了网关，会面临很多路由器。 如何选择一个快速的路由呢，这里面还有很多门道。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP的路由协议和ARP广播协议（上）">
+<meta property="og:url" content="https://sixi2012.github.io/2019/09/29/HTTP的路由协议和ARP广播协议（上）/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="网络世界和复杂，一旦出了网关，会面临很多路由器。 如何选择一个快速的路由呢，这里面还有很多门道。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/7.png">
+<meta property="og:updated_time" content="2019-09-29T07:04:00.705Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="HTTP的路由协议和ARP广播协议（上）">
+<meta name="twitter:description" content="网络世界和复杂，一旦出了网关，会面临很多路由器。 如何选择一个快速的路由呢，这里面还有很多门道。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,214 +154,175 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-HTTP的路由协议和ARP广播协议（上）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP的路由协议和ARP广播协议（上）
+    </h1>
+  
+
+        
+          <a href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/" class="archive-article-date">
+  	<time datetime="2019-09-29T07:03:08.296Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-29</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/1.jpeg" alt="arp"></p>
+<p>网络世界和复杂，一旦出了网关，会面临很多路由器。</p>
+<p>如何选择一个快速的路由呢，这里面还有很多门道。</p>
+<a id="more"></a>
+<p><strong>ARP协议</strong>：<br><br>注：</p>
+<ul>
+<li>ARP的目标地址是广播的，所以无论是否进行地址学习，都会广播；</li>
+<li>对于某个Mac地址访问，在没有地址学习的时候，是转发到所有的端口的，学习之后只会转发到这个MAC端口；</li>
+</ul>
+<p>根据已知的IP地址，求MAC地址的协议</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/2.png" alt="arp"></p>
+<p>在一个局域网里面，知道了IP地址，不知道MAC该怎么办，靠“吼”</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/3.png" alt="arp"></p>
+<p>为了避免每次都用ARP请求，机器本地会进行ARP缓存，该缓存过一段时间会过期</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/4.png" alt="arp"></p>
+<p>交换机是具有学习能力的，过了一段时间后，就有了整个网络的一个结构了，称为转发表，是有一个过期时间的</p>
+<p><strong>STP算法（生成树）</strong>：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/5.png" alt="arp"></p>
+<p>其中：</p>
+<ol>
+<li>Root Bridge：根交换机</li>
+<li>Designated Bridges：指定交换机<br><br>注：其他交换机通过它到达根交换机，注意是树枝，不是叶子，因为叶子往往是主机</li>
+<li>Bridge Protocol Data Units（BPDU）：网桥协议数据单元<br><br>注：相互比较实际的协议</li>
+<li>网桥的ID由网桥优先级和网桥MAC地址组成，网桥ID最小的将成为网络中的根桥，当网桥优先级都一样的时候，MAC地址最小的网桥成为根网桥；</li>
+<li>Priority Vector：优先级向量<br> 注：值越小越厉害</li>
+<li>优先级向量里，Root Bridge ID 就是根网桥的ID，Bridge ID是网桥的ID，Port ID就是一个网桥上又多个端口，端口的ID；</li>
+</ol>
+<p><strong>虚拟隔离（VLAN）：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/6.png" alt="arp"></p>
+<p>二层头上加一个TAG，里面有一个VLAN ID，只有相同VLAN的包，才会互相转发；</p>
+<p><strong>MAC地址：</strong><br><br>是一个网卡的物理地址，用十六进制表示，6个byte表示；<br><br>在ip地址的上一行： link/ether fc:4d:d4:f8:ed:37 brd ff:ff:ff:ff:ff:ff</p>
+<p>**网络设备的状态标识（net_device_flags）</p>
+<p>&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;**<br><br>注：</p>
+<ol>
+<li>up表示网卡处于启动状态；</li>
+<li>BROADCAST表示这个网卡有广播地址；</li>
+<li>MULTICAST表示这个网卡可以发送多播包；</li>
+<li>LOWER_UP表示L1是启动的；</li>
+<li>qdisc 全称是queueing discipline，中文叫排队规则</li>
+</ol>
+<p>第二层：&gt;数据链路层，也叫MAC（Medium Access Control即媒体访问控制）层</p>
+<p>问题1：这个包是发给谁的，谁应该接受；<br><br>注：<br>网络包格式</p>
+<p>根据目标MAC地址，MAC的网卡才能发现，这个数据包是给它的；<br>返回的时候，源MAC就变成了目标MAC，再返回给请求的机器；</p>
+<p>问题2：大家都在发，有没有谁先谁后发的规则；<br><br>注：</p>
+<ul>
+<li>法一：信道划分；</li>
+<li>法二：轮流协议；</li>
+<li>法三：随机接入协议；</li>
+</ul>
+<p>问题3：如果发送时出现了错误，怎么办；<br><br>注：<br>最后面的CRC，就是循环冗余检测，通过异或XOR的算法，来计算整个包是否在发送的过程中，出现了错误</p>
+<p><strong>MAC头和IP头的细节：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/7.png" alt="arp"></p>
+<p>访问另一个IP的时候，会先判断，这个目标IP，和当前机器的IP地址，是否在同一个网段（需要CIDR和子网掩码）<br><br>1、是同一个网段：<br><br>没有网关什么事，将源地址和目标地址放入IP头中，通过APR获得获得MAC地址，将源MAC和目的MAC放入MAC头中，发出去就可以了；<br><br>2、不是同一个网段：<br><br>需要发往默认网关Gateway。Gateway的地址一定是和源IP地址是一个网段的，往往不是第一个，就是第二个。例如，192.168.1.0/24这个网段，Gateway往往是192.168.1.1/24或是192.168.1.2/24；</p>
+<p>网关往往是一个路由器，是一个三层转发的设备。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/09/29/HTTP的路由协议和ARP广播协议（上）/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/22/HTTP中的TCP和UDP协议（下）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP中的TCP和UDP协议（下）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
   
 
 
@@ -379,8 +349,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
