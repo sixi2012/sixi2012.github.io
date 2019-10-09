@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/7.png">
-<meta property="og:updated_time" content="2019-09-29T07:04:00.705Z">
+<meta property="og:updated_time" content="2019-10-08T09:15:01.819Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP的路由协议和ARP广播协议（上）">
 <meta name="twitter:description" content="网络世界和复杂，一旦出了网关，会面临很多路由器。 如何选择一个快速的路由呢，这里面还有很多门道。">
@@ -226,7 +226,6 @@
 <p><strong>MAC头和IP头的细节：</strong></p>
 <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/7.png" alt="arp"></p>
 <p>访问另一个IP的时候，会先判断，这个目标IP，和当前机器的IP地址，是否在同一个网段（需要CIDR和子网掩码）<br><br>1、是同一个网段：<br><br>没有网关什么事，将源地址和目标地址放入IP头中，通过APR获得获得MAC地址，将源MAC和目的MAC放入MAC头中，发出去就可以了；<br><br>2、不是同一个网段：<br><br>需要发往默认网关Gateway。Gateway的地址一定是和源IP地址是一个网段的，往往不是第一个，就是第二个。例如，192.168.1.0/24这个网段，Gateway往往是192.168.1.1/24或是192.168.1.2/24；</p>
-<p>网关往往是一个路由器，是一个三层转发的设备。</p>
 
       
 
@@ -287,6 +286,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          HTTP的路由协议和ARP广播协议（下）
+        
+      </div>
+    </a>
   
   
     <a href="/2019/09/22/HTTP中的TCP和UDP协议（下）/" id="article-nav-older" class="article-nav-link-wrap">

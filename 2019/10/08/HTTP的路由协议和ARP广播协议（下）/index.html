@@ -6,18 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>HTTP的路由协议和ARP广播协议（下） | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/page/3/index.html">
+  <meta name="description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP的路由协议和ARP广播协议（下）">
+<meta property="og:url" content="https://sixi2012.github.io/2019/10/08/HTTP的路由协议和ARP广播协议（下）/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/4.png">
+<meta property="og:updated_time" content="2019-10-08T09:55:17.328Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="HTTP的路由协议和ARP广播协议（下）">
+<meta name="twitter:description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,241 +151,202 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-HTTP的路由协议和ARP广播协议（下）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP的路由协议和ARP广播协议（下）
+    </h1>
+  
+
+        
+          <a href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" class="archive-article-date">
+  	<time datetime="2019-10-08T09:54:17.638Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-08</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg" alt="luyou"></p>
+<p>网关往往是一个路由器，是一个三层转发的设备。</p>
+<p>一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。</p>
+<p>如何配置路由？</p>
+<a id="more"></a>
+<p><strong>静态路由：</strong><br><br>就是在路由器上面，配置一条一条规则；</p>
+<p>MAC地址是一个局域网内才有效的地址，因而，MAC地址只要过网关，就必定会改变（换了局域网）；<br><br>根据IP地址是否改变来区分：</p>
+<p><strong>转发网关：不改变IP地址；</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/2.png" alt="luyou"></p>
+<p>服务器A发送包的内容：</p>
+<ul>
+<li>源MAC：服务器A的MAC；</li>
+<li>目标MAC：192.168.1.1这个网口的MAC；</li>
+<li>源IP：192.168.1.101</li>
+<li>目标IP：192.168.4.101</li>
+</ul>
+<p>在路由器A中配置了静态路之后，要想访问192.168.4.101/24，要从192.168.56.1这个口出去，下一跳为192.168.56.2；<br><br>路由器A发送ARP获取的192.168.56.2/24Mac地址，然后发送包，包的内容：</p>
+<ul>
+<li>源MAC：192.168.56.1的MAC地址；</li>
+<li>目标MAC：192.168.56.2的MAC地址；</li>
+<li>源IP：192.168.4.101</li>
+<li>目标IP：192.168.4.101</li>
+</ul>
+<p>注：</p>
+<ol>
+<li>每到一个新的局域网，MAC都是要变的，但IP地址不变；</li>
+<li>在IP头里面，不会保存任何网关的IP地址；</li>
+<li>所谓的下一跳，某个IP要将这个IP地址转换为MAC放入MAC头；</li>
+</ol>
+<p><strong>NAT网关：改变IP地址；</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/3.png" alt="luyou"></p>
+<p>问题：局域网之间没有商量过，各定各的网段，因而冲突了；</p>
+<p>服务器A有一个对外身份，192.168.56.1；<br><br>服务器B也有一个对外身份，192.168.56.2，在网关B上记下来，192.168.56.2对应192.168.1.101，凡是访问192.168.56.2都转成192.168.1.101；</p>
+<p>路由器A配置了静态路由，要访问192.168.56.2/24,从192.168.56.1这个口出去,发送包的内容：</p>
+<ul>
+<li>源MAC：192.168.56.1的MAC地址;</li>
+<li>目标MAC：192.168.56.2的MAC地址；</li>
+<li>源IP：192.168.56.1；</li>
+<li>目标IP：192.168.56.2；</li>
+</ul>
+<p>路由器B是一个NAT网关，配置了192.168.56.2对应的192.168.1.101，于是改访问192.168.1.101；<br><br>所以路由器B发送的包内容：</p>
+<ul>
+<li>源MAC：192.168.1.1的MAC地址；</li>
+<li>目标MAC：192.168.1.101的MAC地址；</li>
+<li>源IP：192.168.56.1；</li>
+<li>目标IP：192.168.1.101；</li>
+</ul>
+<p>发送返回包的时候，也发给服务器A的对外身份，由路由器A做NAT，转换为国内身份；</p>
+<p>注：<br>可以通过 <a href="https://www.whatismyip.com/" target="_blank" rel="noopener">https://www.whatismyip.com/</a> 查看出口IP地址；</p>
+<p>eg：<br><br>家里访问163网站的时候，包需要NAT成公网IP，返回的包又要NAT成私有IP，其中的过程如何？</p>
+<p><strong>Netfilter的流程图：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/4.png" alt="luyou"></p>
+<p><strong>网络部的三种路径</strong>：</p>
+<ol>
+<li>发给我的，从prerouting到input；</li>
+<li>我发给别人的，从output到postrouting；</li>
+<li>从我这里经过的，从preouting到forward到postrouting；</li>
+</ol>
+<p>对于每一种路径，都需要设置两个记录点，相当于打两次卡：<br></p>
+<ol>
+<li>发给我的：<br>在prerouting调用ipv4_conntrack_in,创建跟踪链接记录；在input调用ipv4_confirm，将这个连接跟踪记录挂在内核的连接跟踪表里面；</li>
+<li>我发给别人的：<br>在output调用ipv4_conntrack_in，创建连接跟踪记录，在postrouting调用ipv4_confirm；</li>
+<li>从我这里经过的：<br>在preouting调用ipv4_conntrack_in，创建连接跟踪记录，在postrouting调用ipv4_confirm；</li>
+</ol>
+<p>当“3、从我这里经过的”涉及NAT网关的时候：<br><br>如果是prerouting，先调用ipv4_conntrack_in，创建连接跟踪记录，有NAT规则，调用nf_nat_ipv4_in,进行地质转换；<br><br>如果是postrouting，有NAT规则.</p>
+<p><strong>涉及到的数据结构：</strong></p>
+<ol>
+<li>连接跟踪记录</li>
+<li>连接跟踪表；</li>
+</ol>
+<p>每个网络包都是一个struck sk_buff,它有一个成员变量_nfct指向一个连接跟踪记录struct nf_conn.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">连接跟踪记录：</span><br><span class="line">- nf_conntrack 其实才是 _nfct变量指向的地址；</span><br><span class="line">- tuplehash虽然是数组，但里面只有两个，IP_CT_DIR_ORIGINAL为下标0，表示连接的发起方向，IP_CT_DIR_REPLY为下标1，表示连接的回复方向；</span><br><span class="line"></span><br><span class="line">struct nf_conn &#123;</span><br><span class="line"> ......</span><br><span class="line"> struct nf_conntrack ct_general;</span><br><span class="line"> ......</span><br><span class="line"> struct nf_conntrack_tuple_hash tuplehash[IP_CT_DIR_MAX];</span><br><span class="line"> ......</span><br><span class="line"> unsigned long status;</span><br><span class="line"> ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>连接跟踪表：<br><br>nf_contrack_hash是一个数组，数组每一项是一个双向链表的头，每一项后面都挂着一个双向链表，链表的每一项都是这个结构；</p>
+<p>nf_contrack_tuple是用来标识是否同一个连接：<br><br>src：包含源IP地址，如果是TCP或UDP，包含源端口，如果是ICMP，包含的是ID；<br><br>dst：包含目标IP地址，如果是TCP或UDP，包含目标端口；如果是ICMP，包含是type，code；</p>
+<p><strong>包发送和接收的过程</strong>：<br><br>发送：<br><br>创建一个新的连接跟踪记录nf_conn,这里面有两个nf_conntrack_tuple_hash;<br><br>一去：{源IP：客户端IP，源端口：客户端port，目标IP：服务端IP，目标端口：服务端port}；<br><br>一回：{源IP：服务端IP，源端口：服务端port，目标IP：客户端IP，目标端口；客户端port}；<br></p>
+<p>接下来经过forward过程，假设包没有被filter掉，于是要转发出去，进入postrouting的过程，有NAT规则，则调用na_nav_ipv4_out进行地质转换，此时，源地址转换为NAT网关的IP地址，对于masquerade，会自动选择一个公网IP地址和一个随机端口。</p>
+<p>为了让包回来的时候，能找到链接跟踪记录，需要修改两个nf_conntrack_tuple_hash中来回的那一项，{源IP：服务端IP，源端口：服务端port，目标IP：NAT网关IP，目标端口：随机端口}</p>
+<p>将包真正发出去的时候，除了要修改包里面的源IP和源端口之外，还需要将刚才的一去一回的两个nf_conntrack_tuple_hash放入连接跟踪表这个哈希表中，</p>
+<p>当网络包到达服务端，然后回复一个包的时候，这个包sk_buff为：{源IP：服务端IP，源端口：服务端port，目标IP：NAT网关IP，目标端口：随机端口}</p>
+<p>将这个转换为nf_conntrack_tuple后，进行哈希运算，在连接跟踪表里面查找，是能找回相应记录的，找到nf_conntrack_tuple_hash之后，Linux会提供一个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static inline struct nf_conn *</span><br><span class="line">nf_ct_tuplehash_to_ctrack(const struct nf_conntrack_tuple_hash *hash)</span><br><span class="line">&#123;</span><br><span class="line"> return container_of(hash, struct nf_conn,</span><br><span class="line">       tuplehash[hash-&gt;tuple.dst.dir]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过nf_conntrack_tuple_hash找到外面的连接跟踪记录nf_conn,通过这个可以找到来方向的那个nf_conntrack_tuple_hash，{源IP：客户端IP，源端口：客户端port，目标IP：服务端IP，目标端口：服务端port}，这样就能找到客户端的IP和端口，从而可以NAT回去；</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/03/MySQL里说好的join呢/" class="archive-article-date">
-  	<time datetime="2019-04-03T12:07:49.781Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/03/MySQL里说好的join呢/">MySQL里说好的join呢</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP的路由协议和ARP广播协议（上）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
   
 
 
@@ -406,8 +373,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
