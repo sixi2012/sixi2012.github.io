@@ -6,18 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>HTTP中的流媒体和DNS协议 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/page/3/index.html">
+  <meta name="description" content="无论是点播还是直播，都是对于视频数据的传输。 而网站的名字好记，但要记住的网站的IP地址却很难，因此需要一个地址簿，就是DNS服务器。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP中的流媒体和DNS协议">
+<meta property="og:url" content="https://sixi2012.github.io/2019/10/31/HTTP中的流媒体和DNS协议/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="无论是点播还是直播，都是对于视频数据的传输。 而网站的名字好记，但要记住的网站的IP地址却很难，因此需要一个地址簿，就是DNS服务器。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/10.png">
+<meta property="og:updated_time" content="2019-10-31T10:37:37.003Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="HTTP中的流媒体和DNS协议">
+<meta name="twitter:description" content="无论是点播还是直播，都是对于视频数据的传输。 而网站的名字好记，但要记住的网站的IP地址却很难，因此需要一个地址簿，就是DNS服务器。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,295 +157,196 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-HTTP中的流媒体和DNS协议" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP中的流媒体和DNS协议
+    </h1>
+  
+
+        
+          <a href="/2019/10/31/HTTP中的流媒体和DNS协议/" class="archive-article-date">
+  	<time datetime="2019-10-31T10:34:44.890Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-31</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/1.jpg" alt="dns"></p>
+<p>无论是点播还是直播，都是对于视频数据的传输。</p>
+<p>而网站的名字好记，但要记住的网站的IP地址却很难，因此需要一个地址簿，就是<strong>DNS服务器</strong>。</p>
+<a id="more"></a>
+<p><strong>视频序列的三种帧：</strong></p>
+<ul>
+<li>I帧：关键帧，里面是完整的图片；</li>
+<li>P帧：前向预测编码帧</li>
+<li>B帧：双向预测内插编码帧</li>
+</ul>
+<p><strong>传输的二进制流是一个个的网络提取层单元</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/2.png" alt="dns"></p>
+<p>注：</p>
+<ol>
+<li>NALU头里面，主要的内容是类型 NAL TYPE；</li>
+<li>0X07表示SPS，是序列参数集，包括一个图像序列的所有信息，如图像尺寸，视频格式等；</li>
+<li>0X08表示PPS，是图像参数集，包括一个图像所有分片的相关信息，包括图像类型，序列号等;</li>
+</ol>
+<p><strong>直播过程</strong>：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/3.png" alt="dns"></p>
+<p>注：</p>
+<ol>
+<li>排列好的NALU，在网络传输的时候，要按照RTMP包的格式进行包装，RTMP的包会拆分成Chunk进行传输；</li>
+<li>推送到流媒体集群的视频流经过转码和分发，可以被客户端通过RTMP协议拉取，然后组合为NALU，解码成视频格式进行播放；</li>
+<li>RTMP协议是基于tcp连接的，优化方式是QUIC协议；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/4.png" alt="dns"></p>
+<p>注：</p>
+<ol>
+<li>客户端发送C0表明自己的版本号，不必等对方的回复，然后发送C1表明自己的时间戳，</li>
+<li>服务端只有在收到C0的时候才能回复S0，表明自己的版本号，如果版本不匹配，可断开链接；</li>
+<li>服务端发送完S0后，不用等什么，直接发送自己的时间戳S1。客户端收到S1的时候，发一个知道对方时间戳的ACK C2；</li>
+<li>同理，服务器收到C1的时候，发一个知道了对方时间戳的ACK S2。</li>
+</ol>
+<p><strong>DNS服务器：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/5.png" alt="dns"></p>
+<p><strong>DNS解析过程：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/6.png" alt="dns"></p>
+<p><strong>内部负载均衡（SLB）</strong>：<br><br>在域名解析的时候，只要配置策略，在返回第一个IP，下次返回第二个IP，就可以实现负载均衡；</p>
+<p><strong>全局负载均衡（GSLB）：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/7.png" alt="dns"></p>
+<p>注：</p>
+<ol>
+<li>第一层GSLB，通过查看请求它的本地DNS服务器所在的运营商，就知道用户所在的运营商。</li>
+<li>第二层GSLB，通过查看请求它本地DNS服务器所在的地址，就知道用户所在的地理位置，然后将距离用户位置比较近的Region里面，六个内部负载均衡的地址，返回给本地DNS服务器；</li>
+<li>客户端得到六个IP地址，可以通过负载均衡的方式，随机或者轮询选择一个可用区进行访问。</li>
+</ol>
+<p><strong>传统DNS的问题：</strong><br><br>解析慢，更新不及时，因为缓存，转发，NAT问题导致客户端误会自己所在的位置和运营商，从而影响流量的调度；</p>
+<p><strong>HTTPDNS</strong>：<br><br>不走传统的DNS解析，而是自己搭建基于HTTP协议的DNS服务器集群，分布在多个地点和运营商。</p>
+<p><strong>工作模式：</strong><br><br>1、请求HTTPDNS服务器，会返回一个要访问的网站的IP列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://106.2.xxx.xxx/d?dn=c.m.163.com</span><br><span class="line">&#123;&quot;dns&quot;:[&#123;&quot;host&quot;:&quot;c.m.163.com&quot;,&quot;ips&quot;:[&quot;223.252.199.12&quot;],&quot;ttl&quot;:300,&quot;http2&quot;:0&#125;],&quot;client&quot;:&#123;&quot;ip&quot;:&quot;106.2.81.50&quot;,&quot;line&quot;:269692944&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>2、解析，分为同步和异步模式两种<br><br>同步更新：</p>
+<ul>
+<li>优点：实时性好，</li>
+<li>缺点：多个请求都发现过期的时候，同时请求HTTPDNS多次，其实是一种浪费</li>
+</ul>
+<p>异步更新：</p>
+<ul>
+<li>优点：过个请求都过期的情况，合并成一个HTTPDNS的请求任务，只执行一次，减轻HTTPDNS的压力，防止过期之后再刷新，称为预加载；</li>
+<li>缺点：过期的数据不能请求，则失败一次，等下次缓存更新后，再请求才能成功；</li>
+</ul>
+<p>3、HTTPDNS服务器的地址一般不变，可以直接把httpdns服务器的IP地址写死在客户端中；</p>
+<p><strong>CDN的分发系统的架构</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/8.png" alt="dns"></p>
+<p>CDN最擅长的是缓存静态数据，还可以缓存流媒体数据，注意使用防盗链，也支持动态数据的缓存，一种是边缘计算模式，另一种是路径优化的模式；</p>
+<p>数据中心</p>
+<ul>
+<li>数据中心分为三层，服务器连接到接入层，然后是汇入层，再然后是核心层，最外面是边界路由器和安全设备；</li>
+<li>所有链路都要高可用，服务器需要绑定网卡，交换机需要堆叠，三层设备可以通过等价路由，二层设备可以通过TRILL协议；</li>
+<li>随着云和大数据的发展，东西流量相对于南北流量越来越重要，因而演化为叶脊网络结构；</li>
+<li>叶子交换机：</li>
+<li>直接连接物理服务器，L2/L3网络的分界点在叶子交换机上，叶子交换机上是三层网络；</li>
+<li>脊交换机：</li>
+<li>相当于核心交换机，叶脊之间通过ECMP动态选择多条路径。脊交换机现在只为叶子交换机提供一个弹性的L3路由网络。南北流量可以不用脊交换机发出，而是通过leaf交换机并行的交换机，再接到边界路由器出去</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/9.png" alt="dns"></p>
+<p><strong>同城双活</strong>：<br><br>数据如何从一个数据中心同步到另一个数据中心，并且在一个数据中心故障的时候，实现存储设备的切换，保证状态能够快速切换到另一个数据中心。</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/10.png" alt="dns"></p>
+<p><strong>异地灾备：</strong><br><br>由于数据同步比较慢，在容灾切换的时候，数据会丢失一部分，所以根据业务需求高优先级同步重要的数据，例如交易数据，需要优先同步， 不重要的数据，例如日志数据，就不需要优先同步</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/16/MySQL是如何执行count()命令的/" class="archive-article-date">
-  	<time datetime="2019-04-16T06:36:51.462Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/16/MySQL是如何执行count()命令的/">MySQL是如何执行count(*)命令的</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/10/31/HTTP中的流媒体和DNS协议/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/09/MySQL的kill大全/" class="archive-article-date">
-  	<time datetime="2019-04-09T06:44:20.421Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/27/HTTP中的ping和ip/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP中的ping和ip</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/09/MySQL的kill大全/">MySQL的kill大全</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/03/MySQL里说好的join呢/" class="archive-article-date">
-  	<time datetime="2019-04-03T12:07:49.781Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/03/MySQL里说好的join呢/">MySQL里说好的join呢</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-02-18T11:47:05.031Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
   
 
 
@@ -460,8 +373,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
