@@ -6,18 +6,34 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019 | 依然在路上</title>
+  <title>HTTP的云中网络和VPN（上） | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/page/3/index.html">
+  <meta name="description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP的云中网络和VPN（上）">
+<meta property="og:url" content="https://sixi2012.github.io/2019/11/22/HTTP的云中网络和VPN（上）/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/14.png">
+<meta property="og:updated_time" content="2019-11-22T07:52:29.554Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="HTTP的云中网络和VPN（上）">
+<meta name="twitter:description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,295 +161,232 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-HTTP的云中网络和VPN（上）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP的云中网络和VPN（上）
+    </h1>
+  
+
+        
+          <a href="/2019/11/22/HTTP的云中网络和VPN（上）/" class="archive-article-date">
+  	<time datetime="2019-11-22T07:50:36.553Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-22</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg" alt="vpn"></p>
+<p>当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？</p>
+<a id="more"></a>
+<p>VPN通过隧道技术在公共网络仿真一条点到点的专线，是通过利用一种协议来传输另外一种协议的技术，涉及三种协议：乘客协议，隧道协议和承载协议；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/2.png" alt="vpn"></p>
+<ol>
+<li>私密性：<br>采用对称加密，因特网秘钥交换协议（IKE）；</li>
+<li>完整性：<br>通过对数据进行哈希运算，产生类似指纹的数据摘要，以保证数据的完整性；</li>
+<li>真实性：</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/3.png" alt="vpn"></p>
+<p><strong>IPsec  VPN的协议簇：</strong></p>
+<p>两种协议：</p>
+<ol>
+<li>AH：只能进行数据摘要，不能实现数据加密；</li>
+<li>ESP：能够进行数据加密和数据摘要；</li>
+</ol>
+<p>两类算法：</p>
+<ol>
+<li>加密算法；</li>
+<li>摘要算法；</li>
+</ol>
+<p>两大组件：</p>
+<ol>
+<li>进行对称秘钥的交换的IKE组件；</li>
+<li>对连接进行维护的SA组件；</li>
+</ol>
+<p><strong>IPsec VPN的建立过程：</strong><br><br>第一阶段<br><br>建立IKE自己的SA，这个SA用来维护一个通过身份认证和安全保护的通道，为第二阶段提供服务；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/4.png" alt="vpn"></p>
+<p>第二阶段<br><br>建立IPsec SA，在这个SA里面，双方生成一个随机的对称秘钥M，由k加密传给对方，然后使用M进行双方接下来的通信数据。</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/5.png" alt="vpn"></p>
+<p>注：IPsec里的内容<br></p>
+<ol>
+<li>SPI：用于标识不同的连接；</li>
+<li>双方商量好的加密算法，哈希算法和封装模式；</li>
+<li>生存周期，超过这个周期，需要重新生成一个IPsec SA，从新生成对称秘钥；</li>
+</ol>
+<p>客户端发送明文IP包，会被加上ESP头和IP头，在公网上传输，由于加密，可以保证不被盗窃，到了对端后，去掉ESP的头，进行解密；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/6.png" alt="vpn"></p>
+<p>多协议标签交换（MPLS）</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/7.png" alt="vpn"></p>
+<p>这个路由器会有两个表格，一个是传统的FIB，也即路由表，另一个就是LFIB，标签转发表</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/8.png" alt="vpn"></p>
+<p>在MPLS区域，使用标签进行转发；<br><br>非MPLS区域，使用普通路由进行转发；</p>
+<p>在MPLS VPN中，网络中的路由器分成以下几类：</p>
+<ul>
+<li>PE：运营商网络与客户端网络相连的边缘网络设备；</li>
+<li>CE：客户端网络与PE相连接的边缘设备；</li>
+<li>P：特指运营商网络中除PE之外的其他运营商网络；</li>
+</ul>
+<p>VPN报文转发采用两层标签方式：<br></p>
+<ol>
+<li>外层标签在骨干网内部进行交换，指示从PE到对端PE的一条LSP；</li>
+<li>内层标签在从对端PE到达CE时使用，在PE上，通过查找VRF表项，指示报文应被送到哪个VPN用户，或者更具体一些，到达哪一个CE；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/9.png" alt="vpn"></p>
+<p>注：</p>
+<ul>
+<li>机构A和机构B都发送了一个目的地为 192.168.101.0/24的IP报文，分别由格子的CE将报文发送至PE；</li>
+<li>PE会根据报文到达的接口及目的地查找VPN实例表项VRF，匹配后将报文转发出去，同时打上内层和外层两个标签。假设通过MP-BGP配置的路由，两个报文在骨干走相同的路径；</li>
+<li>MPLS网络利用报文的外层标签，将报文传送到出口PE，报文在到达出口PE2前一跳时已被剥离外层标签，仅含有内层标签；</li>
+<li>出口PE根据内层标签和目的地查找VPN实例表项VRF，确定报文的出接口，将报文转发至格子的CE；</li>
+<li>CE根据正常的IP转发过程将报文传送至目的地；</li>
+</ul>
+<p><strong>云计算中的网络需要注意的点</strong></p>
+<ul>
+<li>共享：多个虚拟网卡如何共享同一个出口；</li>
+<li>互通：同一台机器上的两个虚拟机，属于同一个用户的话，如何互相通信；</li>
+<li>隔离：安全隔离和流量隔离；</li>
+<li>灵活：创建，删除等需要灵活的配置；</li>
+</ul>
+<p><strong>访问外部网络的方式：</strong></p>
+<ol>
+<li>桥接：虚拟机的地址和笔记本电脑的网段是一个网段的；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/10.png" alt="vpn"></p>
+<ol>
+<li>NAT：虚拟机的网络和物理机的网络不同；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/11.png" alt="vpn"></li>
+</ol>
+<p><strong>隔离</strong>：</p>
+<ol>
+<li>VLAN功能，设置两个虚拟机的tag，</li>
+<li>在虚拟网桥上，两个虚拟机是不互通的；</li>
+<li>出了网桥，由于vlan不同，也不会将包发到另一个网桥上；</li>
+<li>出了物理机，也是带着VLAN ID的，只会讲包发给相同的VLAN的网卡和网桥；</li>
+</ol>
+<p><strong>软件定义网络（SDN）</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/12.png" alt="vpn"></p>
+<ol>
+<li>控制与转发分离；</li>
+<li>控制平面与转发平面之间的开放接口；</li>
+<li>逻辑上的集中控制；</li>
+</ol>
+<p>SDN控制器是通过OpenFlow协议控制网络的：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/13.png" alt="vpn"></p>
+<p>在OpenSwith里，有一个流表规则，对包进行处理，进行接收转发和放弃；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/14.png" alt="vpn"></p>
+<p>物理层：<br>1、匹配规则：从哪个口进来；<br>2、执行动作：从哪个口出去；</p>
+<p>MAC层：</p>
+<ol>
+<li>匹配规则：源MAC地址(dl_src),目标MAC（dl_dst）,所属vlan（dl_vlan）</li>
+<li>执行动作：修改原MAC（mod_dl_src）,目标MAC（mod_dl_dst）,修改VLAN（mod_vlan_vid）,删除VLAN（strip_vlan）,MAC地址学习（learn）</li>
+</ol>
+<p>网络层：</p>
+<ol>
+<li>匹配规则：源IP地址多少（nw_src）,目标IP（nw_dst）;</li>
+<li>执行动作：修改IP（mod_nw_src）,修改目标IP地址（mod_nw_dst）;</li>
+</ol>
+<p>传输层：</p>
+<ol>
+<li>匹配规则：源端口（tp_src）,目标端口（tp_dst）</li>
+<li>执行动作：修改源端口（mod_tp_src）,修改目标端口（mod_tp_dst）</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/22/MySQL里order by的排序机制/" class="archive-article-date">
-  	<time datetime="2019-04-22T11:44:11.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/22/MySQL里order by的排序机制/">MySQL里order by的排序机制</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/11/22/HTTP的云中网络和VPN（上）/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/16/MySQL是如何执行count()命令的/" class="archive-article-date">
-  	<time datetime="2019-04-16T06:36:51.462Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/31/HTTP中的流媒体和DNS协议/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP中的流媒体和DNS协议</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/16/MySQL是如何执行count()命令的/">MySQL是如何执行count(*)命令的</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/09/MySQL的kill大全/" class="archive-article-date">
-  	<time datetime="2019-04-09T06:44:20.421Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/09/MySQL的kill大全/">MySQL的kill大全</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/03/MySQL里说好的join呢/" class="archive-article-date">
-  	<time datetime="2019-04-03T12:07:49.781Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/03/MySQL里说好的join呢/">MySQL里说好的join呢</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/28/我的MySQL是不是挂了/" class="archive-article-date">
-  	<time datetime="2019-03-28T08:07:54.631Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/我的MySQL是不是挂了/">我的MySQL是不是挂了</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/22/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2019-03-22T06:16:55.477Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/22/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/17/拯救MySQL的从删库到跑路/" class="archive-article-date">
-  	<time datetime="2019-03-17T02:27:48.334Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/17/拯救MySQL的从删库到跑路/">拯救MySQL的从删库到跑路</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/" class="archive-article-date">
-  	<time datetime="2019-03-07T12:51:11.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/07/为什么我的MySQL偶尔会“不灵”一下/">为什么我的MySQL偶尔会”不灵“一下</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/02/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2019-03-02T11:55:39.851Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/02/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/23/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2019-02-23T02:40:52.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/23/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><a class="page-number" href="/archives/2019/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/2019/page/4/">4</a><a class="extend next" rel="next" href="/archives/2019/page/4/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -460,8 +413,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
