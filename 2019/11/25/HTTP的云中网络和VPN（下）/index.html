@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
   <title>HTTP的云中网络和VPN（下） | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。 云计算中使用OpenSwitch  由于OpenSwitch本身就是支持Vlan的，所有的虚拟机都可以放在一个网桥br0上，通过不同的用户配置不同的tag，就能够实现隔离。配置简单而灵活，可以解耦物理网络和虚拟网络； 安全和保障对于公有云上的虚拟机，仅仅开放需要的端口，而将其他的端口一概关">
+  <meta name="description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP的云中网络和VPN（下）">
 <meta property="og:url" content="https://sixi2012.github.io/2019/11/25/HTTP的云中网络和VPN（下）/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。 云计算中使用OpenSwitch  由于OpenSwitch本身就是支持Vlan的，所有的虚拟机都可以放在一个网桥br0上，通过不同的用户配置不同的tag，就能够实现隔离。配置简单而灵活，可以解耦物理网络和虚拟网络； 安全和保障对于公有云上的虚拟机，仅仅开放需要的端口，而将其他的端口一概关">
+<meta property="og:description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。">
 <meta property="og:locale" content="php">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/1.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/4.png">
@@ -27,10 +27,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/11.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/12.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/13.png">
-<meta property="og:updated_time" content="2019-11-25T09:08:14.601Z">
+<meta property="og:updated_time" content="2019-11-25T09:10:34.609Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP的云中网络和VPN（下）">
-<meta name="twitter:description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。 云计算中使用OpenSwitch  由于OpenSwitch本身就是支持Vlan的，所有的虚拟机都可以放在一个网桥br0上，通过不同的用户配置不同的tag，就能够实现隔离。配置简单而灵活，可以解耦物理网络和虚拟网络； 安全和保障对于公有云上的虚拟机，仅仅开放需要的端口，而将其他的端口一概关">
+<meta name="twitter:description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
@@ -181,6 +181,7 @@
       
         <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/1.jpg" alt="yun"></p>
 <p>当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。</p>
+<a id="more"></a>
 <p><strong>云计算中使用OpenSwitch</strong></p>
 <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/4.png" alt="yun"></p>
 <p>由于OpenSwitch本身就是支持Vlan的，所有的虚拟机都可以放在一个网桥br0上，通过不同的用户配置不同的tag，就能够实现隔离。<br><br>配置简单而灵活，可以解耦物理网络和虚拟网络；</p>
