@@ -6,18 +6,35 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>依然在路上</title>
+  <title>HTTP的RCP协议 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/index.html">
+  <meta name="description" content="Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。 操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP的RCP协议">
+<meta property="og:url" content="https://sixi2012.github.io/2019/11/28/HTTP的RCP协议/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。 操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/15.png">
+<meta property="og:updated_time" content="2019-11-28T08:48:49.923Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="HTTP的RCP协议">
+<meta name="twitter:description" content="Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。 操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,16 +162,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-HTTP的RCP协议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-HTTP的RCP协议" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/28/HTTP的RCP协议/">HTTP的RCP协议</a>
+    <h1 class="article-title" itemprop="name">
+      HTTP的RCP协议
     </h1>
   
 
@@ -170,9 +185,87 @@
         <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/1.jpg" alt="rpc"></p>
 <p>Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。</p>
 <p>操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。</p>
-        
-          <a class="article-more-a" href="/2019/11/28/HTTP的RCP协议/#more">more >></a>
-        
+<a id="more"></a>
+<p><strong>RPC的调用标准</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/2.png" alt="rpc"></p>
+<p>1、协议约定问题<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/3.png" alt="rpc"></p>
+<ul>
+<li>底层是Socket编程；</li>
+<li>XDR是一个标准的数据压缩格式，表示基本的数据类型，也可以表示结构体；</li>
+<li>基本的数据类型：</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/4.png" alt="rpc"></p>
+<p>注：</p>
+<ul>
+<li>XID是唯一的请求和回复，请求是0，回复是1；</li>
+<li>RPC有版本号，两端要匹配RPC协议的版本号。如果不匹配，就返回Deny，原因：RPC_MISMATCH;</li>
+<li>程序有编号，如果服务端找不到这个程序，返回：PROG_UNAVAIL;</li>
+<li>程序有版本号，如果程序的版本号不匹配，就会返回PROG_MISMATCH;</li>
+<li>一个程序有多个方法，方法也有编号，如果找不到方法，返回PROG_UNAVAL;</li>
+<li>调用需要认证权限，如果不通过，则Deny；</li>
+<li>最后是参数列表，如果参数无法解析，则返回 GABAGE_ARGS;</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/5.png" alt="rpc"></p>
+<p>2、传输问题<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/6.png" alt="rpc"></p>
+<p>3、服务发现问题<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/7.png" alt="rpc"></p>
+<p>注：<br>mount的过程是通过系统调用，最终调用到RPC层，一旦mount完毕之后，客户端就像写入本地文件一样。<br><br>问题是，这个过程是如何触发RPC的呢？</p>
+<p>答案：通过VFS实现的：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/8.png" alt="rpc"></p>
+<p>对于socket来讲，in-core inode 就是内存中的inde。对于nfs来讲，也有一个inode，这个inode里面有一个成员变量file_operations这里面是这个文件系统的操作函数。对于nfs来讲，因为有nfs_file_read,nfs_file_write,所以在一个mount的路径中读取某个文件的时候，会调用这个函数，触发RPC，远程调用服务端；</p>
+<p><strong>数据中心内部是如何互相调用的</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/9.png" alt="rpc"><br>数据中心的内部的调用，往往采用节省空间和带宽的二进制方案；<br><br>eg：Dubbo服务化框架二进制的RPC方式：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/10.png" alt="rpc"></p>
+<ol>
+<li>Dubbo会从注册中心获取服务端的列表，根据路由规则和负载均衡规则，在多个服务端中选择一个最合适的服务端进行调用；</li>
+<li>默认的RPC协议是Hessian2。</li>
+<li>使用Netty的网络传输框架：<br>Netty是一个非阻塞的基于事件的网络传输框架，在服务端启动的时候，会监听一个端口，并注册以下事件：</li>
+</ol>
+<ul>
+<li>连接事件：收到客户端事件的时候，会调用void connected方法；</li>
+<li>可写事件触发时，会调用void sent，服务端向客户端返回响应数据；</li>
+<li>可读事件触发时，会调用void receivied，服务端收到客户端的请求数据；</li>
+<li>发生异常时，调用void caugh；</li>
+</ul>
+<p><strong>GRPC:满足二进制和跨语言</strong></p>
+<p>二进制序列化的协议是Protocol Buffers<br></p>
+<p>eg：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">syntax = “proto3”;</span><br><span class="line">package com.geektime.grpc</span><br><span class="line">option java_package = “com.geektime.grpc”;</span><br><span class="line">message Order &#123;</span><br><span class="line">  required string date = 1;</span><br><span class="line">  required string classname = 2;</span><br><span class="line">  required string author = 3;</span><br><span class="line">  required int price = 4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message OrderResponse &#123;</span><br><span class="line">  required string message = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service PurchaseOrder &#123;</span><br><span class="line">  rpc Purchase (Order) returns (OrderResponse) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>协议约定问题</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/12.png" alt="rpc"></p>
+<p>而且每个字段都有修饰符，比如：<br>require：这个值不能为空，一定要有这么一个字段出现；<br>option：可选字段，可以设置，也可以不设置，如果不设置，则使用默认值；<br>repeated：可以重复0到多次；</p>
+<p>网络传输问题<br><br>基于HTTP2.0，GPRC定义了四种服务方法：</p>
+<p>1、单向RPC,即客户端发送一个请求给服务端，从服务端获取一个应答：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc SayHello(HelloRequest) returns (HelloResponse)&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2、服务端流式RPC，返回是不是一个结果，而是一批：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>3、客户端式PRC，即请求不是一个，而是一批</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>4、双向流式RPC，即两步都可以通过一个读写数据流来发送一系列消息，这两个数据流的操作是相互独立的；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc BidiHello(stream HelloRequest) returns (stream HelloResponse)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>服务发现与治理问题<br><br>GRPC本身没有提供服务发现机制，推荐使用负载均衡器 Envoy,（还是一个高性能的Proxy转发器）</p>
+<p>配置以下四项：<br></p>
+<ol>
+<li>listener：既然做转发，就得监听一个端口，接入请求，然后才能够根据策略转发；</li>
+<li>endpoint：目标的IP地址和端口。</li>
+<li>cluster：具有相同行为的多个endpoint，即，有三个完全相同的三个服务，组成一个cluster，从cluster到endpoint的过程称为负载均衡，可以轮询；</li>
+<li>route：有时多个cluster具有类似的功能，但是有不同的版本号，可以通过route规则，选择将请求路由到某一个版本号，也即某一个cluster。</li>
+</ol>
+<p>如果是静态的，则将服务端的IP地址拿到，然后放在配置文件就可以；<br><br>如果是动态的，需要配置一个服务发现中心，要实现Envoy的Api,可以主动去服务发现中心拉取转发策略；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/11.png" alt="rpc"></p>
+<p>Envoy的作用：</p>
+<ol>
+<li>配置路由策略；</li>
+<li>负载均衡策略；<br><br>对于一个cluster下的多个endpoint，可以配置负载均衡机制和健康检查机制，当服务新增一个，或者挂了一个，都能够及时配置Envoy,并进行负载均衡；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/13.png" alt="rpc"></p>
+<p>Service Mesh ：<br><br>应用之间的相互调用全部由Envoy进行代理，即应用之间的相互调用全部由Envoy进行代理，服务之间的治理也被Envoy进行代理，将治理服务完全抽象出来，到平台层进行解决；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/14.png" alt="rpc"></p>
+<p>在服务部感知的情况下，将服务间的调用全部代理了：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/15.png" alt="rpc"></p>
+<p>iptable规则可以这样设置：</p>
+<ol>
+<li>定义的一条规则是 istio_redirect转发链，都将网络包转发给Envoy的15000端口；</li>
+<li>在prerouting规则中使用这个转发链，从而，进入容器的所有流量被先转发到Envoy的15000端口，</li>
+<li>而Envoy作为一个代理，已经被分配好了，将请求转发给productpage程序；</li>
+<li>当productpage往后端进行调用的时候，碰到了output链，会使用转发链，将所有容器的请求都转发到Envoy的15000端口；</li>
+<li>无论入口的流量，还是出口的流量，全部用Envoy做成了“汉堡包”。Envoy根据服务发现的配置，做最终的对外调用；</li>
+<li>IPtable规则会对从Envoy出去的流量做一个特殊的处理，允许它发出去，不再使用上面的output规则；</li>
+</ol>
+
       
 
       
@@ -183,16 +276,64 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/28/HTTP的RCP协议/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/11/28/HTTP的RCP协议/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/25/HTTP的云中网络和VPN（下）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP的云中网络和VPN（下）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -212,612 +353,14 @@
 
 
 
-
-  
-    <article id="post-HTTP的云中网络和VPN（下）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/25/HTTP的云中网络和VPN（下）/">HTTP的云中网络和VPN（下）</a>
-    </h1>
   
 
-        
-          <a href="/2019/11/25/HTTP的云中网络和VPN（下）/" class="archive-article-date">
-  	<time datetime="2019-11-25T09:08:14.597Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/1.jpg" alt="yun"></p>
-<p>当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。</p>
-        
-          <a class="article-more-a" href="/2019/11/25/HTTP的云中网络和VPN（下）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/25/HTTP的云中网络和VPN（下）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP的云中网络和VPN（上）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/22/HTTP的云中网络和VPN（上）/">HTTP的云中网络和VPN（上）</a>
-    </h1>
   
 
-        
-          <a href="/2019/11/22/HTTP的云中网络和VPN（上）/" class="archive-article-date">
-  	<time datetime="2019-11-22T07:50:36.553Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg" alt="vpn"></p>
-<p>当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？</p>
-        
-          <a class="article-more-a" href="/2019/11/22/HTTP的云中网络和VPN（上）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/22/HTTP的云中网络和VPN（上）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP中的流媒体和DNS协议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/31/HTTP中的流媒体和DNS协议/">HTTP中的流媒体和DNS协议</a>
-    </h1>
   
 
-        
-          <a href="/2019/10/31/HTTP中的流媒体和DNS协议/" class="archive-article-date">
-  	<time datetime="2019-10-31T10:34:44.890Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-dns/1.jpg" alt="dns"></p>
-<p>无论是点播还是直播，都是对于视频数据的传输。</p>
-<p>而网站的名字好记，但要记住的网站的IP地址却很难，因此需要一个地址簿，就是<strong>DNS服务器</strong>。</p>
-        
-          <a class="article-more-a" href="/2019/10/31/HTTP中的流媒体和DNS协议/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/31/HTTP中的流媒体和DNS协议/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP中的ping和ip" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/27/HTTP中的ping和ip/">HTTP中的ping和ip</a>
-    </h1>
   
 
-        
-          <a href="/2019/10/27/HTTP中的ping和ip/" class="archive-article-date">
-  	<time datetime="2019-10-27T04:42:47.789Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/1.jpg" alt="ping"></p>
-<p>ping 是基于 ICMP 协议工作的。<br></p>
-<p>ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？</p>
-        
-          <a class="article-more-a" href="/2019/10/27/HTTP中的ping和ip/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/27/HTTP中的ping和ip/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP的路由协议和ARP广播协议（下）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/">HTTP的路由协议和ARP广播协议（下）</a>
-    </h1>
-  
-
-        
-          <a href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" class="archive-article-date">
-  	<time datetime="2019-10-08T09:54:17.638Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg" alt="luyou"></p>
-<p>网关往往是一个路由器，是一个三层转发的设备。</p>
-<p>一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。</p>
-<p>如何配置路由？</p>
-        
-          <a class="article-more-a" href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP的路由协议和ARP广播协议（上）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/">HTTP的路由协议和ARP广播协议（上）</a>
-    </h1>
-  
-
-        
-          <a href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/" class="archive-article-date">
-  	<time datetime="2019-09-29T07:03:08.296Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-arp/1.jpeg" alt="arp"></p>
-<p>网络世界和复杂，一旦出了网关，会面临很多路由器。</p>
-<p>如何选择一个快速的路由呢，这里面还有很多门道。</p>
-        
-          <a class="article-more-a" href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP中的TCP和UDP协议（下）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/22/HTTP中的TCP和UDP协议（下）/">HTTP中的TCP和UDP协议（下）</a>
-    </h1>
-  
-
-        
-          <a href="/2019/09/22/HTTP中的TCP和UDP协议（下）/" class="archive-article-date">
-  	<time datetime="2019-09-22T07:15:11.444Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-socket/1.jpeg" alt="socket"></p>
-<p>这次来聊一聊基于TCP和UDP的socket协议。</p>
-        
-          <a class="article-more-a" href="/2019/09/22/HTTP中的TCP和UDP协议（下）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/22/HTTP中的TCP和UDP协议（下）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP中的TCP和UDP协议（上）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/05/HTTP中的TCP和UDP协议（上）/">HTTP中的TCP和UDP协议（上）</a>
-    </h1>
-  
-
-        
-          <a href="/2019/09/05/HTTP中的TCP和UDP协议（上）/" class="archive-article-date">
-  	<time datetime="2019-09-05T10:27:20.295Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-tudp/1.jpeg" alt="tcp"></p>
-<p>传输层里面有两个比较重要的协议，一个是TCP，一个是UDP，这次二者结合来看下。</p>
-        
-          <a class="article-more-a" href="/2019/09/05/HTTP中的TCP和UDP协议（上）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/09/05/HTTP中的TCP和UDP协议（上）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-HTTP和HTTPS协议的区别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/26/HTTP和HTTPS协议的区别/">HTTP和HTTPS协议的区别</a>
-    </h1>
-  
-
-        
-          <a href="/2019/08/26/HTTP和HTTPS协议的区别/" class="archive-article-date">
-  	<time datetime="2019-08-26T03:06:08.793Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/WechatIMG155.jpeg" alt="qb"></p>
-<p>HTTP协议，几乎是每个人上网用的第一个协议，同时也是很容易被人忽略的协议。</p>
-<p>但是在很多严肃的场景中，存在安全风险，需要加密，即我们说的HTTPS协议。</p>
-        
-          <a class="article-more-a" href="/2019/08/26/HTTP和HTTPS协议的区别/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/26/HTTP和HTTPS协议的区别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -843,8 +386,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
