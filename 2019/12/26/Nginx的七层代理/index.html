@@ -6,18 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019 | 依然在路上</title>
+  <title>Nginx的七层代理 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/index.html">
+  <meta name="description" content="所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx的七层代理">
+<meta property="og:url" content="https://sixi2012.github.io/2019/12/26/Nginx的七层代理/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/5.png">
+<meta property="og:updated_time" content="2019-12-26T08:12:41.167Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="Nginx的七层代理">
+<meta name="twitter:description" content="所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,295 +152,189 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Nginx的七层代理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Nginx的七层代理
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/26/Nginx的七层代理/" class="archive-article-date">
+
+        
+          <a href="/2019/12/26/Nginx的七层代理/" class="archive-article-date">
   	<time datetime="2019-12-26T08:11:17.010Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-26</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/26/Nginx的七层代理/">Nginx的七层代理</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/1.jpg" alt="qiceng"></p>
+<p>所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端</p>
+<a id="more"></a>
+<p><strong>11个阶段</strong></p>
+<ol>
+<li>POST_READ</li>
+<li>SERVER_REWRITE</li>
+<li>FIND_CONFIG</li>
+<li>REWRITE</li>
+<li>POST_REWRITE</li>
+<li>PREACCESS</li>
+<li>ACCESS</li>
+<li>POST_ACCESS</li>
+<li>PRECONTENT</li>
+<li>CONTENT</li>
+<li>LOG</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/2.png" alt="qiceng"></p>
+<p><strong>1、postread阶段</strong></p>
+<p>realip模块</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/3.png" alt="qiceng"></p>
+<p>所以 binary_remote_addr和remote_addr 这样的变量就是真实的IP；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">         listen       80 ;</span><br><span class="line">         server_name  testrealip.com;</span><br><span class="line"></span><br><span class="line">         access_log  /data1/www/logs/testrealip-access_log  main;</span><br><span class="line">         error_log   /data1/www/logs/testrealip-error_log;</span><br><span class="line"></span><br><span class="line">         set_real_ip_from 10.235.25.242;</span><br><span class="line">         real_ip_recursive on;</span><br><span class="line">        real_ip_header  X-Forwarded-For;</span><br><span class="line"></span><br><span class="line">     location /&#123;</span><br><span class="line">         return 200 &quot;Client real ip : $remote_addr\n&quot;;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>return 指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name return.taohui.tech;</span><br><span class="line">    listen 8080;</span><br><span class="line">    root html/;</span><br><span class="line">    error_page 404 /403.html;</span><br><span class="line">    return 405;</span><br><span class="line">    location /&#123;</span><br><span class="line">    return 404 &quot;find nothing!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>rewrite 指令：</p>
+<p>目录结构：<br><br>html/first/<br><br>└── 1.txt<br><br>html/second/<br><br>└── 2.txt<br><br>html/third/<br><br>└── 3.txt<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    root html/;</span><br><span class="line">    location /first &#123;</span><br><span class="line">    rewrite /first(.*) /second$1 last;</span><br><span class="line">    return 200 1first!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /second &#123;</span><br><span class="line">    rewrite /second(.*) /third$1 break;</span><br><span class="line">    return 200 &apos;second!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /third &#123;</span><br><span class="line">    return 200 &apos;third!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect1 &#123;</span><br><span class="line">    rewrite /redirect1(.*) $1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect2 &#123;</span><br><span class="line">    rewrite /redirect2(.*) $1 redirect;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect3 &#123;</span><br><span class="line">    rewrite /redirect3(.*) http://rewrite.taohui.tech$1;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect4 &#123;</span><br><span class="line">    rewrite /redirect4(.*) http://rewrite.taohui.tech$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>location 匹配规则：</p>
+<p>前缀字符串：<br><br>=  精准匹配；<br><br>^~ 匹配上后则不再进行正则表达式匹配；<br><br>正则表达式：<br><br>~ 大小写敏感的正则匹配；<br><br>~* 忽略大小写正则匹配；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/4.png" alt="qiceng"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    location ~ /Test1/$ &#123;</span><br><span class="line">        return 200 &apos;first regular expressions match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~* /Test1/(\w+)$ &#123;</span><br><span class="line">        return 200 &apos;longest regular expressions match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location ^~ /Test1/ &#123;</span><br><span class="line">        return 200 &apos;stop regular expressions match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /Test1/Test2 &#123;</span><br><span class="line">        return 200 &apos;longest prefix string match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /Test1 &#123;</span><br><span class="line">        return 200 &apos;prefix string match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location = /Test1 &#123;</span><br><span class="line">        return 200 &apos;exact match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2、preaccess阶段</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/5.png" alt="qiceng"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">limit_conn_zone $binary_remote_addr zone=addr:10m;</span><br><span class="line">server &#123;</span><br><span class="line">        server_name testrewrite.com;</span><br><span class="line">        error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">        location /&#123;</span><br><span class="line">            limit_conn_status 500;</span><br><span class="line">            limit_conn_log_level warn;</span><br><span class="line">            limit_rate 50;</span><br><span class="line">            limit_conn addr 1;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>限制IP地址的访问权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    deny 192.168.1.1;</span><br><span class="line">    allow 192.168.1.0/24;</span><br><span class="line">    allow 10.1.1.0/16;</span><br><span class="line">    allow 2001:0db8::/32;</span><br><span class="line">    deny all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>3、access阶段</strong></p>
+<p>auth_basic 模块</p>
+<ul>
+<li>基于HTTP Basic Authutication协议进行用户名密码的认证;</li>
+<li>密码生成工具：htpasswd</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">    location /&#123;</span><br><span class="line">        satisfy any;</span><br><span class="line">        auth_basic &quot;test&quot;;</span><br><span class="line">        auth_basic_user_file /root/html/11.txt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>auth_request 模块</p>
+<ul>
+<li>统一的用户权限验证系统</li>
+<li>向上游的服务转发请求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">    location /&#123;</span><br><span class="line">        auth_request /test_auth;</span><br><span class="line">    &#125;</span><br><span class="line">    location = /test_auth&#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:8090/auth_upstream;</span><br><span class="line">        proxy_pass_request_body  off;</span><br><span class="line">       proxy_set_header Content-length &quot;&quot;;</span><br><span class="line">       proxy_set_header X-Original-URI $request_uri;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>4、precontent阶段</strong></p>
+<p>try_files指令<br><br>依次视图访问多个URL对应的文件，当文件存在时直接返回文件内容，如果所有文件都不存在，按照最后一个URL或code返回；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">    root html/;</span><br><span class="line"></span><br><span class="line">    location /first&#123;</span><br><span class="line">        try_files /sys/main.html</span><br><span class="line">        $uri $uri/index.html $uri.html</span><br><span class="line">        @lasturl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   location @lasturl &#123;</span><br><span class="line">       return 200 &apos;fine lasturl!\n&apos;;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   location /second &#123;</span><br><span class="line">       try_files $uri $uri/index.html $uri.html =404;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>5、content阶段</strong></p>
+<p>static 模块<br><br>将url映射为文件路径，以返回静态文件内容；</p>
+<ul>
+<li>root会将完整的URL映射进文件路径中；</li>
+<li>alias只会将location后的URL映射到文件路径；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /root &#123;</span><br><span class="line">        root html;</span><br><span class="line">    &#125;</span><br><span class="line">    location /alias &#123;</span><br><span class="line">        alias html;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~ /root/(\w+\.txt) &#123;</span><br><span class="line">        root html/first/$1;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~ /alias/(\w+\.txt) &#123;</span><br><span class="line">        alias html/first/$1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生成待访问文件的三个相关变量：</p>
+<ul>
+<li>request_filename：待访问文件的完整路径；</li>
+<li>document_root:由URL和root/alias规则生成的文件夹路径；</li>
+<li>realpath_root:将document_root中的软连接换成真实路径；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /RealPath/ &#123;</span><br><span class="line">        alias html/realpath/;</span><br><span class="line">        return 200 &apos;$request_filename:$document_root:$realpath_root\n&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/12/26/Nginx的七层代理/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/19/Nginx的四层代理/" class="archive-article-date">
-  	<time datetime="2019-12-19T07:22:54.012Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/19/Nginx的四层代理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx的四层代理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/19/Nginx的四层代理/">Nginx的四层代理</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/28/HTTP的RCP协议/" class="archive-article-date">
-  	<time datetime="2019-11-28T08:47:25.547Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/28/HTTP的RCP协议/">HTTP的RCP协议</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/25/HTTP的云中网络和VPN（下）/" class="archive-article-date">
-  	<time datetime="2019-11-25T09:08:14.597Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/25/HTTP的云中网络和VPN（下）/">HTTP的云中网络和VPN（下）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/22/HTTP的云中网络和VPN（上）/" class="archive-article-date">
-  	<time datetime="2019-11-22T07:50:36.553Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/22/HTTP的云中网络和VPN（上）/">HTTP的云中网络和VPN（上）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/31/HTTP中的流媒体和DNS协议/" class="archive-article-date">
-  	<time datetime="2019-10-31T10:34:44.890Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/31/HTTP中的流媒体和DNS协议/">HTTP中的流媒体和DNS协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/27/HTTP中的ping和ip/" class="archive-article-date">
-  	<time datetime="2019-10-27T04:42:47.789Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/27/HTTP中的ping和ip/">HTTP中的ping和ip</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" class="archive-article-date">
-  	<time datetime="2019-10-08T09:54:17.638Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/">HTTP的路由协议和ARP广播协议（下）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/" class="archive-article-date">
-  	<time datetime="2019-09-29T07:03:08.296Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/">HTTP的路由协议和ARP广播协议（上）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/22/HTTP中的TCP和UDP协议（下）/" class="archive-article-date">
-  	<time datetime="2019-09-22T07:15:11.444Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/22/HTTP中的TCP和UDP协议（下）/">HTTP中的TCP和UDP协议（下）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2019/page/2/">2</a><a class="page-number" href="/archives/2019/page/3/">3</a><a class="page-number" href="/archives/2019/page/4/">4</a><a class="extend next" rel="next" href="/archives/2019/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -460,8 +361,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
