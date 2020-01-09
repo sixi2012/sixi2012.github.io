@@ -6,25 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>MySQL深入浅出高可用 | 依然在路上</title>
+  <title>Nginx的反向代理 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。 但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？">
+  <meta name="description" content="反向代理（Reverse Proxy）是指以代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给Internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL深入浅出高可用">
-<meta property="og:url" content="https://sixi2012.github.io/2019/07/27/MySQL深入浅出高可用/index.html">
+<meta property="og:title" content="Nginx的反向代理">
+<meta property="og:url" content="https://sixi2012.github.io/2020/01/09/Nginx的反向代理/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。 但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？">
+<meta property="og:description" content="反向代理（Reverse Proxy）是指以代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给Internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/1.jpeg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/5.png">
-<meta property="og:updated_time" content="2019-07-27T10:01:26.382Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fx/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fx/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fx/3.png">
+<meta property="og:updated_time" content="2020-01-09T07:33:41.597Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL深入浅出高可用">
-<meta name="twitter:description" content="正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。 但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/1.jpeg">
+<meta name="twitter:title" content="Nginx的反向代理">
+<meta name="twitter:description" content="反向代理（Reverse Proxy）是指以代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给Internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fx/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -152,79 +150,141 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-MySQL深入浅出高可用" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Nginx的反向代理" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      MySQL深入浅出高可用
+      Nginx的反向代理
     </h1>
   
 
         
-          <a href="/2019/07/27/MySQL深入浅出高可用/" class="archive-article-date">
-  	<time datetime="2019-07-27T10:00:07.876Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
+          <a href="/2020/01/09/Nginx的反向代理/" class="archive-article-date">
+  	<time datetime="2020-01-09T07:31:56.197Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/1.jpeg" alt="bz"></p>
-<p>正常情况下，只要主库执行更新生成的所有binlog,都可以传到备库并被正确地执行,备库就能达到跟主库一致的状态,这就是最终一致性。</p>
-<p>但是，MySQL 要提供高可用能力，只有最终一致性是不够的。为什么这么说呢？</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fx/1.jpg" alt="fx"></p>
+<p>反向代理（Reverse Proxy）是指以代理服务器来接受Internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给Internet上请求连接的客户端，此时代理服务器对外就表现为一个服务器。</p>
 <a id="more"></a>
-<p><strong>主从延迟</strong>：</p>
+<p><strong>HTTP反向代理的流程</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fx/2.png" alt="fx"></p>
+<p><strong>proxy_pass 模块</strong><br><br>功能：对上游服务使用http/https协议进行反向代理；<br><br>注：</p>
 <ul>
-<li>即从库执行完成的时间和主库执行完成的时间时间之差，</li>
-<li>在从库上执行 show slave status 命令，它的返回结果显示 seconds_behind_master（binlog里面有一个时间字段，记录主库上写入时间，从库执行的时候取出该时间字段的值，计算与当前系统时间的差值即为延时时间）,用于表示当前备库延迟多少秒；</li>
-<li>从库链接主库的时候，通过执行select Unix_timestamp()函数来获得当前主库的系统时间</li>
+<li>URL必须使用http://或https://开头，接下来是域名，IP或是upstream的名字；</li>
+<li>携带uri，将location参数中匹配上一段替换该uri；</li>
+<li>不携带uri，则将uri直接转发给上游；</li>
 </ul>
-<p><strong>造成延迟的原因：</strong><br><br>1、备库的查询耗费了大量的CPU资源，影响了同步速度，造成主备延迟；<br>解决方法：</p>
+<p><strong>proxy 模块</strong><br><br>生成发往上游的请求行；<br></p>
 <ul>
-<li>一主多从,让从库分担读的压力；</li>
-<li>通过binlog输出到外部系统，比如Hadoop这类系统，让外部系统提供统计类查询的能力；</li>
-<li>从库很适合做备份；</li>
+<li>proxy_method;</li>
+<li>proxy_http_version 1.1;</li>
+<li>proxy_set_header value;（如果value为空，则整个header不会向上游发送）；</li>
+<li>proxy_pass_request_headers on;</li>
 </ul>
-<p>2、大事务：</p>
+<p>生成发往上游的包体；</p>
 <ul>
-<li>不要一次性地用delete语句删除太多数据，控制每个事物删除的数据量，分多次删除；</li>
-<li>大表的DDL，建议使用gh-ost方案；</li>
+<li>proxy_pass_request_body on;</li>
+<li>proxy_set_body value;</li>
 </ul>
-<p>3、备库的并行复制能力：</p>
-<p>由于主备延迟的存在，在主备切换的时候，相应有不同的策略；</p>
-<p><strong>可靠性优先策略：</strong><br>在双M结构下，从状态1到状态2的切换过程：</p>
-<ol>
-<li>判断备库B现在的second_behind_master，如果小于某个值（比如5s）继续下一步，否则持续重试这一步；</li>
-<li>把主库A改为只读状态，即 readonly设为true；</li>
-<li>备库B的second_behind_master的值，直到这个值变成0；</li>
-<li>把备库B改为可读写状态，也就是把readonly设置为false；</li>
-<li>把业务请求切刀备库B；</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/2.png" alt="bz"></p>
-<p>注：<br><br>1、在步骤2之后，主库A和备库B都处于readonly状态，直到步骤5完成后才恢复；<br><br>2、步骤3可能耗费好几秒的时间；</p>
-<p><strong>可用性优先策略：</strong><br><br>把步骤4、5调整到最开始执行，即不等主备数据同步，直接把链接切到备库B，那系统几乎没有不可用的时间了，但是会导致数据不一致的情况；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE `t` (</span><br><span class="line">  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `c` int(11) unsigned DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB;</span><br><span class="line"></span><br><span class="line">insert into t(c) values(1),(2),(3);</span><br></pre></td></tr></table></figure>
-<p>然后再插入两条数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">insert into t(c) values(4);</span><br><span class="line">insert into t(c) values(5);</span><br></pre></td></tr></table></figure>
-<p>假设，现在主库上其他数据表有大量的更新，导致主备延迟达到5s，在插入一条c=4的语句，发生了主备切换；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/3.png" alt="bz"></p>
-<p>注：<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">upstream rrups &#123;</span><br><span class="line">    server 127.0.0.1:8011 weight=2 max_conns=2 max_fails=2 fail_time=5;</span><br><span class="line">    server 127.0.0.1:8012;</span><br><span class="line">    keepalive 32;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    location /&#123;</span><br><span class="line">        proxy_pass http://rrups;</span><br><span class="line">        proxy_method POST;</span><br><span class="line">        proxy_set_header name &apos;&apos;;</span><br><span class="line">        proxy_set_body &apos;hello world&apos;;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>接收客户款请求包体</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_request_buffering on | off （是收完再转发还是边收边发）</span><br></pre></td></tr></table></figure>
+<p>on：</p>
 <ul>
-<li>步骤3，由于主备之间有5s的延迟，所以备库B还没来得及应用“插入c=4”这个中转日志，就开始接收客户端“插入c=5”的命令；</li>
-<li>步骤4，备库B插入了一行数据（4，5），并且把这个binlog发给主库A；</li>
-<li>步骤5，备库B执行“插入c=4”这个中专日志，插入一行（5，4），直接在备库B执行“插入c=5”，传到主库A，就插入了一行数据（5，5）；</li>
-<li>所以：主库A和备库B出现了两行不一致的数据；</li>
+<li>客户端网速慢；</li>
+<li>上游服务并发处理能力低；</li>
+<li>适应高吞吐量场景；</li>
 </ul>
-<p>当设置binlog_format=row的情况：<br><br>只有最后一行不一致，而且，两边的主备同步的应用线程会报错，duplicate key error并停止；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/4.png" alt="bz"></p>
-<p>注：<br><br>1、row格式的binlog，数据不一致的问题更容易发现，使用mixed或者statement格式的binlog，数据可能悄悄的不一致，等发现时已经不可查；<br><br>2、建议设置成可靠性优先；</p>
-<p><strong>可靠性优先的思路，异常切换：</strong></p>
-<p>eg：<br>主库A和备库B的主备延迟是30分钟，这时候主库A掉电了，要切换B作为主库。</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-bz/5.png" alt="bz"></p>
-<p>注：<br><br>1、采用可靠性优先策略的话，必须等到备库B的second_behind_master=0，才能切换；<br><br>2、直接切换的话，中转日志还没有完成，直接发起主备切换，客户端查询看不到之前执行完成的事务，会认为“数据丢失”；</p>
+<p>off：</p>
+<ul>
+<li>更及时响应；</li>
+<li>降低Nginx读写磁盘的消耗；</li>
+<li>一旦开始发送内容，proxy_next_upstream功能失败；</li>
+</ul>
+<p><strong>客户端包体的接收</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client_body_buffer_size 8k|16K;</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>若接收头部时已经接收完全部包体，则不分配；</li>
+<li>若剩余待接收包体的长度小于 client_body_buffer_size,则仅分配所需大小；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client_body_in_single_buffer on|off;</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>关闭包体缓存时，则该内容及时发送给上游；</li>
+<li>打开包体缓存，该大小内存用完时，写入临时文件，释放内存;</li>
+</ul>
+<p><strong>最大包体长度</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client_max_body_size 1m；</span><br></pre></td></tr></table></figure>
+<ul>
+<li>超出后，返回413错误；</li>
+</ul>
+<p><strong>临时文件路径格式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">client_body_temp_path path client_body_temp;</span><br><span class="line">client_body_in_file_only on | clean | off;</span><br></pre></td></tr></table></figure>
+<p><strong>读取包体超时</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client_body_timeout 60s;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>超时后，返回408错误；</li>
+</ul>
+<p><strong>与上游服务建立链接</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_connect_timeout 60s;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>建立http握手链接，若超时，返回502；</li>
+</ul>
+<p><strong>启用TCP keepalive</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_socket_keepalive on | off;</span><br></pre></td></tr></table></figure></p>
+<p><strong>启用HTTP keepalive</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keepalive connections;</span><br><span class="line">keepalive_requests 100;</span><br></pre></td></tr></table></figure>
+<p><strong>修改TCP连接中的local address</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fx/3.png" alt="fx"></p>
+<p>客户端关闭链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_ignore_client_abort on | off;</span><br></pre></td></tr></table></figure>
+<p>接收上游的HTTP响应头部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_buffer_size 4k|8k;</span><br></pre></td></tr></table></figure>
+<p>接收上游HTTP包体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">proxy_buffers 8 4k|8k;</span><br><span class="line"></span><br><span class="line">proxy_buffering on | off;   X-Accel-Buffering头部</span><br><span class="line">proxy_max_temp_file_size 1024m;</span><br><span class="line">proxy_temp_file_write_size 8k|16k;</span><br><span class="line">proxy_temp_path proxy_temp;</span><br></pre></td></tr></table></figure>
+<p>及时转发包体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_busy_buffers_size 8k|16k;</span><br></pre></td></tr></table></figure>
+<p>接收上游时网络速度相关的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_read_timeout 60s;</span><br><span class="line">proxy_limit_rate 0;</span><br></pre></td></tr></table></figure>
+<p>上游包体的持久化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_store_access user:rw;</span><br><span class="line">proxy_store off;</span><br></pre></td></tr></table></figure>
+<p>禁用上游响应头部的功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_ignore_headers field ...;</span><br></pre></td></tr></table></figure>
+<p>可禁用功能的头部：</p>
+<ul>
+<li>X-Accel-Redirect：内部重定向，控制请求的执行；</li>
+<li>X-Accel-Limit-Rate：发往客户端的速度限制，等同limit_rate;</li>
+<li>X-Accel-Buffering：由上游控制是否缓存上游的响应；</li>
+<li>X-Accel-Charset：由上游控制conten-Type中的charset；<br>缓存相关：</li>
+<li>X-Accel-Expires：设置响应的缓存时间；</li>
+<li>Expire：缓存时间，优先级低于X-Accel-Expires；</li>
+<li>Cache-Control：缓存时间，优先级低于X-Accel-Expires；</li>
+<li>Set-Cookie：出现 Set-Cookie 则不缓存，可通过proxy_ignore_headers禁止生效；</li>
+<li>Vary：出现Vary则不缓存，禁止生效；</li>
+</ul>
+<p>转发上游的响应</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy_hide_header field; //设置不向客户端转发；</span><br><span class="line"></span><br><span class="line">proxy_pass_header field; //设置不客户端转发；</span><br></pre></td></tr></table></figure>
+<p>修改返回的set-cookie头部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy_cookie_domain off;</span><br><span class="line"></span><br><span class="line">proxy_cookie_path off;</span><br></pre></td></tr></table></figure>
+<p>返回修改location头部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_redirect  default | off | redirect replacement;</span><br></pre></td></tr></table></figure>
+<p>上游返回失败时的处理方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_next_upstream error | timeout | invalid_header | http_500 | http_502 | http_503 |</span><br><span class="line">http_504 | http_403 | http_404 | http_429 | non_idempotent | off ...;</span><br></pre></td></tr></table></figure>
+<p>前提：没有向客户端发送任何内容；</p>
+<p>限制proxy_next_upstream的时间和次数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy_next_upstream_timeout 0;</span><br><span class="line"></span><br><span class="line">proxy_next_upstream_tries 0;</span><br></pre></td></tr></table></figure>
+<p>用error_page拦截上游失败的响应</p>
+<ul>
+<li>功能：当上游响应的响应码大于等于300时，按error_page指令处理；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_intercept_errors on | off;</span><br></pre></td></tr></table></figure>
 
       
 
@@ -272,7 +332,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/07/27/MySQL深入浅出高可用/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/01/09/Nginx的反向代理/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -286,18 +346,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/08/11/HTTP的网络协议/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          HTTP网络协议
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/19/MySQL是如何保证主从一致的/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MySQL是如何保证主从一致的</div>
+    <a href="/2019/12/27/Nginx的七层代理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx的七层代理</div>
       <i class="icon-circle-right"></i>
     </a>
   
