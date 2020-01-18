@@ -6,18 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>Nginx的缓存使用 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/index.html">
+  <meta name="description" content="nginx缓存，在一定程度上可以减少源服务器的处理请求压力。因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx的缓存使用">
+<meta property="og:url" content="https://sixi2012.github.io/2020/01/18/Nginx的缓存使用/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="nginx缓存，在一定程度上可以减少源服务器的处理请求压力。因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/7.png">
+<meta property="og:updated_time" content="2020-01-18T10:05:08.896Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="Nginx的缓存使用">
+<meta name="twitter:description" content="nginx缓存，在一定程度上可以减少源服务器的处理请求压力。因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,305 +152,213 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Nginx的缓存使用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Nginx的缓存使用
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/18/Nginx的缓存使用/" class="archive-article-date">
+
+        
+          <a href="/2020/01/18/Nginx的缓存使用/" class="archive-article-date">
   	<time datetime="2020-01-18T10:03:38.648Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-18</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/18/Nginx的缓存使用/">Nginx的缓存使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+        
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/01/09/Nginx的反向代理/" class="archive-article-date">
-  	<time datetime="2020-01-09T07:31:56.197Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/01/09/Nginx的反向代理/">Nginx的反向代理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
+    <div class="article-entry" itemprop="articleBody">
       
-        </div></section>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/1.jpg" alt="fx"></p>
+<p>nginx缓存，在一定程度上可以减少源服务器的处理请求压力。<br><br>因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。</p>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/2.png" alt="fx"></p>
+<p><strong>expires指令</strong>：</p>
+<ul>
+<li>功能：设置缓存过期</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expires epoch | max | off;</span><br></pre></td></tr></table></figure>
+<p><strong>not_modified 过滤模块</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if_modified_since off | exact | before;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/3.png" alt="fx"></p>
+<p><strong>定义存放缓存的载体</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache zone | off;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_path path [levels=levels] [use_temp_path=on|off]</span><br><span class="line">keys_zone=name:size [inactive=time] [max_size=size] [manager_files=number]</span><br><span class="line">[manager_sleep=time] [manager_threshold=time] [loader_files=number]</span><br><span class="line">[loader_sleep=time] [loader_threshold=time] [purger=on|off] [purger_files=number]</span><br><span class="line">[purger_sleep=time] [purger_threshold=time];</span><br></pre></td></tr></table></figure>
+<p>其中：<br><br>use_temp_path：</p>
+<ul>
+<li>on：使用use_temp_path的临时目录；</li>
+<li>off：使用path的目录；<br></li>
+</ul>
+<p>keys_zone：</p>
+<ul>
+<li>name：共享内存的名称；</li>
+<li>size：共享内存的大小；</li>
+</ul>
+<p>inactive：</p>
+<ul>
+<li>在inactive期间，没有被访问的缓存会被淘汰；</li>
+<li>默认10分钟；</li>
+</ul>
+<p>max_size:</p>
+<ul>
+<li>缓存文件的大小；</li>
+</ul>
+<p>manager_files:</p>
+<ul>
+<li>淘汰的最大的文件数；</li>
+<li>默认100；</li>
+</ul>
+<p>manager_sleep:</p>
+<ul>
+<li>执行一次淘汰循环后进程的休眠时间；</li>
+<li>默认200毫秒；</li>
+</ul>
+<p>manager_threshold:</p>
+<ul>
+<li>执行一次淘汰循环的最大耗时；</li>
+<li>默认50毫秒；</li>
+</ul>
+<p>loader_files:</p>
+<ul>
+<li>载入磁盘中缓存文件至共享内存，最多处理的文件数；</li>
+</ul>
+<p>loader_sleep:</p>
+<ul>
+<li>执行一次缓存文件至共享内存，进程休眠时间；</li>
+<li>载入默认200毫秒；</li>
+</ul>
+<p>loader_threshold:</p>
+<ul>
+<li>载入缓存文件至共享内存的最大耗时；<br>默认50毫秒；</li>
+</ul>
+<p><strong>缓存的关键字：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_key $scheme$proxy_host$request_uri;</span><br></pre></td></tr></table></figure>
+<p><strong>缓存什么样的响应：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_valid [code ...] time;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不同响应码缓存不同时长 ： code 404 5m;</li>
+<li>指定缓存的响应吗：200，301，302；</li>
+<li>通过响应头部控制缓存时长：<ul>
+<li>X-Accel-Expires:单位秒；</li>
+<li>头部若含有Set-Cookie，则不缓存；</li>
+</ul>
+</li>
+</ul>
+<p><strong>哪些内容不缓存：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy_no_cache string ...;</span><br><span class="line"></span><br><span class="line">proxy_cache_bypass string ...;</span><br></pre></td></tr></table></figure>
+<p><strong>变更head方法</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_convert_head on | off;</span><br></pre></td></tr></table></figure></p>
+<p><strong>upstream_cache_status变量</strong></p>
+<ul>
+<li>miss：未命中缓存；</li>
+<li>hit：命中缓存；</li>
+<li>expired：缓存已过期；</li>
+<li>stale：命中了陈旧的缓存；</li>
+<li>updating：正在更新；</li>
+<li>revalidated：验证陈旧的内容依旧有效；</li>
+<li>bypass：响应从原始服务器获得；</li>
+</ul>
+<p><strong>接收上游响应</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/6.png" alt="fx"></p>
+<p><strong>合并回源请求–减轻峰值流量下的压力</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/7.png" alt="fx"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/27/Nginx的七层代理/" class="archive-article-date">
-  	<time datetime="2019-12-27T06:58:30.510Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/27/Nginx的七层代理/">Nginx的七层代理</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/01/18/Nginx的缓存使用/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/12/19/Nginx的四层代理/" class="archive-article-date">
-  	<time datetime="2019-12-19T07:22:54.012Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/01/09/Nginx的反向代理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx的反向代理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/12/19/Nginx的四层代理/">Nginx的四层代理</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/28/HTTP的RCP协议/" class="archive-article-date">
-  	<time datetime="2019-11-28T08:47:25.547Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/28/HTTP的RCP协议/">HTTP的RCP协议</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/25/HTTP的云中网络和VPN（下）/" class="archive-article-date">
-  	<time datetime="2019-11-25T09:08:14.597Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/25/HTTP的云中网络和VPN（下）/">HTTP的云中网络和VPN（下）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/11/22/HTTP的云中网络和VPN（上）/" class="archive-article-date">
-  	<time datetime="2019-11-22T07:50:36.553Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/11/22/HTTP的云中网络和VPN（上）/">HTTP的云中网络和VPN（上）</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/31/HTTP中的流媒体和DNS协议/" class="archive-article-date">
-  	<time datetime="2019-10-31T10:34:44.890Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/31/HTTP中的流媒体和DNS协议/">HTTP中的流媒体和DNS协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/27/HTTP中的ping和ip/" class="archive-article-date">
-  	<time datetime="2019-10-27T04:42:47.789Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/27/HTTP中的ping和ip/">HTTP中的ping和ip</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" class="archive-article-date">
-  	<time datetime="2019-10-08T09:54:17.638Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/">HTTP的路由协议和ARP广播协议（下）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -470,8 +385,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
