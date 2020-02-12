@@ -6,18 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives | 依然在路上</title>
+  <title>Nginx的负载均衡 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/page/3/index.html">
+  <meta name="description" content="我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx的负载均衡">
+<meta property="og:url" content="https://sixi2012.github.io/2020/02/12/Nginx的负载均衡/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/3.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/2.png">
+<meta property="og:updated_time" content="2020-02-12T08:35:16.615Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="Nginx的负载均衡">
+<meta name="twitter:description" content="我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/3.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,295 +149,211 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Nginx的负载均衡" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx的负载均衡
+    </h1>
+  
+
+        
+          <a href="/2020/02/12/Nginx的负载均衡/" class="archive-article-date">
+  	<time datetime="2020-02-12T08:34:21.947Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-12</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/3.jpeg" alt="fx"></p>
+<p>我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。</p>
+<a id="more"></a>
+<p><strong>负载均衡算法</strong></p>
+<ul>
+<li>源地址哈希法;</li>
+<li>轮询法;</li>
+<li>随机法;</li>
+<li>加权轮询法;</li>
+<li>加权随机法;</li>
+<li>最小连接数法;</li>
+</ul>
+<p>其中：<br><br><strong>1、加权轮询法</strong><br><br>功能：以加权的方式访问server指令的上游服务，集成在Nginx的upstream框架中；<br><br>指令：</p>
+<ul>
+<li>weight：服务访问的权重，默认是1；</li>
+<li>max_conns:最大并发连接数，仅作用于单work进程；</li>
+<li>max_fails:在fail_timeout时间段内，最大的失败次数。</li>
+<li>faile_time:单位为秒，默认值为10s；<ul>
+<li>指定一段时间内，最大失败次数为max_fails;</li>
+<li>到达max_fails:该serve不能访问的时间；</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">upstream rrups &#123;</span><br><span class="line">    server 127.0.0.1:8011 weight=2 max_conns=2 max_fails=2 fail_time=5;</span><br><span class="line">    server 127.0.0.1:8012;</span><br><span class="line">    keepalive 32;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    location /&#123;</span><br><span class="line">        proxy_pass http://rrups;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8011;</span><br><span class="line">    default_type  text/plain;</span><br><span class="line">    return 200 &apos;8011 server response.\n&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 8012;</span><br><span class="line">    default_type  text/plain;</span><br><span class="line">   return 200 &apos;8012 server response.\n&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2、hash算法</strong>：<br></p>
+<ul>
+<li>ip_hash:通过客户端IP作为哈希算法的关键字，映射到指定的上游服务器；</li>
+<li>hash：通过指定的关键字作为hash key；</li>
+<li>使用一致性hash算法：<br>hash key [consistent]</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">upstream rrups &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    #hash user_$arg_username;</span><br><span class="line">    server 127.0.0.1:8011 weight=2 max_conns=2 max_fails=2 fail_time=5;</span><br><span class="line">    server 127.0.0.1:8012;</span><br><span class="line">    keepalive 32;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    set real_ip_from  10.235.25.242;</span><br><span class="line">    real_ip_recursive on;</span><br><span class="line">    real_ip_header X-Forwarded-For;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    location /&#123;</span><br><span class="line">        proxy_pass http://rrups;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请求命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H &apos;X-Forwarded-For: 10.222.77.53&apos; testrewrite.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/2.png" alt="fx"></p>
+<p><strong>模块相关</strong><br><br>1、sub模块：将响应中指定的字符串，替换成新的字符串；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /&#123;</span><br><span class="line">        sub_filter &apos;Nginx.org&apos; &apos;$host/nginx&apos;;</span><br><span class="line">        sub_filter &apos;nginx.com&apos; &apos;$host&apos;;</span><br><span class="line">        sub_filter_once on;</span><br><span class="line">        sub_filter_last_modified off;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、addition模块：<br>在相应前或响应后增加内容，而增加内容的方式是通过新的url响应完成；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /&#123;</span><br><span class="line">        add_before_body /before_action;</span><br><span class="line">        add_after_body /after_action;</span><br><span class="line">        addtion_types *;</span><br><span class="line">    &#125;</span><br><span class="line">   location /before_action &#123;</span><br><span class="line">       return 200 &apos;new content before\n&apos;;</span><br><span class="line">   &#125;</span><br><span class="line">   location /after_action &#123;</span><br><span class="line">       return 200 &apos;new content after\n&apos;;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>变量相关<br></p>
+<p><strong>1、HTTP请求相关的变量</strong></p>
+<ul>
+<li>arg_参数名：URL中某个具体参数的值；</li>
+<li>query_string: 与args变量完全相同；</li>
+<li>args：全部URL参数；</li>
+<li>is_args：请求url中有参数，返回？ 否则返回空；</li>
+<li>content_length：HTTP请求中标识包体长度的content-Length 头部的值；</li>
+<li>content_type：标识请求包体的头部的值；</li>
+<li>uri：URI（不同于URL，不包括？后面的参数）</li>
+<li>document_uri：于uri完全相同；</li>
+<li>request_uri：请求URL；</li>
+<li>scheme：协议名（HTTP或HTTPS）；</li>
+<li>request_method：请求方法，例如get或POST；</li>
+<li>request_length:请求内容的大小，包括请求行或头部，包体；</li>
+<li>remote_usr:HTTP Basic Authentication协议传入的用户名；</li>
+</ul>
+<p><strong>2、HTTP响应相关的变量</strong></p>
+<ul>
+<li>body_bytes_sent： 响应body包体的长度；</li>
+<li>bytes_sent：全部HTTP响应的长度；</li>
+<li>status：响应中的返回码；</li>
+<li>sent_trailer_名字：把响应结尾内容里的值返回；</li>
+</ul>
+<p><strong>3、TCP连接相关变量</strong></p>
+<ul>
+<li>binary_remote_addr:客户端地址的整型格式，对于IPv4是4字节，对于IPv6是16字节；</li>
+<li>connection：递增的连接序号；</li>
+<li>connection_requests:当前连接上执行过的请求数，对keepalive有连接意义；</li>
+<li>remote_addr:客户端端口；</li>
+<li>remote_port:客户端端口：</li>
+<li>Proxy_protocol_addr:若使用了Proxy_protocol协议则返回协议中的地址，否则返回空；</li>
+<li>Proxy_protocol_port:若使用了proxy_protocol协议则返回协议中的端口，否则返回空；</li>
+<li>Server_addr:服务器地址；</li>
+<li>server_port:服务器端口;</li>
+<li>TCP_INFO:tcp内核层参数；</li>
+<li>server_protocol:服务器协议，例如HTTP/1.1</li>
+</ul>
+<p><strong>4、 nginx处理请求过程中产生的变量</strong>：</p>
+<ul>
+<li>request_time:处理请求的耗时；</li>
+<li>Service_name：请求的Service_name值；</li>
+<li>https：开启了TLS/SSl,返回on，否则返回空；</li>
+<li>request_completion:处理请求完返回OK，否则返回空；</li>
+<li>request_id:请求标识id；</li>
+<li>request_filename:待访问文件的完整路径；</li>
+<li>document_root:又URL和root/alias规则生成的文件夹路径；</li>
+<li>realpath_root:将document_root中的软连接等换成真实路径；</li>
+<li>limit_rate：返回客户端响应时的时速上限，单位为每秒字节数；</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/23/MySQL是如何进行语句更新操作的/" class="archive-article-date">
-  	<time datetime="2019-06-23T08:00:56.412Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/23/MySQL是如何进行语句更新操作的/">MySQL是如何进行语句更新操作的</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/02/12/Nginx的负载均衡/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/14/MySQL的存储引擎InnoDB和Memory/" class="archive-article-date">
-  	<time datetime="2019-06-14T11:05:05.033Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-14</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/01/18/Nginx的缓存使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx的缓存使用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/14/MySQL的存储引擎InnoDB和Memory/">MySQL的存储引擎InnoDB和Memory</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/" class="archive-article-date">
-  	<time datetime="2019-06-09T02:48:01.700Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/">MySQL里通常说的全表扫描是怎么回事</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/23/MySQL的两阶段提交/" class="archive-article-date">
-  	<time datetime="2019-05-23T08:53:13.559Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/23/MySQL的两阶段提交/">MySQL的两阶段提交</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/19/MySQL的自增id用完了怎么办/" class="archive-article-date">
-  	<time datetime="2019-05-19T01:12:36.876Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/19/MySQL的自增id用完了怎么办/">MySQL的自增主键用完了怎么办</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/12/MySQL的自增主键为什么是不连续的/" class="archive-article-date">
-  	<time datetime="2019-05-12T09:26:21.038Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/12/MySQL的自增主键为什么是不连续的/">MySQL的自增主键为什么是不连续的</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/05/MySQL删了一大半表数据，为什么表数据不改变/" class="archive-article-date">
-  	<time datetime="2019-05-05T10:37:02.390Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/05/MySQL删了一大半表数据，为什么表数据不改变/">MySQL删了一大半数据，为什么表文件的大小不改变</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/22/MySQL里order by的排序机制/" class="archive-article-date">
-  	<time datetime="2019-04-22T11:44:11.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/22/MySQL里order by的排序机制/">MySQL里order by的排序机制</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/16/MySQL是如何执行count()命令的/" class="archive-article-date">
-  	<time datetime="2019-04-16T06:36:51.462Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/16/MySQL是如何执行count()命令的/">MySQL是如何执行count(*)命令的</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/09/MySQL的kill大全/" class="archive-article-date">
-  	<time datetime="2019-04-09T06:44:20.421Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/09/MySQL的kill大全/">MySQL的kill大全</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -460,8 +380,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
