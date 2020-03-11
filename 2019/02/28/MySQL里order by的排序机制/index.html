@@ -6,18 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019/2 | 依然在路上</title>
+  <title>MySQL里order by的排序机制 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/02/index.html">
+  <meta name="description" content="eg： 1select city,name,age from t where city=&amp;apos;杭州&amp;apos; order by name limit 1000  ; 这个语句的执行流程是怎么样的，以及有什么参数会影响执行行为呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL里order by的排序机制">
+<meta property="og:url" content="https://sixi2012.github.io/2019/02/28/MySQL里order by的排序机制/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="eg： 1select city,name,age from t where city=&amp;apos;杭州&amp;apos; order by name limit 1000  ; 这个语句的执行流程是怎么样的，以及有什么参数会影响执行行为呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/9.png">
+<meta property="og:updated_time" content="2020-03-11T09:49:43.523Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL里order by的排序机制">
+<meta name="twitter:description" content="eg： 1select city,name,age from t where city=&amp;apos;杭州&amp;apos; order by name limit 1000  ; 这个语句的执行流程是怎么样的，以及有什么参数会影响执行行为呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,76 +156,194 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-MySQL里order by的排序机制" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      MySQL里order by的排序机制
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/28/MySQL里order by的排序机制/" class="archive-article-date">
+
+        
+          <a href="/2019/02/28/MySQL里order by的排序机制/" class="archive-article-date">
   	<time datetime="2019-02-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-28</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/28/MySQL里order by的排序机制/">MySQL里order by的排序机制</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/1.jpeg" alt="count"></p>
+<p>eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select city,name,age from t where city=&apos;杭州&apos; order by name limit 1000  ;</span><br></pre></td></tr></table></figure>
+<p>这个语句的执行流程是怎么样的，以及有什么参数会影响执行行为呢？</p>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/2.png" alt="count"></p>
+<p>Extra中的“Using filesort”表示需要排序；<br>MySQL会给每个线程分配一块内存用于排序，称为sort_buffer;</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/3.png" alt="count"></p>
+<p><strong>全字段的执行流程：</strong></p>
+<ol>
+<li>初始化sort_buffer,确定放入name，city，age这三个字段；</li>
+<li>从索引city中找到一个满足city=‘杭州’条件的主键id，也就是图中的ID_X;</li>
+<li>到主键id索引取出整行，取name，city，age三个字段的值，存入sort_buffer中；</li>
+<li>从索引city取下一个记录的主键id；</li>
+<li>重复步骤3，4直到city的值不满足查询条件为止，对应主键id是ID_Y；</li>
+<li>对sort_buffer中的数据按照字段name做快速排序；</li>
+<li>按照排序结果取前1000行返回给客户端；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/4.png" alt="count"></p>
+<p>注：</p>
+<ol>
+<li>“按name排序”这个动作，可以在内存中完成，也可能需要使用外部排序，这取决于排序所需的内存和参数sort_buffer_size；</li>
+<li>sort_buffer_size,就是MySQL为排序开辟的内存（sort_buffer）的大小;</li>
+</ol>
+<p><strong>确认一个排序语句是否使用了外部排序的方法：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/* 打开 optimizer_trace，只对本线程有效 */</span><br><span class="line">SET optimizer_trace=&apos;enabled=on&apos;;</span><br><span class="line"></span><br><span class="line">/* @a 保存 Innodb_rows_read 的初始值 */</span><br><span class="line">select VARIABLE_VALUE into @a from  performance_schema.session_status where variable_name = &apos;Innodb_rows_read&apos;;</span><br><span class="line"></span><br><span class="line">/* 执行语句 */</span><br><span class="line">select city, name,age from t where city=&apos;杭州&apos; order by name limit 1000;</span><br><span class="line"></span><br><span class="line">/* 查看 OPTIMIZER_TRACE 输出 */</span><br><span class="line">SELECT * FROM `information_schema`.`OPTIMIZER_TRACE`\G</span><br><span class="line"></span><br><span class="line">/* @b 保存 Innodb_rows_read 的当前值 */</span><br><span class="line">select VARIABLE_VALUE into @b from performance_schema.session_status where variable_name = &apos;Innodb_rows_read&apos;;</span><br><span class="line"></span><br><span class="line">/* 计算 Innodb_rows_read 差值 */</span><br><span class="line">select @b-@a;</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<ol>
+<li>通过查看OPTIMIZER_TRACE来确认，从number_of_tmp_files中看到是否使用了临时文件；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/5.png" alt="count"></li>
+<li>sort_buffer_size超过了需要排序的数据量大小，number_of_tmp_files就是0；否则需要放在临时文件中排序，sort_buffer_size越小，需要的份数越多，number_of_tmp_files越大；<br><br>即外部排序将数据分成若干份，每一份单独排序后存在这些临时文件中，然后把12个有序文件再合并成一个有序的大文件；</li>
+<li>examined_rows=4000，表示参与排序的行数是4000行；</li>
+<li>packed_additional_fields，表示排序的时候对字符串做了“紧凑”处理，即使name字段的定义是varchar(16),在排序过程还是要按照实际长度来分配空间；</li>
+</ol>
+<p><strong>rowid排序：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET max_length_for_sort_data = 16;</span><br></pre></td></tr></table></figure>
+<p>max_length_for_sort_data，专门控制用于排序的行数据长度的一个参数，如果单行长度超过这个值，MySQL就认为单行太长，需要换一个算法；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/6.png" alt="count"></p>
+<p>注：</p>
+<ol>
+<li>相对于之前的流程，rowid排序只排name和id两个字段，而且多访问了一次表t的主键索引，即：<br>遍历排序结果，取前1000行，并按照id的值回到原表取出city，name和age三个字段返回客户端；</li>
+<li>“结果集”是一个逻辑概念，实际上从排序后的sort_buffer中依次取出id，然后到原表中查到city，name，age这三个字段的结果，不需要再消耗内存存储结果，直接返回给客户端；</li>
+<li>OPTIMIZER_TRACE 部分输出<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/7.png" alt="count"><br>其中：</li>
+</ol>
+<ul>
+<li>sort_mode:变成&lt;sort_key,rowid&gt;,表示排序的只有name和id这两个字段；</li>
+<li>number_of_tmp_files:变成10，是因为每一行都变小了，需要排序的总数量变小了，需要的临时文件相应变小；</li>
+</ul>
+<p><strong>全字段排序和rowid排序的异同：</strong></p>
+<ol>
+<li>内存小的时候会采用rowid排序算法，排序过程可以一次性排序更多行，但需要再回到原表去取数据；<br><br>内存大的时候会选择全字段排序，把需要的字段放到都放到sort_buffer中，不用再回到表中取数据；</li>
+<li>rowid排序会要求回表多造成磁盘读，不会被优先选择；</li>
+</ol>
+<p><strong>当查询的数据是有序的时候，就不需要再排序了：</strong></p>
+<p>eg:<br><br>1、创建一个city，name，age的联合索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table t add index city_user_age(city, name, age);</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/8.png" alt="count"></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-orderby/9.png" alt="count"></p>
+<p>可以看到，extra字段里多了一个“using index”，表示使用了覆盖索引，性能上回快很多；</p>
+<p>2、select * from t where city in (“杭州”,”苏州”) order by name in limit 100; 这条SQL是否要排序，有什么方法可以避免排序；</p>
+<p>a：虽然有（name，city）联合索引，对于单个city内部，name是递增的，但是对于这条SQL语句是要同时查“杭州”和“苏州”两个城市，因此满足条件的name就不是递增了，这条SQL需要排序。<br><br>b：避免排序的方法，将sql拆开改写;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select * from t where city=&quot; 杭州 &quot; order by name limit 10100;</span><br><span class="line">select * from t where city=&quot; 苏州 &quot; order by name limit 10100。</span><br></pre></td></tr></table></figure>
+<p>最后用<strong>归并排序</strong>的思想，得到name最小的前100的值，就是我们需要的结果；</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/02/28/MySQL里order by的排序机制/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/02/14/MySQL是如何执行count()命令的/" class="archive-article-date">
-  	<time datetime="2019-02-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-14</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/05/05/MySQL删了一大半表数据，为什么表数据不改变/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL删了一大半数据，为什么表文件的大小不改变
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/02/14/MySQL是如何执行count()命令的/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL是如何执行count(*)命令的</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/02/14/MySQL是如何执行count()命令的/">MySQL是如何执行count(*)命令的</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -240,8 +369,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
