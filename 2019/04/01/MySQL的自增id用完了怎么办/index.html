@@ -6,18 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019/3 | 依然在路上</title>
+  <title>MySQL的自增主键用完了怎么办 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/03/index.html">
+  <meta name="description" content="MySQL里的自增主键都是定义了初始值，然后不停的往上加步长。但是自增id是有上限的，有可能被用完，那么，自增id用完了会怎么样呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL的自增主键用完了怎么办">
+<meta property="og:url" content="https://sixi2012.github.io/2019/04/01/MySQL的自增id用完了怎么办/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="MySQL里的自增主键都是定义了初始值，然后不停的往上加步长。但是自增id是有上限的，有可能被用完，那么，自增id用完了会怎么样呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-zj/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-zj/2.png">
+<meta property="og:updated_time" content="2020-03-11T10:02:00.015Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL的自增主键用完了怎么办">
+<meta name="twitter:description" content="MySQL里的自增主键都是定义了初始值，然后不停的往上加步长。但是自增id是有上限的，有可能被用完，那么，自增id用完了会怎么样呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-zj/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,76 +149,193 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySQL的自增id用完了怎么办" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/18/MySQL的自增主键为什么是不连续的/" class="archive-article-date">
-  	<time datetime="2019-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/18/MySQL的自增主键为什么是不连续的/">MySQL的自增主键为什么是不连续的</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL的自增主键用完了怎么办
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/06/MySQL表空间的相关问题/" class="archive-article-date">
-  	<time datetime="2019-03-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-06</time>
+        
+          <a href="/2019/04/01/MySQL的自增id用完了怎么办/" class="archive-article-date">
+  	<time datetime="2019-03-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/06/MySQL表空间的相关问题/">MySQL表空间的相关问题</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-zj/1.jpeg" alt="zj"></p>
+<p>MySQL里的自增主键都是定义了初始值，然后不停的往上加步长。但是自增id是有上限的，有可能被用完，那么，自增id用完了会怎么样呢？</p>
+<a id="more"></a>
+<p><strong>表定义自增值id</strong></p>
+<p>表定义的自增值达到上限后，再申请下一个id，得到的值保持不变；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">create table t(id int unsigned auto_increment primary key) auto_increment=4294967295;</span><br><span class="line">insert into t values(null);</span><br><span class="line">// 成功插入一行 4294967295</span><br><span class="line">show create table t;</span><br><span class="line">/* CREATE TABLE `t` (</span><br><span class="line">  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=4294967295;</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">insert into t values(null);</span><br><span class="line">//Duplicate entry &apos;4294967295&apos; for key &apos;PRIMARY&apos;</span><br></pre></td></tr></table></figure>
+<p>注：<br><br>2^32-1（4294967295）不是一个特别大的数，对于一个频繁插入删除的数据库来说，是可能会被用完的，可以考虑创建成8个字节的bigint unsigned。</p>
+<p><strong>InnoDB系统自增row_id</strong></p>
+<p>InnoDB维护了一个全局的dict_sys.row.id值，所有无主键的InnoDB表，每插入一行数据，都将当前的dict_sys.row.id值作为插入数据的row_id(长度为6字节),然后把dict_sys.row_id的值加1；</p>
+<p>注：</p>
+<ol>
+<li>row_id:写入表中的范围，是从0到2^48-1;</li>
+<li>当dict_sys.row_id=2^48，如果再有插入数据的行为，要来申请row_id,拿到以后再取最后6个字节的话就是0，然后继续循环；</li>
+<li>新写入的行会覆盖原有的行，所以InnoDB表中应该主动创建自增主键；</li>
+</ol>
+<p><strong>Xid</strong></p>
+<ol>
+<li>redo log 和binlog相配合的时候，有一个共同的字段，用来应对事务，即Xid；</li>
+<li>Xid是server层维护的；</li>
+<li>MySQL重启会生成新的binlog文件，保证了同一个binlog文件里，Xid是唯一的；</li>
+</ol>
+<p><strong>InnoDB的trx_id</strong></p>
+<p>内部维护了一个max_trx_id的全局变量，每次需要申请一个新的trx_id,就获得max_trx_id的当前值，然后将max_trx_id加1；</p>
+<p><strong>InnoDB数据可见性的核心思想</strong>：</p>
+<ol>
+<li>每一行数据记录了更新它的trx_id,当一个事务读到一行数据时，通过事务一致性视图与这行数据的trx_id做对比；</li>
+<li>正在执行的事务，可以从information_schema.innodb_trx看到事务的trx_id；</li>
+</ol>
+<p>eg：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-zj/2.png" alt="zj"></p>
+<p>注：</p>
+<ol>
+<li>session B两次查询的trx_mysql_thread_id字段就是线程id=5，说明是一个线程；</li>
+<li>T1时刻，session A还没有更新，是一个只读事务，对于只读事务，InnoDB并不会分配trx_id；</li>
+<li>trx_id是0，而查到的很大的数，是显示用到；</li>
+<li>T3时刻，执行insert语句，InnoDB才真正分配了trx_id,所以session B查到的1289是真正的trx_id;</li>
+</ol>
+<p><strong>trx_id并不是按加1递增的：</strong></p>
+<ol>
+<li>update和delete语句除了事务本身，还涉及到标记删除旧数据，这个操作也会把max_trx_id+1,因此在一个事务中事少+2；<br>1.</li>
+<li>InnoDB的后台操作，比如表的索引统计这类操作，也会启动内部事务，trx_id值并不是按照+1递增的；</li>
+</ol>
+<p><strong>T2时刻查询到的很大的数字来源：</strong></p>
+<ol>
+<li>查询的时候讲当前事务的trx变量的指针地址转成整数，再加上2^48,</li>
+<li>保证只读事务在执行期间，指针地址是不会变的；</li>
+<li>并行的多个只读事务，每个事务的trx变量的指针地址肯定不同；</li>
+<li>加上2^48,保证trx_id 的值比较大；区别与写事务的id；</li>
+</ol>
+<p><strong>只读事务不分配trx_id的好处</strong>：</p>
+<ol>
+<li>减小事务视图里活跃事务数组的大小，当前正在运行的只读事务，并不影响数据的可见性判断，所以，在创建事务一致性视图时，InnoDB只要拷贝读写事务的trx_id;</li>
+<li>减少trx_id的申请次数，普通的select语句不需要申请trx_id,大大减少并发事务申请trx_id的锁冲突；</li>
+</ol>
+<p>thread_id:</p>
+<ol>
+<li>线程id，show processlist第一列，就是thread_id</li>
+<li>系统保存了一个全局变量thread_id_counter赋值给新连接的线程变量；</li>
+<li>thread_id_counter定义的大小是4个字节，达到2^32-1,会重置0，然后继续增加；</li>
+<li>分配逻辑</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">  new_id= thread_id_counter++;</span><br><span class="line">&#125; while (!thread_ids.insert_unique(new_id).second);</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/04/01/MySQL的自增id用完了怎么办/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/04/20/MySQL的两阶段提交/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL的两阶段提交
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2019/03/18/MySQL的自增主键为什么是不连续的/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL的自增主键为什么是不连续的</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -240,8 +361,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

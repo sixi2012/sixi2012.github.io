@@ -6,18 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019/3 | 依然在路上</title>
+  <title>MySQL的两阶段提交 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/03/index.html">
+  <meta name="description" content="在两阶段体检的瞬间，MySQL发生异常重启，是怎样保证数据完整性的？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL的两阶段提交">
+<meta property="og:url" content="https://sixi2012.github.io/2019/04/20/MySQL的两阶段提交/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="在两阶段体检的瞬间，MySQL发生异常重启，是怎样保证数据完整性的？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/3.png">
+<meta property="og:updated_time" content="2020-03-11T10:02:43.209Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL的两阶段提交">
+<meta name="twitter:description" content="在两阶段体检的瞬间，MySQL发生异常重启，是怎样保证数据完整性的？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,76 +150,188 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySQL的两阶段提交" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/18/MySQL的自增主键为什么是不连续的/" class="archive-article-date">
-  	<time datetime="2019-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/18/MySQL的自增主键为什么是不连续的/">MySQL的自增主键为什么是不连续的</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL的两阶段提交
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/06/MySQL表空间的相关问题/" class="archive-article-date">
-  	<time datetime="2019-03-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-06</time>
+        
+          <a href="/2019/04/20/MySQL的两阶段提交/" class="archive-article-date">
+  	<time datetime="2019-04-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-20</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/06/MySQL表空间的相关问题/">MySQL表空间的相关问题</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/1.jpeg" alt="liangjd"></p>
+<p>在两阶段体检的瞬间，MySQL发生异常重启，是怎样保证数据完整性的？</p>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/2.png" alt="liangjd"></p>
+<p>注：最后一步的update语句自己就是一个事务，在执行完后提交用的（而不于start transaction配对使用的那个commit）；</p>
+<ol>
+<li>在A时刻，redo log处于prepare阶段后，写binlog之前发生了崩溃（crash）：<br> binlog没有填写，redo log也没有提交，崩溃的时候事务会回滚；</li>
+<li>在B时刻，redo log里面的事务只有完整的prepare，则判断对应的事务binlog是否存在并完整:</li>
+</ol>
+<ul>
+<li>如果是，则提交事务；</li>
+<li>否则，回滚事务；</li>
+</ul>
+<p>注：<br><br><strong>1、如何判断binlog是完整的：</strong></p>
+<ul>
+<li>statement格式的binlog，最后有commit；</li>
+<li>row格式binlog，最后会有一个XID event；</li>
+</ul>
+<p><strong>2、redo log和binlog是怎么关联起来的：</strong><br><br>二者有一个共同的数据字段，叫XID。崩溃恢复的时候，会顺序扫描redo log；</p>
+<ul>
+<li>既有prepare，又有commit的redo log，直接提交；</li>
+<li>只有prepare，而没有commit的redo log，就拿着XID去binlog找对应的事务；</li>
+</ul>
+<p><strong>3、为什么有prepare阶段的redo log加上完整的binlog，重启就能恢复：</strong><br><br>与数据备份的一致性有关；</p>
+<ul>
+<li>在时刻B，binlog已经写入了，之后就会被从库使用；</li>
+<li>在主库上也要提交这个事务，从而能保证主库和从库的数据一致性；</li>
+</ul>
+<p><strong>4、是否只用binlog来支持崩溃恢复：</strong><br><br>不可以，MySQL的原生引擎是MyISAM，设计之初就没有支持崩溃恢复（binlog）；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-liangjd/3.png" alt="liangjd"></p>
+<p>eg：</p>
+<ul>
+<li>在图的位置发生崩溃的时候，事务2会回滚，然后binlog2可以补回来；</li>
+<li>但对于事务1来说，系统已经认为提交完成了，不会再应用一次binlog1，但事务1也可能是也可能会丢失的，而且是数据页级别的丢失；</li>
+<li>此时，binlog里面没有记录数据页的更新细节，是补补回来的；</li>
+</ul>
+<p><strong>5、是否可以只用redo log，不要binlog：</strong><br><br>不可以，binlog有redo log无法替代的作用；</p>
+<ul>
+<li>归档，redo log是循环写，写到末尾要回到开头继续写，无法起到归档的作用；</li>
+<li>MySQL系统高可用的基础，就是binlog复制；</li>
+<li>还有很多异构系统，靠消费MySQL的binlog来更新自己的数据；</li>
+</ul>
+<p><strong>6、redo log一般设置多大：</strong><br><br>几个TB的磁盘的话，直接将redo log设置为4个文件，每个文件1GB吧</p>
+<p><strong>7、正常运行的实例，数据写入后的最终落盘，是从redo log更新过来的还是从buffer pool更新过来的呢：</strong></p>
+<ul>
+<li>redo log并没有记录数据页里的完整数据，并没有能力去更新磁盘数据页；</li>
+<li>正常运行实例，最终数据落盘，就是把内存中的数据写盘，这个过程，跟redo log无关；</li>
+<li>崩恢复场景，如果判断一个数据页可能在崩溃恢复的时候丢失了更新，就会丢失了更新，就会将它读到内存，让redo log更新内存内容，然后内存页变成了脏页，回到了a状态；</li>
+</ul>
+<p><strong>8、redo log的buffer是什么，是先修改内存还是先写redo log 文件：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">begin;</span><br><span class="line">insert into t1 ...</span><br><span class="line">insert into t2 ...</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>插入数据的时候，生成的日志都得先保存起来，但不能在commit之前直接写到redo log里；</li>
+<li>redo log buffer就是一块内存，即执行第一个insert的时候，数据的内存被修改了，redo log buffer也写入了日志；</li>
+<li>真正把日志写入redo log文件，是在执行commit语句的时候做的；</li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/04/20/MySQL的两阶段提交/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/06/09/MySQL通常说的全表扫描是怎么回事/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL里通常说的全表扫描是怎么回事
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2019/04/01/MySQL的自增id用完了怎么办/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL的自增主键用完了怎么办</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -240,8 +357,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

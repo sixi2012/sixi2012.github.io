@@ -6,18 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019/3 | 依然在路上</title>
+  <title>MySQL表空间的相关问题 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/03/index.html">
+  <meta name="description" content="当我们的数据库占用空间太大，把最大的表删除了一半的数据的时候，为什么表文件的大小还是没变？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL表空间的相关问题">
+<meta property="og:url" content="https://sixi2012.github.io/2019/03/06/MySQL表空间的相关问题/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="当我们的数据库占用空间太大，把最大的表删除了一半的数据的时候，为什么表文件的大小还是没变？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/4.png">
+<meta property="og:updated_time" content="2020-03-11T10:00:47.684Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL表空间的相关问题">
+<meta name="twitter:description" content="当我们的数据库占用空间太大，把最大的表删除了一半的数据的时候，为什么表文件的大小还是没变？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,76 +151,203 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySQL表空间的相关问题" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/18/MySQL的自增主键为什么是不连续的/" class="archive-article-date">
-  	<time datetime="2019-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/18/MySQL的自增主键为什么是不连续的/">MySQL的自增主键为什么是不连续的</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL表空间的相关问题
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/03/06/MySQL表空间的相关问题/" class="archive-article-date">
+        
+          <a href="/2019/03/06/MySQL表空间的相关问题/" class="archive-article-date">
   	<time datetime="2019-03-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-06</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/06/MySQL表空间的相关问题/">MySQL表空间的相关问题</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/1.jpeg" alt="delete"></p>
+<p>当我们的数据库占用空间太大，把最大的表删除了一半的数据的时候，为什么表文件的大小还是没变？<br><a id="more"></a></p>
+<p><strong>表数据的存放位置由参数innodb_file_per_table决定</strong></p>
+<ol>
+<li>设为off的时候，表的数据放在系统共享表空间，也就是跟数据字典放在一起；</li>
+<li>设为on的时候，每个InnoDB表数据存储在一个以.ibd为后缀的文件中；</li>
+</ol>
+<p><strong>数据删除流程</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/2.png" alt="delete"></p>
+<p>eg：</p>
+<ol>
+<li>删掉R4这个记录，InnoDB只会把这个记录标记为删除，磁盘文件大小不会缩小，只是在插入300-600之间的记录，才可能复用这个位置，插入ID为800的行就不可以了；</li>
+<li>整个数据页被删除后，可以复用到任何位置；</li>
+</ol>
+<p>所以：</p>
+<ol>
+<li>记录的复用和数据页的复用是不同的；</li>
+<li>delete命令只是把记录的位置，或者数据页标记为“可复用”，但磁盘文件的大小是不变的，即–不能回收表空间；</li>
+<li>这些可以复用但没有被使用的空间，看起来像是“空洞”；</li>
+</ol>
+<p><strong>插入数据造成空洞：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/3.png" alt="delete"></p>
+<p>eg：<br>pageA满了，再插入一个ID为550的数据时，需要申请一个pageB来保存数据，pageA的末尾就留下了空洞；</p>
+<p><strong>更新数据造成的空洞：</strong></p>
+<p>更新索引上的值，可以理解为删除一个旧值，再插入一个新值，也会造成空洞；</p>
+<p><strong>重建表：</strong><br>可以把表中的空间去掉，达到收缩表空间的目的；</p>
+<p>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table A engine=InnoDB</span><br></pre></td></tr></table></figure>
+<p>流程：</p>
+<ol>
+<li>建立一个临时文件，扫描表A主键上所以的数据页；</li>
+<li>用数据页中表A的记录生成B+树，存储到临时文件中；</li>
+<li>生成临时文件的过程中，将所有对A的操作记录在一个日志（row log）中，即state 2的状态；</li>
+<li>临时文件生成后，将日志文件中的操作应用到临时文件，得到一个逻辑数据与表A相同的数据文件，</li>
+<li>即state3的状态；</li>
+<li>用临时文件替换A的数据文件；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-delete/4.png" alt="delete"></p>
+<p>注：</p>
+<ol>
+<li>alter语句在启动的时候需要获得MDL写锁，这个写锁在真正拷贝数据之前就退化成读锁了；</li>
+<li>为了实现Online，MDL读锁不会阻塞增删改操作；</li>
+<li>为了禁止其它线程对这个表同时做DDL，所以不能直接解锁；</li>
+<li>最耗时的过程是拷贝数据到临时表的过程，这个执行期间是可以接受增删改的；</li>
+</ol>
+<p>Inplace：</p>
+<ul>
+<li>表A导出来的数据放在“tmp_table”中，这是个临时表，在server层创建；</li>
+<li>表A重建出来的数据放在“tmp_file”里，这个临时文件是InnoDB在内部创建出来的。对于server层，没有把数据挪动到临时表，是一个“原地”操作（inplace名称的来源）。</li>
+</ul>
+<p>重建表的实际意思:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table t engine=innodb,ALGORITHM=inplace;</span><br></pre></td></tr></table></figure>
+<p>拷贝表的实际意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table t engine=innodb,ALGORITHM=copy;</span><br></pre></td></tr></table></figure>
+<p>inplace和online的区别：</p>
+<ol>
+<li>DDL过程如果是online的，就一定是inplace的；</li>
+<li>然而inplace的DDL不一定是online的；</li>
+</ol>
+<p>eg1：<br>增加一个全文索引（FULLTEXT index）或空间索引（SPATIAL index）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table t add FULLTEXT(field_name);</span><br></pre></td></tr></table></figure>
+<p>过程是inplace的，但会增加增删改操作，是非online的。</p>
+<p>eg2：<br>什么时候使用alter table t engine=InnoDB会让一个表占用的空间反而增大</p>
+<ol>
+<li>在重建表的时候InnoDB不会把整张表占满，每个页留了1/16给后续的更新使用，即重建表后不是“最”紧凑的；</li>
+<li>当重建表后插入一部分数据，插入的数据用掉了一部分预留的空间，这时再重建表会出现上述的情况；</li>
+</ol>
+<p>注：</p>
+<ul>
+<li>analyze table t 只是对表的索引信息重新做了统计，没有修改数据，这个过程加了MDL读锁，</li>
+<li>optimize table t 等于recreate+analyze；</li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/03/06/MySQL表空间的相关问题/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/03/18/MySQL的自增主键为什么是不连续的/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL的自增主键为什么是不连续的
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2019/02/28/MySQL里order by的排序机制/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL里order by的排序机制</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-    
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -240,8 +373,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
