@@ -6,18 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2018 | 依然在路上</title>
+  <title>MySQL是不是挂了 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2018/index.html">
+  <meta name="description" content="数据库主备切换有两种场景，一种是主动切换，一种是被动切换。而其中的被动切换，往往是因为主库出问题了，由HA系统发起的。 那如何判断一个主库是否出问题了呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL是不是挂了">
+<meta property="og:url" content="https://sixi2012.github.io/2018/12/19/MySQL是不是挂了/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="数据库主备切换有两种场景，一种是主动切换，一种是被动切换。而其中的被动切换，往往是因为主库出问题了，由HA系统发起的。 那如何判断一个主库是否出问题了呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/3.png">
+<meta property="og:updated_time" content="2020-03-11T09:44:51.857Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL是不是挂了">
+<meta name="twitter:description" content="数据库主备切换有两种场景，一种是主动切换，一种是被动切换。而其中的被动切换，往往是因为主库出问题了，由HA系统发起的。 那如何判断一个主库是否出问题了呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,211 +150,164 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-MySQL是不是挂了" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      MySQL是不是挂了
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/19/MySQL是不是挂了/" class="archive-article-date">
+
+        
+          <a href="/2018/12/19/MySQL是不是挂了/" class="archive-article-date">
   	<time datetime="2018-12-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-19</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/19/MySQL是不是挂了/">MySQL是不是挂了</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/1.jpeg" alt="guale"></p>
+<p>数据库主备切换有两种场景，一种是主动切换，一种是被动切换。而其中的被动切换，往往是因为主库出问题了，由HA系统发起的。</p>
+<p>那如何判断一个主库是否出问题了呢？<br><a id="more"></a></p>
+<p><strong>InnoDB并发线程过多，导致系统不可用</strong></p>
+<p>select 1成功返回，只能说明这个库的进程还在，并不能说明主库没问题;<br><br>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">set global innodb_thread_concurrency=3;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `t` (</span><br><span class="line">  `id` int(11) NOT NULL,</span><br><span class="line">  `c` int(11) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB;</span><br><span class="line"></span><br><span class="line"> insert into t values(1,1);</span><br></pre></td></tr></table></figure>
+<p>注：<br><br>设置参数innodb_thread_concurrency是为了控制并发线程的上限，建议设置为64~128之间；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/2.png" alt="guale"></p>
+<p><strong>在线程进入锁等待以后，并发线程的计数会减一</strong></p>
+<p>即：行锁（包括间隙锁）是线程是不记在128里面的；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-guale/3.png" alt="guale"></p>
+<p><strong>更新判断</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `health_check` (</span><br><span class="line">  `id` int(11) NOT NULL,</span><br><span class="line">  `t_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=InnoDB;</span><br><span class="line"></span><br><span class="line">/* 检测命令 */</span><br><span class="line">insert into mysql.health_check(id, t_modified) values (@@server_id, now()) on duplicate key update t_modified=now();</span><br></pre></td></tr></table></figure>
+<p>注：<br><br>会导致判定慢的问题；因为Io利用率100%表示系统的IO还是在工作的，update命令需要的资源很少，在拿到IO的资源的时候可以提交成功，并且在超时时间N秒未达到之前返回给检测系统；<br>这时候业务上正常的SQL已经执行的很慢了，但HA系统还在正常，并认为主库现在处于高可用的状态；</p>
+<p><strong>内部统计</strong></p>
+<p>performance_schema库，file_summary_by_event_name 表里统计了每次IO请求时间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from file_summary_by_event_name where event_name = &apos;wait/io/file/innodb/innodb_log_file&apos;\G</span><br></pre></td></tr></table></figure>
+<p>注：<br></p>
+<ol>
+<li>表示的是redo_log的写入时间；</li>
+<li>event_name表示统计的类型；</li>
+<li>count_start是所有IO的总次数，接下来四列是具体的统计项目，单位是皮秒；</li>
+<li>count_read下面六列，是读操作的统计，最后一列SUM_NUMBER_OF_BYTES_READ，统计的是总共从redo log 里读了多少字节；</li>
+</ol>
+<p>如果打开performance_schema库，性能大概会下降10%左右，所以，只打开自己需要的项进行统计即可；</p>
+<p>eg：打开redo log的时间监控</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update setup_instruments set ENABLED=&apos;YES&apos;, Timed=&apos;YES&apos; where name like &apos;%wait/io/file/innodb/innodb_log_file%&apos;;</span><br></pre></td></tr></table></figure>
+<p>可以通过MAX_TIMER的值来判断数据库是否出问题了，单词IO请求时间超过200毫秒属于异常；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select event_name,MAX_TIMER_WAIT  FROM performance_schema.file_summary_by_event_name where event_name in (&apos;wait/io/file/innodb/innodb_log_file&apos;,&apos;wait/io/file/sql/binlog&apos;) and MAX_TIMER_WAIT&gt;200*1000000000;</span><br></pre></td></tr></table></figure>
+<p>发现异常后，取到需要的信息，再通过下面这条语句，把之前统计的信息清空，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truncate table performance_schema.file_summary_by_event_name;</span><br></pre></td></tr></table></figure>
+<p>如果后面的监控中，再次出现这个异常，就可以加入监控累计值了；</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2018/12/19/MySQL是不是挂了/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/05/MySQL复制一张表的方法/" class="archive-article-date">
-  	<time datetime="2018-12-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-05</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/04/03/MySQL里说好的join呢/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL里说好的join呢
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/12/05/MySQL复制一张表的方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL复制一张表的方法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/05/MySQL复制一张表的方法/">MySQL复制一张表的方法</a>
-    </h1>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/26/MySQL拯救从删库到跑路/" class="archive-article-date">
-  	<time datetime="2018-11-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/26/MySQL拯救从删库到跑路/">MySQL拯救从删库到跑路</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/12/MySQL为什么偶尔会”不灵“一下/" class="archive-article-date">
-  	<time datetime="2018-11-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/12/MySQL为什么偶尔会”不灵“一下/">MySQL为什么偶尔会”不灵“一下</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/22/我有一个不成熟的小建议/" class="archive-article-date">
-  	<time datetime="2018-10-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/22/我有一个不成熟的小建议/">我有一个不成熟的小建议</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/06/众生皆苦，你是草莓味/" class="archive-article-date">
-  	<time datetime="2018-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/06/众生皆苦，你是草莓味/">众生皆苦，你是草莓味</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/18/hello-world/" class="archive-article-date">
-  	<time datetime="2018-09-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -375,8 +333,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
