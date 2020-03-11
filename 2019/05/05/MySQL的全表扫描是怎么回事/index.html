@@ -6,18 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Archives: 2019 | 依然在路上</title>
+  <title>MySQL的全表扫描是怎么回事 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Stay Hungry, Stay Foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="依然在路上">
-<meta property="og:url" content="https://sixi2012.github.io/archives/2019/page/2/index.html">
+  <meta name="description" content="我们通常说的发生了全表扫描到底是什么呢，又会有什么影响呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL的全表扫描是怎么回事">
+<meta property="og:url" content="https://sixi2012.github.io/2019/05/05/MySQL的全表扫描是怎么回事/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="Stay Hungry, Stay Foolish">
+<meta property="og:description" content="我们通常说的发生了全表扫描到底是什么呢，又会有什么影响呢？">
 <meta property="og:locale" content="php">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/7.png">
+<meta property="og:updated_time" content="2020-03-11T10:08:26.114Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="依然在路上">
-<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
+<meta name="twitter:title" content="MySQL的全表扫描是怎么回事">
+<meta name="twitter:description" content="我们通常说的发生了全表扫描到底是什么呢，又会有什么影响呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -145,295 +154,220 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-MySQL的全表扫描是怎么回事" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/05/HTTP中的TCP和UDP协议（上）/" class="archive-article-date">
-  	<time datetime="2019-09-05T10:27:20.295Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-05</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/05/HTTP中的TCP和UDP协议（上）/">HTTP中的TCP和UDP协议（上）</a>
+    <h1 class="article-title" itemprop="name">
+      MySQL的全表扫描是怎么回事
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/26/HTTP和HTTPS协议的区别/" class="archive-article-date">
-  	<time datetime="2019-08-26T03:06:08.793Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/26/HTTP和HTTPS协议的区别/">HTTP和HTTPS协议的区别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/11/HTTP的网络协议/" class="archive-article-date">
-  	<time datetime="2019-08-11T10:25:42.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/11/HTTP的网络协议/">HTTP网络协议</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/27/MySQL深入浅出高可用/" class="archive-article-date">
-  	<time datetime="2019-07-27T10:00:07.876Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/27/MySQL深入浅出高可用/">MySQL深入浅出高可用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/19/MySQL是如何保证主从一致的/" class="archive-article-date">
-  	<time datetime="2019-07-19T10:11:54.979Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/19/MySQL是如何保证主从一致的/">MySQL是如何保证主从一致的</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/14/MySQL里change buffer 和redo log 的区别/" class="archive-article-date">
-  	<time datetime="2019-07-14T08:21:04.102Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/14/MySQL里change buffer 和redo log 的区别/">MySQL里change buffer和redo log的区别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/28/MySQL索引的工作原理/" class="archive-article-date">
-  	<time datetime="2019-06-28T09:23:10.332Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/28/MySQL索引的工作原理/">MySQL索引的工作原理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/06/01/MySQL是如何进行语句更新操作的/" class="archive-article-date">
-  	<time datetime="2019-05-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/06/01/MySQL是如何进行语句更新操作的/">MySQL是如何进行语句更新操作的</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/26/MySQL的存储引擎InnoDB和Memory/" class="archive-article-date">
-  	<time datetime="2019-05-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/26/MySQL的存储引擎InnoDB和Memory/">MySQL的存储引擎InnoDB和Memory</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/05/MySQL通常说的全表扫描是怎么回事/" class="archive-article-date">
+        
+          <a href="/2019/05/05/MySQL的全表扫描是怎么回事/" class="archive-article-date">
   	<time datetime="2019-05-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/05/MySQL通常说的全表扫描是怎么回事/">MySQL的全表扫描是怎么回事</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/1.jpeg" alt="liangjd"></p>
+<p>我们通常说的发生了全表扫描到底是什么呢，又会有什么影响呢？</p>
+<a id="more"></a>
+<p><strong>全表扫描对server层的影响</strong></p>
+<p>要对一个200G的INnoDB的表db1.t，执行一个全表扫描，把扫描结果保存在客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -h$host -P$port -u$user -p$pwd -e &quot;select * from db1.t&quot; &gt; $target_file</span><br></pre></td></tr></table></figure>
+<p><strong>取数据和发数据的流程：</strong></p>
+<ol>
+<li>获取一行，写到net_buffer中，这快内存的大小是由参数net_buffer_length定义的，默认16k；</li>
+<li>重复获取行，直到net_buffer写满，调动网络接口发出去；</li>
+<li>如果发送成功，就清空net_buffer,然后继续取下一行，并写入net_buffer.</li>
+<li>如果发送函数返回EAGAIN或WSAEWOULDBLOCK，就表示本地网络栈（socket send buffer）写满了 ，进入等待。直到网络栈重新可写，再继续发送；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/2.png" alt="liangjd"></p>
+<p>注：</p>
+<ol>
+<li>在一个查询的发送过程，占用的MySQL内部的内存最大就是net_buffer_length这么大，并不会达到200G；</li>
+<li>socket send buffer 也不可能达到200G（默认 /proc/sys/net/core/wmen_default）,如果socket send buffer 被写满，就会暂停读数据流程；</li>
+</ol>
+<p>即：<strong>MySQL是“边读边发的”</strong></p>
+<p>如果客户端接收的很慢，导致MySQL服务端由于结果发不出去，这个事务执行时间变长；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/3.png" alt="liangjd"></p>
+<p>注：</p>
+<ol>
+<li>state：处于“sending to client”，表示服务器端的网络栈被写满了；</li>
+<li>一个查询返回的结果不会很多的话，建议使用mysql_store_result这个接口，将查询结果保存到本地</li>
+<li>执行大查询的时候，（像是客户端占用内存近20G），需要改用mysql_use_result接口了；</li>
+<li>MySQL线程很多处于“sending to client” 这个状态，意味着要优化查询结果，评估返回那么多结果是否合理；</li>
+<li>优化这个状态线程的方法：参数net_buffer_length设置一个更大的值；</li>
+</ol>
+<p>查询语句的状态是“Sending data”：</p>
+<ol>
+<li>MySQL查询语句进入执行阶段，首先把状态设置为“sending data”；</li>
+<li>发送执行结果的列相关信息（meta data）给客户端；</li>
+<li>再继续执行语句的流程；</li>
+<li>执行完成后，把状态设置为空字符；</li>
+</ol>
+<p>即，“sending data”并不一定是指“正在发送数据”；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/4.png" alt="liangjd"><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/5.png" alt="liangjd"></p>
+<p>sessionB明显是在等待锁，状态显示为 Sending data；</p>
+<p>所以：</p>
+<ul>
+<li>“等待客户端接收结果”，显示为“Sending to client”；</li>
+<li>“正在执行”，显示为“Sending data”；</li>
+</ul>
+<p>eg：如果客户端由于压力过大，迟迟不能接收数据，会对服务端造成什么影响；</p>
+<p>注：<br>造成了 “长事务”，</p>
+<ul>
+<li>如果前面的语句有更新，意味着他们在占用行锁，会导致别的语句更新被锁住；</li>
+<li>当然读事务也有问题，会导致undo log不能被回收，导致回滚空间膨胀；</li>
+</ul>
+<p><strong>全表扫描对InnoDB的影响</strong></p>
+<ol>
+<li>内存的数据页在Buffer Pool（BP）中管理的，在WAL里Buffer Pool起到加速更新的作用；</li>
+<li>当事务提交的时候，磁盘上的数据页是旧的，但内存的数据页是最新的，这时候有一个查询过来，根本不需要读磁盘，直接从内存拿结果，速度很快，所以 Buffer Pool还有加速查询的作用；</li>
+</ol>
+<p>Buffer Pool对查询的加速效果，依赖：内存命中率：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engine innodb status；</span><br></pre></td></tr></table></figure>
+<p> 要保证响应时间符合要求的话，内存命中率要在99%以上：</p>
+<p> 注：</p>
+<ul>
+<li>InnoDB Buffer Pool的大小，是由参数 InnoDB_buffer_pool_size确定的，一般建议设置成可用物理内存的60%-80%；</li>
+<li>InnoDB内存管理用的LRU算法，核心是淘汰最久未使用的数据；</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/6.png" alt="liangjd"></p>
+<p>注：</p>
+<ol>
+<li>是用链表实现的，state1中的链表头部是P1，表示P1最近刚刚被访问过的数据页，假设内存中只能放下这么多数据页；</li>
+<li>有个读请求访问P3，因此变成状态2，P3被移动到最前面；</li>
+<li>状态3表示，访问的数据页不在链表中，要在buffer pool中，新申请一个数据页px，加到链表头部。但由于内存已经满了，不能申请新的内存，于是，会清空链表末尾pm这个数据页的内存，存入px的内容，然后放到链表头部；</li>
+</ol>
+<p>全表扫描的话，会把Buffer Pool里的数据全部淘汰掉，存入扫描过程中访问到的数据页的内容，导致Buffer Pool的内存命中率急剧下降，磁盘压力增加，SQL语句响应变慢；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-qbsm/7.png" alt="liangjd"></p>
+<p>按照5:3的比例把整个LRU链表分成了young区域和old区域；</p>
+<ol>
+<li>要访问数据页P3，由于在P3在young区域，因此和优化前的LRU算法一样，将其移到链表头部，变成状态2；</li>
+<li>访问一个新的不存在与当前链表的数据页，依然是淘汰掉的数据页Pm，但是插入的数据页Px，放在LRU_old处；</li>
+<li>处于old区域的数据页，每次被访问的时候都要做如下判断：</li>
+</ol>
+<ul>
+<li>若这个数据页在LRU链表中存在的时间超过了1s，把它移动到链表头部；</li>
+<li>如果把这个数据页在LRU链表中存在的时间短语1s，位置保持不变；</li>
+<li>1s这个时间，由参数InnoDB_old_blocks_time控制的，默认值是1000，单位为毫秒；</li>
+</ul>
+<p>200G数据表进行全表扫描，用改进后的LRU算法操作逻辑：</p>
+<ol>
+<li>扫描过程中，需要插入新的数据页，被放到old区域；</li>
+<li>一个数据页里面有多条记录，这个数据页会被多次访问到，但由于顺序扫描，这个数据页第一次被访问到和最后一次被访问到的时间间隔不会超过1s，因此还是会被保留在old区域；</li>
+<li>再继续扫描后续的数据，之前的这个数据页之后也不会被访问到，始终没有机会移到链表头部（也就是young区域），很快被淘汰出去；</li>
+</ol>
+<p>所以，改进后的优点：<br><br>扫描这个大表的过程，虽然也用到Buffer Pool，但是对young区域完全没有影响，从而保证了Buffer Pool查询命中率的正常</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/05/05/MySQL的全表扫描是怎么回事/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/05/05/MySQL通常说的全表扫描是怎么回事/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MySQL的全表扫描是怎么回事
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2019/04/20/MySQL的两阶段提交/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MySQL的两阶段提交</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2019/">&laquo; Prev</a><a class="page-number" href="/archives/2019/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2019/page/3/">3</a><a class="extend next" rel="next" href="/archives/2019/page/3/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -460,8 +394,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
