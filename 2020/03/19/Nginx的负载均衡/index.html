@@ -6,25 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Nginx的七层代理 | 依然在路上</title>
+  <title>Nginx的负载均衡 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端。">
+  <meta name="description" content="我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nginx的七层代理">
-<meta property="og:url" content="https://sixi2012.github.io/2019/12/27/Nginx的七层代理/index.html">
+<meta property="og:title" content="Nginx的负载均衡">
+<meta property="og:url" content="https://sixi2012.github.io/2020/03/19/Nginx的负载均衡/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端。">
+<meta property="og:description" content="我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/1.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/5.png">
-<meta property="og:updated_time" content="2019-12-27T06:58:30.510Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/3.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/2.png">
+<meta property="og:updated_time" content="2020-04-04T12:32:33.914Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Nginx的七层代理">
-<meta name="twitter:description" content="所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/1.jpg">
+<meta name="twitter:title" content="Nginx的负载均衡">
+<meta name="twitter:description" content="我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/3.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -152,93 +149,115 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Nginx的七层代理" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Nginx的负载均衡" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Nginx的七层代理
+      Nginx的负载均衡
     </h1>
   
 
         
-          <a href="/2019/12/27/Nginx的七层代理/" class="archive-article-date">
-  	<time datetime="2019-12-27T06:58:30.510Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-27</time>
+          <a href="/2020/03/19/Nginx的负载均衡/" class="archive-article-date">
+  	<time datetime="2020-03-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/1.jpg" alt="qiceng"></p>
-<p>所谓七层代理：是需要读取并解析http请求内容，然后根据具体内容(url,参数，cookie,请求头)然后转发到相应的服务器，转发的过程是：建立和目标机器的连接，然后转发请求，收到响应数据在转发给请求客户端。</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/3.jpeg" alt="fx"></p>
+<p>我们需要一个调度者，保证所有后端服务器都将性能充分发挥，从而保持服务器集群的整体性能最优，这就是负载均衡。</p>
 <a id="more"></a>
-<p><strong>11个阶段</strong></p>
-<ol>
-<li>POST_READ</li>
-<li>SERVER_REWRITE</li>
-<li>FIND_CONFIG</li>
-<li>REWRITE</li>
-<li>POST_REWRITE</li>
-<li>PREACCESS</li>
-<li>ACCESS</li>
-<li>POST_ACCESS</li>
-<li>PRECONTENT</li>
-<li>CONTENT</li>
-<li>LOG</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/2.png" alt="qiceng"></p>
-<p><strong>1、postread阶段</strong></p>
-<p>realip模块</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/3.png" alt="qiceng"></p>
-<p>所以 binary_remote_addr和remote_addr 这样的变量就是真实的IP；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">         listen       80 ;</span><br><span class="line">         server_name  testrealip.com;</span><br><span class="line"></span><br><span class="line">         access_log  /data1/www/logs/testrealip-access_log  main;</span><br><span class="line">         error_log   /data1/www/logs/testrealip-error_log;</span><br><span class="line"></span><br><span class="line">         set_real_ip_from 10.235.25.242;</span><br><span class="line">         real_ip_recursive on;</span><br><span class="line">        real_ip_header  X-Forwarded-For;</span><br><span class="line"></span><br><span class="line">     location /&#123;</span><br><span class="line">         return 200 &quot;Client real ip : $remote_addr\n&quot;;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>return 指令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name return.taohui.tech;</span><br><span class="line">    listen 8080;</span><br><span class="line">    root html/;</span><br><span class="line">    error_page 404 /403.html;</span><br><span class="line">    return 405;</span><br><span class="line">    location /&#123;</span><br><span class="line">    return 404 &quot;find nothing!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>rewrite 指令：</p>
-<p>目录结构：<br><br>html/first/<br><br>└── 1.txt<br><br>html/second/<br><br>└── 2.txt<br><br>html/third/<br><br>└── 3.txt<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    root html/;</span><br><span class="line">    location /first &#123;</span><br><span class="line">    rewrite /first(.*) /second$1 last;</span><br><span class="line">    return 200 1first!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /second &#123;</span><br><span class="line">    rewrite /second(.*) /third$1 break;</span><br><span class="line">    return 200 &apos;second!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /third &#123;</span><br><span class="line">    return 200 &apos;third!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect1 &#123;</span><br><span class="line">    rewrite /redirect1(.*) $1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect2 &#123;</span><br><span class="line">    rewrite /redirect2(.*) $1 redirect;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect3 &#123;</span><br><span class="line">    rewrite /redirect3(.*) http://rewrite.taohui.tech$1;</span><br><span class="line">    &#125;</span><br><span class="line">    location /redirect4 &#123;</span><br><span class="line">    rewrite /redirect4(.*) http://rewrite.taohui.tech$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>location 匹配规则：</p>
-<p>前缀字符串：<br><br>=  精准匹配；<br><br>^~ 匹配上后则不再进行正则表达式匹配；<br><br>正则表达式：<br><br>~ 大小写敏感的正则匹配；<br><br>~* 忽略大小写正则匹配；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/4.png" alt="qiceng"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    location ~ /Test1/$ &#123;</span><br><span class="line">        return 200 &apos;first regular expressions match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~* /Test1/(\w+)$ &#123;</span><br><span class="line">        return 200 &apos;longest regular expressions match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location ^~ /Test1/ &#123;</span><br><span class="line">        return 200 &apos;stop regular expressions match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /Test1/Test2 &#123;</span><br><span class="line">        return 200 &apos;longest prefix string match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location /Test1 &#123;</span><br><span class="line">        return 200 &apos;prefix string match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    location = /Test1 &#123;</span><br><span class="line">        return 200 &apos;exact match!&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>2、preaccess阶段</strong></p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-qi/5.png" alt="qiceng"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">limit_conn_zone $binary_remote_addr zone=addr:10m;</span><br><span class="line">server &#123;</span><br><span class="line">        server_name testrewrite.com;</span><br><span class="line">        error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">        location /&#123;</span><br><span class="line">            limit_conn_status 500;</span><br><span class="line">            limit_conn_log_level warn;</span><br><span class="line">            limit_rate 50;</span><br><span class="line">            limit_conn addr 1;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>限制IP地址的访问权限：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    deny 192.168.1.1;</span><br><span class="line">    allow 192.168.1.0/24;</span><br><span class="line">    allow 10.1.1.0/16;</span><br><span class="line">    allow 2001:0db8::/32;</span><br><span class="line">    deny all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>3、access阶段</strong></p>
-<p>auth_basic 模块</p>
+<p><strong>负载均衡算法</strong></p>
 <ul>
-<li>基于HTTP Basic Authutication协议进行用户名密码的认证;</li>
-<li>密码生成工具：htpasswd</li>
+<li>源地址哈希法;</li>
+<li>轮询法;</li>
+<li>随机法;</li>
+<li>加权轮询法;</li>
+<li>加权随机法;</li>
+<li>最小连接数法;</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">    location /&#123;</span><br><span class="line">        satisfy any;</span><br><span class="line">        auth_basic &quot;test&quot;;</span><br><span class="line">        auth_basic_user_file /root/html/11.txt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>auth_request 模块</p>
+<p>其中：<br><br><strong>1、加权轮询法</strong><br><br>功能：以加权的方式访问server指令的上游服务，集成在Nginx的upstream框架中；<br><br>指令：</p>
 <ul>
-<li>统一的用户权限验证系统</li>
-<li>向上游的服务转发请求<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">    location /&#123;</span><br><span class="line">        auth_request /test_auth;</span><br><span class="line">    &#125;</span><br><span class="line">    location = /test_auth&#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:8090/auth_upstream;</span><br><span class="line">        proxy_pass_request_body  off;</span><br><span class="line">       proxy_set_header Content-length &quot;&quot;;</span><br><span class="line">       proxy_set_header X-Original-URI $request_uri;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>weight：服务访问的权重，默认是1；</li>
+<li>max_conns:最大并发连接数，仅作用于单work进程；</li>
+<li>max_fails:在fail_timeout时间段内，最大的失败次数。</li>
+<li>faile_time:单位为秒，默认值为10s；<ul>
+<li>指定一段时间内，最大失败次数为max_fails;</li>
+<li>到达max_fails:该serve不能访问的时间；</li>
+</ul>
 </li>
 </ul>
-<p><strong>4、precontent阶段</strong></p>
-<p>try_files指令<br><br>依次视图访问多个URL对应的文件，当文件存在时直接返回文件内容，如果所有文件都不存在，按照最后一个URL或code返回；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line">    root html/;</span><br><span class="line"></span><br><span class="line">    location /first&#123;</span><br><span class="line">        try_files /sys/main.html</span><br><span class="line">        $uri $uri/index.html $uri.html</span><br><span class="line">        @lasturl;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   location @lasturl &#123;</span><br><span class="line">       return 200 &apos;fine lasturl!\n&apos;;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   location /second &#123;</span><br><span class="line">       try_files $uri $uri/index.html $uri.html =404;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>5、content阶段</strong></p>
-<p>static 模块<br><br>将url映射为文件路径，以返回静态文件内容；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">upstream rrups &#123;</span><br><span class="line">    server 127.0.0.1:8011 weight=2 max_conns=2 max_fails=2 fail_time=5;</span><br><span class="line">    server 127.0.0.1:8012;</span><br><span class="line">    keepalive 32;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    location /&#123;</span><br><span class="line">        proxy_pass http://rrups;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 8011;</span><br><span class="line">    default_type  text/plain;</span><br><span class="line">    return 200 &apos;8011 server response.\n&apos;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 8012;</span><br><span class="line">    default_type  text/plain;</span><br><span class="line">   return 200 &apos;8012 server response.\n&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2、hash算法</strong>：<br></p>
 <ul>
-<li>root会将完整的URL映射进文件路径中；</li>
-<li>alias只会将location后的URL映射到文件路径；</li>
+<li>ip_hash:通过客户端IP作为哈希算法的关键字，映射到指定的上游服务器；</li>
+<li>hash：通过指定的关键字作为hash key；</li>
+<li>使用一致性hash算法：<br>hash key [consistent]</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /root &#123;</span><br><span class="line">        root html;</span><br><span class="line">    &#125;</span><br><span class="line">    location /alias &#123;</span><br><span class="line">        alias html;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~ /root/(\w+\.txt) &#123;</span><br><span class="line">        root html/first/$1;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~ /alias/(\w+\.txt) &#123;</span><br><span class="line">        alias html/first/$1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>生成待访问文件的三个相关变量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">upstream rrups &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    #hash user_$arg_username;</span><br><span class="line">    server 127.0.0.1:8011 weight=2 max_conns=2 max_fails=2 fail_time=5;</span><br><span class="line">    server 127.0.0.1:8012;</span><br><span class="line">    keepalive 32;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    set real_ip_from  10.235.25.242;</span><br><span class="line">    real_ip_recursive on;</span><br><span class="line">    real_ip_header X-Forwarded-For;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    location /&#123;</span><br><span class="line">        proxy_pass http://rrups;</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请求命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H &apos;X-Forwarded-For: 10.222.77.53&apos; testrewrite.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-fz/2.png" alt="fx"></p>
+<p><strong>模块相关</strong><br><br>1、sub模块：将响应中指定的字符串，替换成新的字符串；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /&#123;</span><br><span class="line">        sub_filter &apos;Nginx.org&apos; &apos;$host/nginx&apos;;</span><br><span class="line">        sub_filter &apos;nginx.com&apos; &apos;$host&apos;;</span><br><span class="line">        sub_filter_once on;</span><br><span class="line">        sub_filter_last_modified off;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、addition模块：<br>在相应前或响应后增加内容，而增加内容的方式是通过新的url响应完成；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /&#123;</span><br><span class="line">        add_before_body /before_action;</span><br><span class="line">        add_after_body /after_action;</span><br><span class="line">        addtion_types *;</span><br><span class="line">    &#125;</span><br><span class="line">   location /before_action &#123;</span><br><span class="line">       return 200 &apos;new content before\n&apos;;</span><br><span class="line">   &#125;</span><br><span class="line">   location /after_action &#123;</span><br><span class="line">       return 200 &apos;new content after\n&apos;;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>变量相关<br></p>
+<p><strong>1、HTTP请求相关的变量</strong></p>
 <ul>
-<li>request_filename：待访问文件的完整路径；</li>
-<li>document_root:由URL和root/alias规则生成的文件夹路径；</li>
-<li>realpath_root:将document_root中的软连接换成真实路径；</li>
+<li>arg_参数名：URL中某个具体参数的值；</li>
+<li>query_string: 与args变量完全相同；</li>
+<li>args：全部URL参数；</li>
+<li>is_args：请求url中有参数，返回？ 否则返回空；</li>
+<li>content_length：HTTP请求中标识包体长度的content-Length 头部的值；</li>
+<li>content_type：标识请求包体的头部的值；</li>
+<li>uri：URI（不同于URL，不包括？后面的参数）</li>
+<li>document_uri：于uri完全相同；</li>
+<li>request_uri：请求URL；</li>
+<li>scheme：协议名（HTTP或HTTPS）；</li>
+<li>request_method：请求方法，例如get或POST；</li>
+<li>request_length:请求内容的大小，包括请求行或头部，包体；</li>
+<li>remote_usr:HTTP Basic Authentication协议传入的用户名；</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name testrewrite.com;</span><br><span class="line">    error_log   /data1/www/logs/testrewrite.com-error_log;</span><br><span class="line"></span><br><span class="line">    location /RealPath/ &#123;</span><br><span class="line">        alias html/realpath/;</span><br><span class="line">        return 200 &apos;$request_filename:$document_root:$realpath_root\n&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>2、HTTP响应相关的变量</strong></p>
+<ul>
+<li>body_bytes_sent： 响应body包体的长度；</li>
+<li>bytes_sent：全部HTTP响应的长度；</li>
+<li>status：响应中的返回码；</li>
+<li>sent_trailer_名字：把响应结尾内容里的值返回；</li>
+</ul>
+<p><strong>3、TCP连接相关变量</strong></p>
+<ul>
+<li>binary_remote_addr:客户端地址的整型格式，对于IPv4是4字节，对于IPv6是16字节；</li>
+<li>connection：递增的连接序号；</li>
+<li>connection_requests:当前连接上执行过的请求数，对keepalive有连接意义；</li>
+<li>remote_addr:客户端端口；</li>
+<li>remote_port:客户端端口：</li>
+<li>Proxy_protocol_addr:若使用了Proxy_protocol协议则返回协议中的地址，否则返回空；</li>
+<li>Proxy_protocol_port:若使用了proxy_protocol协议则返回协议中的端口，否则返回空；</li>
+<li>Server_addr:服务器地址；</li>
+<li>server_port:服务器端口;</li>
+<li>TCP_INFO:tcp内核层参数；</li>
+<li>server_protocol:服务器协议，例如HTTP/1.1</li>
+</ul>
+<p><strong>4、 nginx处理请求过程中产生的变量</strong>：</p>
+<ul>
+<li>request_time:处理请求的耗时；</li>
+<li>Service_name：请求的Service_name值；</li>
+<li>https：开启了TLS/SSl,返回on，否则返回空；</li>
+<li>request_completion:处理请求完返回OK，否则返回空；</li>
+<li>request_id:请求标识id；</li>
+<li>request_filename:待访问文件的完整路径；</li>
+<li>document_root:又URL和root/alias规则生成的文件夹路径；</li>
+<li>realpath_root:将document_root中的软连接等换成真实路径；</li>
+<li>limit_rate：返回客户端响应时的时速上限，单位为每秒字节数；</li>
+</ul>
 
       
 
@@ -286,7 +305,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/12/27/Nginx的七层代理/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/03/19/Nginx的负载均衡/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -300,18 +319,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/12/29/HTTP的RCP协议/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          HTTP的RCP协议
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/12/19/Nginx的四层代理/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Nginx的四层代理</div>
+    <a href="/2020/03/12/Nginx的反向代理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx的反向代理</div>
       <i class="icon-circle-right"></i>
     </a>
   

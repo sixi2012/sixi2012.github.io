@@ -6,24 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>Nginx的四层代理 | 依然在路上</title>
+  <title>Archives: 2020/3 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="所谓四层负载均衡，也就是主要通过报文中的目标地址和端口，再加上负载均衡设备设置的服务器选择方式，决定最终选择的内部服务器，它一般走的是tcp，udp协议。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Nginx的四层代理">
-<meta property="og:url" content="https://sixi2012.github.io/2019/12/19/Nginx的四层代理/index.html">
+  <meta name="description" content="Stay Hungry, Stay Foolish">
+<meta property="og:type" content="website">
+<meta property="og:title" content="依然在路上">
+<meta property="og:url" content="https://sixi2012.github.io/archives/2020/03/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="所谓四层负载均衡，也就是主要通过报文中的目标地址和端口，再加上负载均衡设备设置的服务器选择方式，决定最终选择的内部服务器，它一般走的是tcp，udp协议。">
+<meta property="og:description" content="Stay Hungry, Stay Foolish">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/1.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/4.png">
-<meta property="og:updated_time" content="2019-12-19T07:23:46.813Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Nginx的四层代理">
-<meta name="twitter:description" content="所谓四层负载均衡，也就是主要通过报文中的目标地址和端口，再加上负载均衡设备设置的服务器选择方式，决定最终选择的内部服务器，它一般走的是tcp，udp协议。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/1.jpg">
+<meta name="twitter:title" content="依然在路上">
+<meta name="twitter:description" content="Stay Hungry, Stay Foolish">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -151,178 +145,76 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Nginx的四层代理" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Nginx的四层代理
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/03/19/Nginx的负载均衡/" class="archive-article-date">
+  	<time datetime="2020-03-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/03/19/Nginx的负载均衡/">Nginx的负载均衡</a>
     </h1>
   
 
-        
-          <a href="/2019/12/19/Nginx的四层代理/" class="archive-article-date">
-  	<time datetime="2019-12-19T07:22:54.012Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/1.jpg" alt="rpc"></p>
-<p>所谓四层负载均衡，也就是主要通过报文中的目标地址和端口，再加上负载均衡设备设置的服务器选择方式，决定最终选择的内部服务器，它一般走的是tcp，udp协议。</p>
-<a id="more"></a>
-<p> <strong>七个阶段</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">POST_ACCEPT  realip</span><br><span class="line">PREACCESS    limit_conn</span><br><span class="line">ACCESS       access</span><br><span class="line">SSL          ssl</span><br><span class="line">PREREAD      ssl_preread</span><br><span class="line">CONTENT      return,stream_proxy</span><br><span class="line">LOG          access_log</span><br></pre></td></tr></table></figure>
-<p><strong>stream 中的ssl</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stream &#123; ... &#125;</span><br><span class="line">server &#123; ... &#125;</span><br><span class="line">listen address:port</span><br></pre></td></tr></table></figure>
-<p><strong>传输层相关的变量：</strong></p>
-<ul>
-<li>binary_remote_addr:客户端地址的整型格式；</li>
-<li>connection：递增的连接序号；</li>
-<li>remote_addr：客户端地址；</li>
-<li>remote_port：客户端端口；</li>
-<li>proxy_protocol_addr：若使用proxy_protocol协议，则返回协议中的地址，否则返回空；</li>
-<li>proxy_protocol_addr：若使用proxy_protocol端口，则返回协议中的端口，否则返回空；</li>
-<li>protocol：传输层协议，值为tcp或udp；</li>
-<li>server_addr:服务器端地址；</li>
-<li>server_port:服务器端端口；</li>
-<li>bytes_received:从客户端收到的字节数；</li>
-<li>bytes_sent：发送到客户端的字节数；</li>
-</ul>
-<p>Proxy_protocol协议<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/2.png" alt="rpc"></p>
-<p>stream处理proxy_protocol流程<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/3.png" alt="rpc"></p>
-<p><strong>超时控制</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_protocol_timeout 30s;</span><br></pre></td></tr></table></figure>
-<p><strong>realip模块：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set_real_ip_from address | CIDR | unix:;</span><br></pre></td></tr></table></figure>
-<p>功能：取出客户端真实的地址，写入remote_addr及remote_port变量。</p>
-<p><strong>limit_conn模块</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">limit_conn_zone key zone=name:size;</span><br><span class="line"></span><br><span class="line">limit_conn zone number;</span><br><span class="line"></span><br><span class="line">limit_conn_log_level info | notice | warn | error;</span><br></pre></td></tr></table></figure>
-<p>功能：限制客户端连接功能的并发数。</p>
-<p><strong>access模块</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">allow address | CIDR | unix: | all;</span><br><span class="line"></span><br><span class="line">deny address | CIDR | unix: | all;</span><br></pre></td></tr></table></figure>
-<p><strong>stream_log模块</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">access_log path format [buffer=size] [gzip[=level]] [flush=time] [if=condition];</span><br><span class="line">access_log off;</span><br><span class="line"></span><br><span class="line">log_format name [escape=default|json|none] string ...;</span><br><span class="line"></span><br><span class="line">open_log_file_cache max=N [inactive=time] [min_uses=N] [valid=time];</span><br><span class="line">open_log_file_cache off;</span><br></pre></td></tr></table></figure>
-<p><strong>ssl_preread模块</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">preread_buffer_size 16k;</span><br><span class="line"></span><br><span class="line">preread_timeout 30s;</span><br><span class="line"></span><br><span class="line">ssl_preread on | off;</span><br></pre></td></tr></table></figure>
-<p>功能：解析下游ssl证书中的信息，以变量的方式赋能其他模块</p>
-<p><strong>proxy模块对上下游限速</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy_download_rate rate;    #限制读取上游数据的速度；</span><br><span class="line"></span><br><span class="line">proxy_upload_rate rate;      #限制读取客户端数据的速度；</span><br></pre></td></tr></table></figure>
-<p><strong>UDP反向代理：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_requests number;</span><br></pre></td></tr></table></figure>
-<p>功能：指定一次对话session中最多从客户端接收到多少报文就结束session；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_responses number;</span><br></pre></td></tr></table></figure>
-<p>功能：指定对应一个请求报文，上游返回多少个响应报文；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-daili/4.png" alt="rpc"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
+        <div class="article-info info-on-right">
           
+          
+
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/12/19/Nginx的四层代理/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
   
-<nav id="article-nav">
-  
-    <a href="/2019/12/27/Nginx的七层代理/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Nginx的七层代理
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2019/12/12/HTTP中的流媒体和DNS协议/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HTTP中的流媒体和DNS协议</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/03/12/Nginx的反向代理/" class="archive-article-date">
+  	<time datetime="2020-03-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-12</time>
+</a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/03/12/Nginx的反向代理/">Nginx的反向代理</a>
+    </h1>
   
 
+        <div class="article-info info-on-right">
+          
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -348,8 +240,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
