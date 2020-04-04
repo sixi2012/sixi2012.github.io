@@ -6,31 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>HTTP网络协议 | 依然在路上</title>
+  <title>Nginx的缓存使用 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当网络包到达一个城关的时候，可以通过一个路由表得到下一个城关的IP地址，直接通过IP地址就可以。 为什么还要通过本地的MAC地址呢？">
+  <meta name="description" content="nginx缓存，在一定程度上可以减少源服务器的处理请求压力。因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP网络协议">
-<meta property="og:url" content="https://sixi2012.github.io/2019/08/11/HTTP的网络协议/index.html">
+<meta property="og:title" content="Nginx的缓存使用">
+<meta property="og:url" content="https://sixi2012.github.io/2020/04/03/Nginx的缓存使用/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="当网络包到达一个城关的时候，可以通过一个路由表得到下一个城关的IP地址，直接通过IP地址就可以。 为什么还要通过本地的MAC地址呢？">
+<meta property="og:description" content="nginx缓存，在一定程度上可以减少源服务器的处理请求压力。因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/1.jpeg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/11.png">
-<meta property="og:updated_time" content="2019-08-11T10:26:34.774Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/7.png">
+<meta property="og:updated_time" content="2020-04-04T12:39:50.718Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP网络协议">
-<meta name="twitter:description" content="当网络包到达一个城关的时候，可以通过一个路由表得到下一个城关的IP地址，直接通过IP地址就可以。 为什么还要通过本地的MAC地址呢？">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/1.jpeg">
+<meta name="twitter:title" content="Nginx的缓存使用">
+<meta name="twitter:description" content="nginx缓存，在一定程度上可以减少源服务器的处理请求压力。因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -158,90 +152,117 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-HTTP的网络协议" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Nginx的缓存使用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP网络协议
+      Nginx的缓存使用
     </h1>
   
 
         
-          <a href="/2019/08/11/HTTP的网络协议/" class="archive-article-date">
-  	<time datetime="2019-08-11T10:25:42.819Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-11</time>
+          <a href="/2020/04/03/Nginx的缓存使用/" class="archive-article-date">
+  	<time datetime="2020-04-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-03</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/1.jpeg" alt="cj"></p>
-<p>当网络包到达一个城关的时候，可以通过一个路由表得到下一个城关的IP地址，直接通过IP地址就可以。</p>
-<p>为什么还要通过本地的MAC地址呢？</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/1.jpg" alt="fx"></p>
+<p>nginx缓存，在一定程度上可以减少源服务器的处理请求压力。<br><br>因为静态文件（比如css，js， 图片）中，很多都是不经常更新的。nginx使用proxy_cache将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了。</p>
 <a id="more"></a>
-<p><strong>一、部署高可用的平台</strong><br><br>1、应用分布在两个可用区，保证一个可用区挂了，另一个不受影响。</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/2.png" alt="cj"></p>
-<p>2、服务器里面部署都是计算节点，每台上面都有Open vSwitch创建的虚拟机;</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/3.png" alt="cj"></p>
-<p>3、在云计算的节目上创建一个VPC（虚拟私有网络），指定一个IP段，为了不同的VPC相互隔离，每个VPC都会被分配一个VXLAN的ID，不同的VPC二层是不通的；</p>
-<p>4、由于有两个区，要为每个区分配一个Subnet。这样当两个可用区里面的网段不同的时候，可用配置路由，访问另一个可用区走某一条路由。</p>
-<p>5、创建数据化持久化层：<br><br>为了分库分表实现高并发的读写，在创建多个数据库实例之上，会创建一个分布式数据库的实例。也需要制定可用区和subnet，还会为分布式数据库分配一个私网IP和域名；</p>
-<p>6、创建缓存集群：<br><br>由于读写性能要求高，一般不要求跨可用区读写；</p>
-<p>7、部署程序：<br><br>基础服务层，组合服务层，controller层，以及Nginx层，API网关等，之间通过RPC调用，需要到注册中心注册；<br>如果是在同一台物理机，则物理机上的OVS就能转发过去，如果是不同的物理机，二者之间的OVS总间有一个VXLAN的隧道，将请求转发过去；</p>
-<p>8、负载均衡<br><br>负载均衡有个外网的IP，就是网关节点，会有NAT规则，将外网IP地址转换为vpc里面的私网IP地址，然后通过这些私网IP地址访问到虚拟机上的负载均衡的节点，然后通过负载均衡的节点转发到API网关的节点；</p>
-<p><strong>二、外网IP广播全网</strong><br><br>边界路由器可以通过BGP协议，将自己数据中心里面的外网IP向外广播。</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/4.png" alt="cj"></p>
-<p><strong>三、域名解析</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/2.png" alt="fx"></p>
+<p><strong>expires指令</strong>：</p>
 <ul>
-<li>手机运营商有一个本地的DNS，手机向这个DNS请求；当这个本地的DNS有缓存的时候，直接返回，如果没有缓存，才需要递归的从根DNS服务器，查到.com的顶级域名服务器，最终查到权威DNS服务器；</li>
-<li>在权威DNS服务中，一般是通过配置CNAME方式，然后告诉本地DNS服务器，让它请求GSLB解析这个域名，GSLB可以在解析这个域名过程中，通过自己的策略实现负载均衡；</li>
-<li>GLSB将距离用户位置比较近的Region里面，三个负载均衡SLB的公网IP地址，返回本地DNS服务器，本地DNS解析器将结果缓存后，返回给客户端；</li>
+<li>功能：设置缓存过期</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/5.png" alt="cj"></p>
-<p><strong>四、静态资源CDN</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expires epoch | max | off;</span><br></pre></td></tr></table></figure>
+<p><strong>not_modified 过滤模块</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if_modified_since off | exact | before;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/3.png" alt="fx"></p>
+<p><strong>定义存放缓存的载体</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache zone | off;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_path path [levels=levels] [use_temp_path=on|off]</span><br><span class="line">keys_zone=name:size [inactive=time] [max_size=size] [manager_files=number]</span><br><span class="line">[manager_sleep=time] [manager_threshold=time] [loader_files=number]</span><br><span class="line">[loader_sleep=time] [loader_threshold=time] [purger=on|off] [purger_files=number]</span><br><span class="line">[purger_sleep=time] [purger_threshold=time];</span><br></pre></td></tr></table></figure>
+<p>其中：<br><br>use_temp_path：</p>
 <ul>
-<li>配置了CDN后，权威DNS服务器，会为静态资源设置一个CNAME别名，指向另外一个域名cdn.com，返回给本地DNS服务器；</li>
-<li>本地DNS服务器去请求CDN的全局负载均衡解析域名，全局负载均衡器会为用户选择一台合适的缓存服务器提供服务，将IP返回客户端，客户端返回访问这个边缘节点，下载资源。</li>
+<li>on：使用use_temp_path的临时目录；</li>
+<li>off：使用path的目录；<br></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/6.png" alt="cj"></p>
-<p><strong>五、建立连接</strong></p>
+<p>keys_zone：</p>
 <ul>
-<li>先通过三次握手建立tcp连接，为维护这个链接，双方都需要在tcp层维护一个链接的状态机；</li>
-<li>然后是HTTPS层建立连接，在HTTPS的交换过程中，TCP层始终处于ESTABLISHED。</li>
+<li>name：共享内存的名称；</li>
+<li>size：共享内存的大小；</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/7.png" alt="cj"></p>
-<p><strong>六、发送网络包</strong><br><br>服务端提供的是RESful API，HTTP层发送的是一个请求：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">POST /purchaseOrder HTTP/1.1</span><br><span class="line">Host: https://sixi2012.github.io/</span><br><span class="line">Content-Type: application/json; charset=utf-8</span><br><span class="line">Content-Length: nnn</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;order&quot;: &#123;</span><br><span class="line">  &quot;date&quot;: &quot;2018-07-01&quot;,</span><br><span class="line">  &quot;className&quot;: &quot; http网络 &quot;,</span><br><span class="line">  &quot;Author&quot;: &quot; sixi2012 &quot;,</span><br><span class="line">  &quot;price&quot;: &quot;68&quot;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>inactive：</p>
 <ul>
-<li>HTTP 协议是基于TCP 协议的，它使用的面向连接的方式发送请求，通过stream二进制流的方式传给对方。</li>
-<li>到了TCP层，它会把二进制流变成一个的报文段发送给服务器，tcp头里面有源端口号和目标端口号。</li>
-<li>IP头里面，需要加上源地址和目标地址。二者通常不在一个网段，一般通过DHCP分配IP地址的时候，同时配置默认网关的IP的地址；</li>
-<li>客户端会发送ARP协议，来获取MAC地址，然后将网关MAC作为目标MAC，自己的MAC作为源MAC，放入MAC头，发送出去；</li>
+<li>在inactive期间，没有被访问的缓存会被淘汰；</li>
+<li>默认10分钟；</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/8.png" alt="cj"></p>
+<p>max_size:</p>
 <ul>
-<li>七、流控拥塞与重传</li>
-<li>出了NAT网关，就从核心网到达了互联网。每一个运营商的网络成为自治系统的AS；</li>
-<li>路由器之间需要通过BGP协议实现，BGP分为eBGP和iBGP；</li>
-<li>自治系统之间，边界路由器之间使用eBGP广播路由，运行iBGP，使内部的路由器能够找到到达外网目的地最好的边界路由器；</li>
-<li>既然TCP要对包进行重传，就需要维护Sequence Number，看到哪些包到了，哪些没到，哪些需要重传，传输速率应该控制到多少，这就是TCP的滑动窗口协议。</li>
+<li>缓存文件的大小；</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/9.png" alt="cj"></p>
-<p>当ack的包发给应用层后，TCP层的缓存就空了出来，会导致上面图中的大三角，也即接收方能够容纳的总缓存，整体顺时针滑动；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/10.png" alt="cj"></p>
-<p>八：公网NAT成私网<br>为了承载比较大的吞吐量，虚拟网关节点会有多个，物理网络会将流量分发到不同的虚拟网关节点；<br>虚拟网关会选择某个负载均衡节点，将某个请求分发给它，负载均衡之后是controller层；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-chuanjiang/11.png" alt="cj"></p>
-<p><strong>九、RPC远程调用</strong></p>
+<p>manager_files:</p>
 <ul>
-<li>在虚拟路由节点上，也会有OVS，将网络包封装在VXLAN隧道里，VXLAN ID就是创建VPC的时候分配的；</li>
-<li>在物理机A上，OVS会将包从VXLAN隧道里面解出来，发给HAProxy所在的虚拟机。</li>
-<li>HAProxy是一个四层的负载均衡，监听这个tcp端口；</li>
-<li>在HAproxy和controller层之间，维护一个TCP连接；</li>
+<li>淘汰的最大的文件数；</li>
+<li>默认100；</li>
 </ul>
-<p><strong>十、数据入库，返回成功</strong></p>
+<p>manager_sleep:</p>
+<ul>
+<li>执行一次淘汰循环后进程的休眠时间；</li>
+<li>默认200毫秒；</li>
+</ul>
+<p>manager_threshold:</p>
+<ul>
+<li>执行一次淘汰循环的最大耗时；</li>
+<li>默认50毫秒；</li>
+</ul>
+<p>loader_files:</p>
+<ul>
+<li>载入磁盘中缓存文件至共享内存，最多处理的文件数；</li>
+</ul>
+<p>loader_sleep:</p>
+<ul>
+<li>执行一次缓存文件至共享内存，进程休眠时间；</li>
+<li>载入默认200毫秒；</li>
+</ul>
+<p>loader_threshold:</p>
+<ul>
+<li>载入缓存文件至共享内存的最大耗时；<br>默认50毫秒；</li>
+</ul>
+<p><strong>缓存的关键字：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_key $scheme$proxy_host$request_uri;</span><br></pre></td></tr></table></figure>
+<p><strong>缓存什么样的响应：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_valid [code ...] time;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不同响应码缓存不同时长 ： code 404 5m;</li>
+<li>指定缓存的响应吗：200，301，302；</li>
+<li>通过响应头部控制缓存时长：<ul>
+<li>X-Accel-Expires:单位秒；</li>
+<li>头部若含有Set-Cookie，则不缓存；</li>
+</ul>
+</li>
+</ul>
+<p><strong>哪些内容不缓存：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">proxy_no_cache string ...;</span><br><span class="line"></span><br><span class="line">proxy_cache_bypass string ...;</span><br></pre></td></tr></table></figure>
+<p><strong>变更head方法</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy_cache_convert_head on | off;</span><br></pre></td></tr></table></figure></p>
+<p><strong>upstream_cache_status变量</strong></p>
+<ul>
+<li>miss：未命中缓存；</li>
+<li>hit：命中缓存；</li>
+<li>expired：缓存已过期；</li>
+<li>stale：命中了陈旧的缓存；</li>
+<li>updating：正在更新；</li>
+<li>revalidated：验证陈旧的内容依旧有效；</li>
+<li>bypass：响应从原始服务器获得；</li>
+</ul>
+<p><strong>接收上游响应</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/6.png" alt="fx"></p>
+<p><strong>合并回源请求–减轻峰值流量下的压力</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/nginx-hc/7.png" alt="fx"></p>
 
       
 
@@ -289,7 +310,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/08/11/HTTP的网络协议/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/04/03/Nginx的缓存使用/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -303,18 +324,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/08/26/HTTP和HTTPS协议的区别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          HTTP和HTTPS协议的区别
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/07/27/MySQL深入浅出高可用/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MySQL深入浅出高可用</div>
+    <a href="/2020/03/19/Nginx的负载均衡/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx的负载均衡</div>
       <i class="icon-circle-right"></i>
     </a>
   
