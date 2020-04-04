@@ -6,34 +6,35 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>HTTP的云中网络和VPN（上） | 依然在路上</title>
+  <title>HTTP的RCP协议 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
+  <meta name="description" content="Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。 操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP的云中网络和VPN（上）">
-<meta property="og:url" content="https://sixi2012.github.io/2019/11/22/HTTP的云中网络和VPN（上）/index.html">
+<meta property="og:title" content="HTTP的RCP协议">
+<meta property="og:url" content="https://sixi2012.github.io/2020/01/23/HTTP的RCP协议/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
+<meta property="og:description" content="Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。 操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/11.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/12.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/13.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/14.png">
-<meta property="og:updated_time" content="2019-11-22T07:52:29.554Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/15.png">
+<meta property="og:updated_time" content="2020-04-04T12:15:00.736Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP的云中网络和VPN（上）">
-<meta name="twitter:description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg">
+<meta name="twitter:title" content="HTTP的RCP协议">
+<meta name="twitter:description" content="Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。 操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -161,135 +162,108 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-HTTP的云中网络和VPN（上）" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-HTTP的RCP协议" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP的云中网络和VPN（上）
+      HTTP的RCP协议
     </h1>
   
 
         
-          <a href="/2019/11/22/HTTP的云中网络和VPN（上）/" class="archive-article-date">
-  	<time datetime="2019-11-22T07:50:36.553Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-22</time>
+          <a href="/2020/01/23/HTTP的RCP协议/" class="archive-article-date">
+  	<time datetime="2020-01-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg" alt="vpn"></p>
-<p>当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/1.jpg" alt="rpc"></p>
+<p>Sun 公司是第一个提供商业化 RPC 库和 RPC 编译器的公司。这个 RPC 框架是在 NFS 协议中使用的。</p>
+<p>操作远程和远程调用的思路是一样的，就像操作本地一样。所以 NFS 协议就是基于 RPC 实现的。当然无论是什么 RPC，底层都是 Socket 编程。</p>
 <a id="more"></a>
-<p>VPN通过隧道技术在公共网络仿真一条点到点的专线，是通过利用一种协议来传输另外一种协议的技术，涉及三种协议：乘客协议，隧道协议和承载协议；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/2.png" alt="vpn"></p>
-<ol>
-<li>私密性：<br>采用对称加密，因特网秘钥交换协议（IKE）；</li>
-<li>完整性：<br>通过对数据进行哈希运算，产生类似指纹的数据摘要，以保证数据的完整性；</li>
-<li>真实性：</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/3.png" alt="vpn"></p>
-<p><strong>IPsec  VPN的协议簇：</strong></p>
-<p>两种协议：</p>
-<ol>
-<li>AH：只能进行数据摘要，不能实现数据加密；</li>
-<li>ESP：能够进行数据加密和数据摘要；</li>
-</ol>
-<p>两类算法：</p>
-<ol>
-<li>加密算法；</li>
-<li>摘要算法；</li>
-</ol>
-<p>两大组件：</p>
-<ol>
-<li>进行对称秘钥的交换的IKE组件；</li>
-<li>对连接进行维护的SA组件；</li>
-</ol>
-<p><strong>IPsec VPN的建立过程：</strong><br><br>第一阶段<br><br>建立IKE自己的SA，这个SA用来维护一个通过身份认证和安全保护的通道，为第二阶段提供服务；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/4.png" alt="vpn"></p>
-<p>第二阶段<br><br>建立IPsec SA，在这个SA里面，双方生成一个随机的对称秘钥M，由k加密传给对方，然后使用M进行双方接下来的通信数据。</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/5.png" alt="vpn"></p>
-<p>注：IPsec里的内容<br></p>
-<ol>
-<li>SPI：用于标识不同的连接；</li>
-<li>双方商量好的加密算法，哈希算法和封装模式；</li>
-<li>生存周期，超过这个周期，需要重新生成一个IPsec SA，从新生成对称秘钥；</li>
-</ol>
-<p>客户端发送明文IP包，会被加上ESP头和IP头，在公网上传输，由于加密，可以保证不被盗窃，到了对端后，去掉ESP的头，进行解密；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/6.png" alt="vpn"></p>
-<p>多协议标签交换（MPLS）</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/7.png" alt="vpn"></p>
-<p>这个路由器会有两个表格，一个是传统的FIB，也即路由表，另一个就是LFIB，标签转发表</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/8.png" alt="vpn"></p>
-<p>在MPLS区域，使用标签进行转发；<br><br>非MPLS区域，使用普通路由进行转发；</p>
-<p>在MPLS VPN中，网络中的路由器分成以下几类：</p>
+<p><strong>RPC的调用标准</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/2.png" alt="rpc"></p>
+<p>1、协议约定问题<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/3.png" alt="rpc"></p>
 <ul>
-<li>PE：运营商网络与客户端网络相连的边缘网络设备；</li>
-<li>CE：客户端网络与PE相连接的边缘设备；</li>
-<li>P：特指运营商网络中除PE之外的其他运营商网络；</li>
+<li>底层是Socket编程；</li>
+<li>XDR是一个标准的数据压缩格式，表示基本的数据类型，也可以表示结构体；</li>
+<li>基本的数据类型：</li>
 </ul>
-<p>VPN报文转发采用两层标签方式：<br></p>
-<ol>
-<li>外层标签在骨干网内部进行交换，指示从PE到对端PE的一条LSP；</li>
-<li>内层标签在从对端PE到达CE时使用，在PE上，通过查找VRF表项，指示报文应被送到哪个VPN用户，或者更具体一些，到达哪一个CE；</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/9.png" alt="vpn"></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/4.png" alt="rpc"></p>
 <p>注：</p>
 <ul>
-<li>机构A和机构B都发送了一个目的地为 192.168.101.0/24的IP报文，分别由格子的CE将报文发送至PE；</li>
-<li>PE会根据报文到达的接口及目的地查找VPN实例表项VRF，匹配后将报文转发出去，同时打上内层和外层两个标签。假设通过MP-BGP配置的路由，两个报文在骨干走相同的路径；</li>
-<li>MPLS网络利用报文的外层标签，将报文传送到出口PE，报文在到达出口PE2前一跳时已被剥离外层标签，仅含有内层标签；</li>
-<li>出口PE根据内层标签和目的地查找VPN实例表项VRF，确定报文的出接口，将报文转发至格子的CE；</li>
-<li>CE根据正常的IP转发过程将报文传送至目的地；</li>
+<li>XID是唯一的请求和回复，请求是0，回复是1；</li>
+<li>RPC有版本号，两端要匹配RPC协议的版本号。如果不匹配，就返回Deny，原因：RPC_MISMATCH;</li>
+<li>程序有编号，如果服务端找不到这个程序，返回：PROG_UNAVAIL;</li>
+<li>程序有版本号，如果程序的版本号不匹配，就会返回PROG_MISMATCH;</li>
+<li>一个程序有多个方法，方法也有编号，如果找不到方法，返回PROG_UNAVAL;</li>
+<li>调用需要认证权限，如果不通过，则Deny；</li>
+<li>最后是参数列表，如果参数无法解析，则返回 GABAGE_ARGS;</li>
 </ul>
-<p><strong>云计算中的网络需要注意的点</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/5.png" alt="rpc"></p>
+<p>2、传输问题<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/6.png" alt="rpc"></p>
+<p>3、服务发现问题<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/7.png" alt="rpc"></p>
+<p>注：<br>mount的过程是通过系统调用，最终调用到RPC层，一旦mount完毕之后，客户端就像写入本地文件一样。<br><br>问题是，这个过程是如何触发RPC的呢？</p>
+<p>答案：通过VFS实现的：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/8.png" alt="rpc"></p>
+<p>对于socket来讲，in-core inode 就是内存中的inde。对于nfs来讲，也有一个inode，这个inode里面有一个成员变量file_operations这里面是这个文件系统的操作函数。对于nfs来讲，因为有nfs_file_read,nfs_file_write,所以在一个mount的路径中读取某个文件的时候，会调用这个函数，触发RPC，远程调用服务端；</p>
+<p><strong>数据中心内部是如何互相调用的</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/9.png" alt="rpc"><br>数据中心的内部的调用，往往采用节省空间和带宽的二进制方案；<br><br>eg：Dubbo服务化框架二进制的RPC方式：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/10.png" alt="rpc"></p>
+<ol>
+<li>Dubbo会从注册中心获取服务端的列表，根据路由规则和负载均衡规则，在多个服务端中选择一个最合适的服务端进行调用；</li>
+<li>默认的RPC协议是Hessian2。</li>
+<li>使用Netty的网络传输框架：<br>Netty是一个非阻塞的基于事件的网络传输框架，在服务端启动的时候，会监听一个端口，并注册以下事件：</li>
+</ol>
 <ul>
-<li>共享：多个虚拟网卡如何共享同一个出口；</li>
-<li>互通：同一台机器上的两个虚拟机，属于同一个用户的话，如何互相通信；</li>
-<li>隔离：安全隔离和流量隔离；</li>
-<li>灵活：创建，删除等需要灵活的配置；</li>
+<li>连接事件：收到客户端事件的时候，会调用void connected方法；</li>
+<li>可写事件触发时，会调用void sent，服务端向客户端返回响应数据；</li>
+<li>可读事件触发时，会调用void receivied，服务端收到客户端的请求数据；</li>
+<li>发生异常时，调用void caugh；</li>
 </ul>
-<p><strong>访问外部网络的方式：</strong></p>
+<p><strong>GRPC:满足二进制和跨语言</strong></p>
+<p>二进制序列化的协议是Protocol Buffers<br></p>
+<p>eg：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">syntax = “proto3”;</span><br><span class="line">package com.geektime.grpc</span><br><span class="line">option java_package = “com.geektime.grpc”;</span><br><span class="line">message Order &#123;</span><br><span class="line">  required string date = 1;</span><br><span class="line">  required string classname = 2;</span><br><span class="line">  required string author = 3;</span><br><span class="line">  required int price = 4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message OrderResponse &#123;</span><br><span class="line">  required string message = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">service PurchaseOrder &#123;</span><br><span class="line">  rpc Purchase (Order) returns (OrderResponse) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>协议约定问题</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/12.png" alt="rpc"></p>
+<p>而且每个字段都有修饰符，比如：<br>require：这个值不能为空，一定要有这么一个字段出现；<br>option：可选字段，可以设置，也可以不设置，如果不设置，则使用默认值；<br>repeated：可以重复0到多次；</p>
+<p>网络传输问题<br><br>基于HTTP2.0，GPRC定义了四种服务方法：</p>
+<p>1、单向RPC,即客户端发送一个请求给服务端，从服务端获取一个应答：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc SayHello(HelloRequest) returns (HelloResponse)&#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2、服务端流式RPC，返回是不是一个结果，而是一批：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>3、客户端式PRC，即请求不是一个，而是一批</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>4、双向流式RPC，即两步都可以通过一个读写数据流来发送一系列消息，这两个数据流的操作是相互独立的；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpc BidiHello(stream HelloRequest) returns (stream HelloResponse)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>服务发现与治理问题<br><br>GRPC本身没有提供服务发现机制，推荐使用负载均衡器 Envoy,（还是一个高性能的Proxy转发器）</p>
+<p>配置以下四项：<br></p>
 <ol>
-<li>桥接：虚拟机的地址和笔记本电脑的网段是一个网段的；</li>
+<li>listener：既然做转发，就得监听一个端口，接入请求，然后才能够根据策略转发；</li>
+<li>endpoint：目标的IP地址和端口。</li>
+<li>cluster：具有相同行为的多个endpoint，即，有三个完全相同的三个服务，组成一个cluster，从cluster到endpoint的过程称为负载均衡，可以轮询；</li>
+<li>route：有时多个cluster具有类似的功能，但是有不同的版本号，可以通过route规则，选择将请求路由到某一个版本号，也即某一个cluster。</li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/10.png" alt="vpn"></p>
+<p>如果是静态的，则将服务端的IP地址拿到，然后放在配置文件就可以；<br><br>如果是动态的，需要配置一个服务发现中心，要实现Envoy的Api,可以主动去服务发现中心拉取转发策略；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/11.png" alt="rpc"></p>
+<p>Envoy的作用：</p>
 <ol>
-<li>NAT：虚拟机的网络和物理机的网络不同；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/11.png" alt="vpn"></li>
+<li>配置路由策略；</li>
+<li>负载均衡策略；<br><br>对于一个cluster下的多个endpoint，可以配置负载均衡机制和健康检查机制，当服务新增一个，或者挂了一个，都能够及时配置Envoy,并进行负载均衡；</li>
 </ol>
-<p><strong>隔离</strong>：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/13.png" alt="rpc"></p>
+<p>Service Mesh ：<br><br>应用之间的相互调用全部由Envoy进行代理，即应用之间的相互调用全部由Envoy进行代理，服务之间的治理也被Envoy进行代理，将治理服务完全抽象出来，到平台层进行解决；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/14.png" alt="rpc"></p>
+<p>在服务部感知的情况下，将服务间的调用全部代理了：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-rpc/15.png" alt="rpc"></p>
+<p>iptable规则可以这样设置：</p>
 <ol>
-<li>VLAN功能，设置两个虚拟机的tag，</li>
-<li>在虚拟网桥上，两个虚拟机是不互通的；</li>
-<li>出了网桥，由于vlan不同，也不会将包发到另一个网桥上；</li>
-<li>出了物理机，也是带着VLAN ID的，只会讲包发给相同的VLAN的网卡和网桥；</li>
-</ol>
-<p><strong>软件定义网络（SDN）</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/12.png" alt="vpn"></p>
-<ol>
-<li>控制与转发分离；</li>
-<li>控制平面与转发平面之间的开放接口；</li>
-<li>逻辑上的集中控制；</li>
-</ol>
-<p>SDN控制器是通过OpenFlow协议控制网络的：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/13.png" alt="vpn"></p>
-<p>在OpenSwith里，有一个流表规则，对包进行处理，进行接收转发和放弃；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/14.png" alt="vpn"></p>
-<p>物理层：<br>1、匹配规则：从哪个口进来；<br>2、执行动作：从哪个口出去；</p>
-<p>MAC层：</p>
-<ol>
-<li>匹配规则：源MAC地址(dl_src),目标MAC（dl_dst）,所属vlan（dl_vlan）</li>
-<li>执行动作：修改原MAC（mod_dl_src）,目标MAC（mod_dl_dst）,修改VLAN（mod_vlan_vid）,删除VLAN（strip_vlan）,MAC地址学习（learn）</li>
-</ol>
-<p>网络层：</p>
-<ol>
-<li>匹配规则：源IP地址多少（nw_src）,目标IP（nw_dst）;</li>
-<li>执行动作：修改IP（mod_nw_src）,修改目标IP地址（mod_nw_dst）;</li>
-</ol>
-<p>传输层：</p>
-<ol>
-<li>匹配规则：源端口（tp_src）,目标端口（tp_dst）</li>
-<li>执行动作：修改源端口（mod_tp_src）,修改目标端口（mod_tp_dst）</li>
+<li>定义的一条规则是 istio_redirect转发链，都将网络包转发给Envoy的15000端口；</li>
+<li>在prerouting规则中使用这个转发链，从而，进入容器的所有流量被先转发到Envoy的15000端口，</li>
+<li>而Envoy作为一个代理，已经被分配好了，将请求转发给productpage程序；</li>
+<li>当productpage往后端进行调用的时候，碰到了output链，会使用转发链，将所有容器的请求都转发到Envoy的15000端口；</li>
+<li>无论入口的流量，还是出口的流量，全部用Envoy做成了“汉堡包”。Envoy根据服务发现的配置，做最终的对外调用；</li>
+<li>IPtable规则会对从Envoy出去的流量做一个特殊的处理，允许它发出去，不再使用上面的output规则；</li>
 </ol>
 
       
@@ -338,7 +312,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/11/22/HTTP的云中网络和VPN（上）/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/01/23/HTTP的RCP协议/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -352,18 +326,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/11/25/HTTP的云中网络和VPN（下）/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/23/HTTP中的流媒体和DNS协议/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          HTTP的云中网络和VPN（下）
+          HTTP中的流媒体和DNS协议
         
       </div>
     </a>
   
   
-    <a href="/2019/10/31/HTTP中的流媒体和DNS协议/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HTTP中的流媒体和DNS协议</div>
+    <a href="/2020/01/23/HTTP中的ping和ip/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP中的ping和ip</div>
       <i class="icon-circle-right"></i>
     </a>
   

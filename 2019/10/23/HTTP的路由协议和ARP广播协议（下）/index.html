@@ -6,25 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>MySQL里change buffer和redo log的区别 | 依然在路上</title>
+  <title>HTTP的路由协议和ARP广播协议（下） | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
+  <meta name="description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL里change buffer和redo log的区别">
-<meta property="og:url" content="https://sixi2012.github.io/2019/07/14/MySQL里change buffer 和redo log 的区别/index.html">
+<meta property="og:title" content="HTTP的路由协议和ARP广播协议（下）">
+<meta property="og:url" content="https://sixi2012.github.io/2019/10/23/HTTP的路由协议和ARP广播协议（下）/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
+<meta property="og:description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/5.png">
-<meta property="og:updated_time" content="2019-07-14T08:25:03.670Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/4.png">
+<meta property="og:updated_time" content="2020-04-04T12:12:40.554Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL里change buffer和redo log的区别">
-<meta name="twitter:description" content="WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg">
+<meta name="twitter:title" content="HTTP的路由协议和ARP广播协议（下）">
+<meta name="twitter:description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -152,95 +151,106 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-MySQL里change buffer 和redo log 的区别" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-HTTP的路由协议和ARP广播协议（下）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      MySQL里change buffer和redo log的区别
+      HTTP的路由协议和ARP广播协议（下）
     </h1>
   
 
         
-          <a href="/2019/07/14/MySQL里change buffer 和redo log 的区别/" class="archive-article-date">
-  	<time datetime="2019-07-14T08:21:04.102Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-14</time>
+          <a href="/2019/10/23/HTTP的路由协议和ARP广播协议（下）/" class="archive-article-date">
+  	<time datetime="2019-10-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/1.jpeg" alt="buffer"></p>
-<p>WAL提升性能的核心机制，也的确尽量减少随机读写，这次了解一下 change buffer 和redo log这两个概念。</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg" alt="luyou"></p>
+<p>网关往往是一个路由器，是一个三层转发的设备。</p>
+<p>一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。</p>
+<p>如何配置路由？</p>
 <a id="more"></a>
-<p><strong>change buffer 和redo log的区别：</strong></p>
+<p><strong>静态路由：</strong><br><br>就是在路由器上面，配置一条一条规则；</p>
+<p>MAC地址是一个局域网内才有效的地址，因而，MAC地址只要过网关，就必定会改变（换了局域网）；<br><br>根据IP地址是否改变来区分：</p>
+<p><strong>转发网关：不改变IP地址；</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/2.png" alt="luyou"></p>
+<p>服务器A发送包的内容：</p>
 <ul>
-<li>redo log节省的是随机写磁盘的I/O消耗（转成顺序写）；</li>
-<li>change buffer节省的是随机读磁盘的I/O消耗；</li>
+<li>源MAC：服务器A的MAC；</li>
+<li>目标MAC：192.168.1.1这个网口的MAC；</li>
+<li>源IP：192.168.1.101</li>
+<li>目标IP：192.168.4.101</li>
 </ul>
-<p>eg：<br><br>假设 k1的数据在内存（InnoDB buffer pool）中，K2的数据不在内存中；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into t(id,k) values(id1,k1),(id2,k2);</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/2.png" alt="buffer"></p>
+<p>在路由器A中配置了静态路之后，要想访问192.168.4.101/24，要从192.168.56.1这个口出去，下一跳为192.168.56.2；<br><br>路由器A发送ARP获取的192.168.56.2/24Mac地址，然后发送包，包的内容：</p>
 <ul>
-<li>page1在内存中，直接更新内存；</li>
-<li>page2没有在内存中，记录在 change buffer区域；</li>
-<li>将上述两个动作记录在 redo log中；</li>
+<li>源MAC：192.168.56.1的MAC地址；</li>
+<li>目标MAC：192.168.56.2的MAC地址；</li>
+<li>源IP：192.168.4.101</li>
+<li>目标IP：192.168.4.101</li>
 </ul>
-<p>即写了两次内存，然后写了一处磁盘（顺序写）；</p>
-<p>带change buffer的读操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t where k in (k1, k2)；</span><br></pre></td></tr></table></figure>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/3.png" alt="buffer"></p>
+<p>注：</p>
+<ol>
+<li>每到一个新的局域网，MAC都是要变的，但IP地址不变；</li>
+<li>在IP头里面，不会保存任何网关的IP地址；</li>
+<li>所谓的下一跳，某个IP要将这个IP地址转换为MAC放入MAC头；</li>
+</ol>
+<p><strong>NAT网关：改变IP地址；</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/3.png" alt="luyou"></p>
+<p>问题：局域网之间没有商量过，各定各的网段，因而冲突了；</p>
+<p>服务器A有一个对外身份，192.168.56.1；<br><br>服务器B也有一个对外身份，192.168.56.2，在网关B上记下来，192.168.56.2对应192.168.1.101，凡是访问192.168.56.2都转成192.168.1.101；</p>
+<p>路由器A配置了静态路由，要访问192.168.56.2/24,从192.168.56.1这个口出去,发送包的内容：</p>
 <ul>
-<li>读Page1的时候，虽然磁盘还是之前的数据，但这是从内存中直接返回结果；</li>
-<li>读Page2的时候，需要把Page2从磁盘读入内存中，然后应用change buffer里面的操作日志，生成一个正确的结果并返回；</li>
+<li>源MAC：192.168.56.1的MAC地址;</li>
+<li>目标MAC：192.168.56.2的MAC地址；</li>
+<li>源IP：192.168.56.1；</li>
+<li>目标IP：192.168.56.2；</li>
 </ul>
-<p>所以，由于唯一索引用不上change buffer的优化机制，所以当“业务代码可以保证不会写入重复数据”的时候，优先考虑非唯一索引；</p>
-<p><strong>优化器的逻辑：</strong></p>
+<p>路由器B是一个NAT网关，配置了192.168.56.2对应的192.168.1.101，于是改访问192.168.1.101；<br><br>所以路由器B发送的包内容：</p>
 <ul>
-<li>选择索引是优化器的工作；</li>
-<li>根据扫描行数（包括普通索引的回表），临时表和排序等找到一条最优的执行方案；</li>
+<li>源MAC：192.168.1.1的MAC地址；</li>
+<li>目标MAC：192.168.1.101的MAC地址；</li>
+<li>源IP：192.168.56.1；</li>
+<li>目标IP：192.168.1.101；</li>
 </ul>
-<p><strong>索引选择异常和处理：</strong></p>
-<ul>
-<li>analyze table t: 重新统计索引信息<br><br>当发现explain 的结预估的rows值和实际情况差距较大的时候，可以采用此方法进行处理;</li>
-<li>force index强行选择一个索引:</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from t force index(a) where a between 10000 and 20000;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>新建一个更合适的索引，来供给优化器做选择，或删掉误用的索引；<br><br>eg：确认索引b没有用的话直接删掉即可；</li>
-</ul>
-<p><strong>字符串创建索引</strong>：<br><br>eg1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table SUser add index index1(email);</span><br></pre></td></tr></table></figure></p>
-<p>index1包含了每个记录的整个字符串；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/4.png" alt="buffer"></p>
-<p>eg2：<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table SUser add index index2(email(6));</span><br></pre></td></tr></table></figure>
-<p>index2只取了前6个字节；占用空间更小；<br>缺点：<br><br>1、会导致查询的次数变多；<br><br>2、无法使用覆盖索引，需要回到ID索引再查一下（回表），因为系统不能确定前缀索引是否截断了完整信息；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/mysql-cbuffer/5.png" alt="buffer"></p>
-<p>在使用前缀索引时，需要定义好长度，即节省空间，又不用额外增加太多的查询成本；</p>
-<p><strong>确定索引前缀的方法：</strong></p>
-<ul>
-<li>先算出列上有多少不同的值：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(distinct email) as L from SUser;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>依次选取不同的长度的前缀看这个值：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">  count(distinct left(email,4)）as L4,</span><br><span class="line">  count(distinct left(email,5)）as L5,</span><br><span class="line">  count(distinct left(email,6)）as L6,</span><br><span class="line">  count(distinct left(email,7)）as L7,</span><br><span class="line">from SUser;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>按照能接受的损失比例来选择前缀；</li>
-</ul>
-<p>eg：对身份证号如何做索引<br><br>1、倒序存储：<br>最后6位没有地址码这样的重复逻辑，可以提供足够的区分度（使用count（distinct））去做验证；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select field_list from t where id_card = reverse(&apos;input_id_card_string&apos;);</span><br></pre></td></tr></table></figure>
-<p>2、使用hash字段：<br>在表上创建一个整数字段，用crc32（）得到校验码填充到新字段，由于校验码可能存在冲突，在查询的时候要判断id_card是否相同；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select field_list from t where id_card_crc=crc32(&apos;input_id_card_string&apos;) and id_card=&apos;input_id_card_string&apos;；</span><br></pre></td></tr></table></figure>
-<p>区别：</p>
-<ul>
-<li>倒序方式存在主键索引上，不消耗额外空间；</li>
-<li>从两个函数复杂度来看，reverse函数消耗CPU要小一些；</li>
-<li>hash方式更稳定一些；</li>
-</ul>
+<p>发送返回包的时候，也发给服务器A的对外身份，由路由器A做NAT，转换为国内身份；</p>
+<p>注：<br>可以通过 <a href="https://www.whatismyip.com/" target="_blank" rel="noopener">https://www.whatismyip.com/</a> 查看出口IP地址；</p>
+<p>eg：<br><br>家里访问163网站的时候，包需要NAT成公网IP，返回的包又要NAT成私有IP，其中的过程如何？</p>
+<p><strong>Netfilter的流程图：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/4.png" alt="luyou"></p>
+<p><strong>网络部的三种路径</strong>：</p>
+<ol>
+<li>发给我的，从prerouting到input；</li>
+<li>我发给别人的，从output到postrouting；</li>
+<li>从我这里经过的，从preouting到forward到postrouting；</li>
+</ol>
+<p>对于每一种路径，都需要设置两个记录点，相当于打两次卡：<br></p>
+<ol>
+<li>发给我的：<br>在prerouting调用ipv4_conntrack_in,创建跟踪链接记录；在input调用ipv4_confirm，将这个连接跟踪记录挂在内核的连接跟踪表里面；</li>
+<li>我发给别人的：<br>在output调用ipv4_conntrack_in，创建连接跟踪记录，在postrouting调用ipv4_confirm；</li>
+<li>从我这里经过的：<br>在preouting调用ipv4_conntrack_in，创建连接跟踪记录，在postrouting调用ipv4_confirm；</li>
+</ol>
+<p>当“3、从我这里经过的”涉及NAT网关的时候：<br><br>如果是prerouting，先调用ipv4_conntrack_in，创建连接跟踪记录，有NAT规则，调用nf_nat_ipv4_in,进行地质转换；<br><br>如果是postrouting，有NAT规则.</p>
+<p><strong>涉及到的数据结构：</strong></p>
+<ol>
+<li>连接跟踪记录</li>
+<li>连接跟踪表；</li>
+</ol>
+<p>每个网络包都是一个struck sk_buff,它有一个成员变量_nfct指向一个连接跟踪记录struct nf_conn.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">连接跟踪记录：</span><br><span class="line">- nf_conntrack 其实才是 _nfct变量指向的地址；</span><br><span class="line">- tuplehash虽然是数组，但里面只有两个，IP_CT_DIR_ORIGINAL为下标0，表示连接的发起方向，IP_CT_DIR_REPLY为下标1，表示连接的回复方向；</span><br><span class="line"></span><br><span class="line">struct nf_conn &#123;</span><br><span class="line"> ......</span><br><span class="line"> struct nf_conntrack ct_general;</span><br><span class="line"> ......</span><br><span class="line"> struct nf_conntrack_tuple_hash tuplehash[IP_CT_DIR_MAX];</span><br><span class="line"> ......</span><br><span class="line"> unsigned long status;</span><br><span class="line"> ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>连接跟踪表：<br><br>nf_contrack_hash是一个数组，数组每一项是一个双向链表的头，每一项后面都挂着一个双向链表，链表的每一项都是这个结构；</p>
+<p>nf_contrack_tuple是用来标识是否同一个连接：<br><br>src：包含源IP地址，如果是TCP或UDP，包含源端口，如果是ICMP，包含的是ID；<br><br>dst：包含目标IP地址，如果是TCP或UDP，包含目标端口；如果是ICMP，包含是type，code；</p>
+<p><strong>包发送和接收的过程</strong>：<br><br>发送：<br><br>创建一个新的连接跟踪记录nf_conn,这里面有两个nf_conntrack_tuple_hash;<br><br>一去：{源IP：客户端IP，源端口：客户端port，目标IP：服务端IP，目标端口：服务端port}；<br><br>一回：{源IP：服务端IP，源端口：服务端port，目标IP：客户端IP，目标端口；客户端port}；<br></p>
+<p>接下来经过forward过程，假设包没有被filter掉，于是要转发出去，进入postrouting的过程，有NAT规则，则调用na_nav_ipv4_out进行地质转换，此时，源地址转换为NAT网关的IP地址，对于masquerade，会自动选择一个公网IP地址和一个随机端口。</p>
+<p>为了让包回来的时候，能找到链接跟踪记录，需要修改两个nf_conntrack_tuple_hash中来回的那一项，{源IP：服务端IP，源端口：服务端port，目标IP：NAT网关IP，目标端口：随机端口}</p>
+<p>将包真正发出去的时候，除了要修改包里面的源IP和源端口之外，还需要将刚才的一去一回的两个nf_conntrack_tuple_hash放入连接跟踪表这个哈希表中，</p>
+<p>当网络包到达服务端，然后回复一个包的时候，这个包sk_buff为：{源IP：服务端IP，源端口：服务端port，目标IP：NAT网关IP，目标端口：随机端口}</p>
+<p>将这个转换为nf_conntrack_tuple后，进行哈希运算，在连接跟踪表里面查找，是能找回相应记录的，找到nf_conntrack_tuple_hash之后，Linux会提供一个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static inline struct nf_conn *</span><br><span class="line">nf_ct_tuplehash_to_ctrack(const struct nf_conntrack_tuple_hash *hash)</span><br><span class="line">&#123;</span><br><span class="line"> return container_of(hash, struct nf_conn,</span><br><span class="line">       tuplehash[hash-&gt;tuple.dst.dir]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过nf_conntrack_tuple_hash找到外面的连接跟踪记录nf_conn,通过这个可以找到来方向的那个nf_conntrack_tuple_hash，{源IP：客户端IP，源端口：客户端port，目标IP：服务端IP，目标端口：服务端port}，这样就能找到客户端的IP和端口，从而可以NAT回去；</p>
 
       
 
@@ -288,7 +298,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/07/14/MySQL里change buffer 和redo log 的区别/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/10/23/HTTP的路由协议和ARP广播协议（下）/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -302,18 +312,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/07/19/MySQL是如何保证主从一致的/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/11/11/HTTP的云中网络和VPN（上）/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          MySQL是如何保证主从一致的
+          HTTP的云中网络和VPN（上）
         
       </div>
     </a>
   
   
-    <a href="/2019/06/28/MySQL索引的工作原理/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MySQL索引的工作原理</div>
+    <a href="/2019/10/12/HTTP的路由协议和ARP广播协议（上）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP的路由协议和ARP广播协议（上）</div>
       <i class="icon-circle-right"></i>
     </a>
   

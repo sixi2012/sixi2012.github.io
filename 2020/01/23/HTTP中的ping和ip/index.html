@@ -6,24 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>HTTP的路由协议和ARP广播协议（下） | 依然在路上</title>
+  <title>HTTP中的ping和ip | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
+  <meta name="description" content="ping 是基于 ICMP 协议工作的。 ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP的路由协议和ARP广播协议（下）">
-<meta property="og:url" content="https://sixi2012.github.io/2019/10/08/HTTP的路由协议和ARP广播协议（下）/index.html">
+<meta property="og:title" content="HTTP中的ping和ip">
+<meta property="og:url" content="https://sixi2012.github.io/2020/01/23/HTTP中的ping和ip/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
+<meta property="og:description" content="ping 是基于 ICMP 协议工作的。 ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/4.png">
-<meta property="og:updated_time" content="2019-10-08T09:55:17.328Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/7.png">
+<meta property="og:updated_time" content="2020-04-04T12:14:53.888Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP的路由协议和ARP广播协议（下）">
-<meta name="twitter:description" content="网关往往是一个路由器，是一个三层转发的设备。 一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。 如何配置路由？">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg">
+<meta name="twitter:title" content="HTTP中的ping和ip">
+<meta name="twitter:description" content="ping 是基于 ICMP 协议工作的。 ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -151,106 +154,104 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-HTTP的路由协议和ARP广播协议（下）" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-HTTP中的ping和ip" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP的路由协议和ARP广播协议（下）
+      HTTP中的ping和ip
     </h1>
   
 
         
-          <a href="/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" class="archive-article-date">
-  	<time datetime="2019-10-08T09:54:17.638Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-08</time>
+          <a href="/2020/01/23/HTTP中的ping和ip/" class="archive-article-date">
+  	<time datetime="2020-01-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/1.jpeg" alt="luyou"></p>
-<p>网关往往是一个路由器，是一个三层转发的设备。</p>
-<p>一张路由表会有多条路由规则，通过 route 命令和 ip route 命令都可以进行查询配置。</p>
-<p>如何配置路由？</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/1.jpg" alt="ping"></p>
+<p>ping 是基于 ICMP 协议工作的。<br></p>
+<p>ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？</p>
 <a id="more"></a>
-<p><strong>静态路由：</strong><br><br>就是在路由器上面，配置一条一条规则；</p>
-<p>MAC地址是一个局域网内才有效的地址，因而，MAC地址只要过网关，就必定会改变（换了局域网）；<br><br>根据IP地址是否改变来区分：</p>
-<p><strong>转发网关：不改变IP地址；</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/2.png" alt="luyou"></p>
-<p>服务器A发送包的内容：</p>
+<p><strong>ICMP：互联网控制协议报文</strong><br><br>ICMP的报文是封装在IP包里面的：</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/2.png" alt="ping"></p>
+<p>常用的类型：主动请求为8，主动请求的应对为0；</p>
+<p><strong>ping就是查询报文，是一种主动请求，并且获得主动应答ICMP协议</strong><br></p>
 <ul>
-<li>源MAC：服务器A的MAC；</li>
-<li>目标MAC：192.168.1.1这个网口的MAC；</li>
-<li>源IP：192.168.1.101</li>
-<li>目标IP：192.168.4.101</li>
+<li>主动请求:ICMP ECHO REQUEST</li>
+<li>回复：ICMP ECHO REPLY</li>
+<li>比起原生的ICMP，里面多了两个字段，一个是标识符，另一个是序号，</li>
 </ul>
-<p>在路由器A中配置了静态路之后，要想访问192.168.4.101/24，要从192.168.56.1这个口出去，下一跳为192.168.56.2；<br><br>路由器A发送ARP获取的192.168.56.2/24Mac地址，然后发送包，包的内容：</p>
+<p><strong>差错报文<br><br>类型：</strong><br><br>1、终点不可达；<br><br>场景：</p>
 <ul>
-<li>源MAC：192.168.56.1的MAC地址；</li>
-<li>目标MAC：192.168.56.2的MAC地址；</li>
-<li>源IP：192.168.4.101</li>
-<li>目标IP：192.168.4.101</li>
+<li>网络不可达；</li>
+<li>主机不可达；</li>
+<li>协议不可达；</li>
+<li>端口不可达;</li>
+<li>需要进行分片，但设置不了分片位</li>
 </ul>
+<p>2、源站抑制：让源站放慢发送速度<br><br>3、时间超时：超过网络包的生存时间还没到<br><br>4、路由重定向：让下次发给另一个路由器</p>
+<p>结构：<br><br>IP，ICMP的前8字节不变，后面跟上出错的那个IP包的IP头和IP正文的前8个字节；</p>
+<p>ping的发送和接收过程：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/3.png" alt="ping"></p>
+<ol>
+<li>源主机构建一个ICMP请求的数据包，ICMP数据包内包含多个字段，最重要的两个是类型字段（主动请求是8）和顺序号（用于区分连续ping的时候发出的多个数据包）；</li>
+<li>由ICMP协议将这个数据包连同地址192.168.1.2，一起交给IP层，IP层将以192.168.1.2作为目的地址，本机IP地址作为源地址，加上其他的控制信息，构建一个IP数据包；</li>
+<li>加上MAC头。若APR映射表中有192.168.1.2对应的MAC地址可以直接使用；如果没有，则需要发送ARP协议查询MAC地址，</li>
+<li>数据链路层构建一个数据帧，目的地址是IP层传过来的MAC地址，源地址是本机的MAC地址，附加上一些控制信息，依据以太网的访问规则，将它们传送出去；</li>
+<li>主机B收到这个数据帧后，先检查它的目的MAC地址，并和本机的MAC地址做对比，符合就接收，不符合则丢弃。接收后检查该数据帧，将IP数据包从帧中提取出来，交给本机ip层，同样ip层检查后将有用的信息提取交给ICMP协议;</li>
+<li>主机B构建一个ICMP应答包，字段类型为0，顺序号为请求数据包中的顺序号，然后再发送给主机A；</li>
+<li>在规定的时间内，源主机如果没有接到ICMP的应答包，则说明目标主机不可达；如果接手到ICMP应答包，则说明目标主机可达。此时，主机会用当前时刻减去该数据包最初从源主机上发出的时刻，就是ICMP数据包的时间延迟；</li>
+</ol>
 <p>注：</p>
-<ol>
-<li>每到一个新的局域网，MAC都是要变的，但IP地址不变；</li>
-<li>在IP头里面，不会保存任何网关的IP地址；</li>
-<li>所谓的下一跳，某个IP要将这个IP地址转换为MAC放入MAC头；</li>
-</ol>
-<p><strong>NAT网关：改变IP地址；</strong></p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/3.png" alt="luyou"></p>
-<p>问题：局域网之间没有商量过，各定各的网段，因而冲突了；</p>
-<p>服务器A有一个对外身份，192.168.56.1；<br><br>服务器B也有一个对外身份，192.168.56.2，在网关B上记下来，192.168.56.2对应192.168.1.101，凡是访问192.168.56.2都转成192.168.1.101；</p>
-<p>路由器A配置了静态路由，要访问192.168.56.2/24,从192.168.56.1这个口出去,发送包的内容：</p>
 <ul>
-<li>源MAC：192.168.56.1的MAC地址;</li>
-<li>目标MAC：192.168.56.2的MAC地址；</li>
-<li>源IP：192.168.56.1；</li>
-<li>目标IP：192.168.56.2；</li>
+<li>遇到网络不通的问题，除了直接ping目标的ip地址之外，还应该有一个清晰的网络拓扑图，清楚知道一个网络包从源地址到目标地址都需要经过哪些设备，然后逐个ping中间的这些设备或者机器。如果可能的话，在这些关键点，通过tcpdump -i eho0 icmp，查看包有没有到达某个点，回复的包到达了哪个点，可以更容易推断出错的位置；</li>
+<li>很多中间设备是禁止ping的，但ping不通不代表网络不通，这时候要使用Telnet，通过其他协议来测试网络是否通；</li>
 </ul>
-<p>路由器B是一个NAT网关，配置了192.168.56.2对应的192.168.1.101，于是改访问192.168.1.101；<br><br>所以路由器B发送的包内容：</p>
+<p>Traceroute：差错报文类型的使用</p>
 <ul>
-<li>源MAC：192.168.1.1的MAC地址；</li>
-<li>目标MAC：192.168.1.101的MAC地址；</li>
-<li>源IP：192.168.56.1；</li>
-<li>目标IP：192.168.1.101；</li>
+<li>故意设置特殊的TTL，来追踪来往目的地时沿途经过的路由器；</li>
+<li>参数指向某个ip，它会发送一个UDP的数据包，将TTL设置成1，也就是说一旦遇到一个路由器或者一个关卡，表示它“牺牲”了；</li>
+<li>故意设置不分片，从而确定路径的MTU；</li>
 </ul>
-<p>发送返回包的时候，也发给服务器A的对外身份，由路由器A做NAT，转换为国内身份；</p>
-<p>注：<br>可以通过 <a href="https://www.whatismyip.com/" target="_blank" rel="noopener">https://www.whatismyip.com/</a> 查看出口IP地址；</p>
-<p>eg：<br><br>家里访问163网站的时候，包需要NAT成公网IP，返回的包又要NAT成私有IP，其中的过程如何？</p>
-<p><strong>Netfilter的流程图：</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-luyou/4.png" alt="luyou"></p>
-<p><strong>网络部的三种路径</strong>：</p>
+<p>不会导致产生ICMP差错报文的情况：</p>
 <ol>
-<li>发给我的，从prerouting到input；</li>
-<li>我发给别人的，从output到postrouting；</li>
-<li>从我这里经过的，从preouting到forward到postrouting；</li>
+<li>ICMP差错报文（ICMP查询报文可能会产生ICMP差错报文）；</li>
+<li>目的地址是广播地址或多播地址的ip数据包；</li>
+<li>作为链路层广播的数据报；</li>
+<li>不是ip分片的第一片；</li>
+<li>源地址不是单个主机的数据报，即：源地址不是零地址，环回地址，广播地址或多播地址；</li>
 </ol>
-<p>对于每一种路径，都需要设置两个记录点，相当于打两次卡：<br></p>
+<p>对于ping来讲，使用ICMP，创建Socket入下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)</span><br></pre></td></tr></table></figure>
+<p>SOCK_RAW就是基于ip层协议建立通信机制；</p>
+<p>如果是TCP，则建立下面的Socket：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)</span><br></pre></td></tr></table></figure>
+<p>如果是UDP，则建立下面的Socket：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)</span><br></pre></td></tr></table></figure>
+<p><strong>手动配置IP地址：</strong><br><br>使用net-tools：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo ifconfig eth1 10.0.0.1/24</span><br><span class="line">$ sudo ifconfig eth1 up</span><br></pre></td></tr></table></figure>
+<p>使用iproute2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ip addr add 10.0.0.1/24 dev eth1</span><br><span class="line">$ sudo ip link set up eth1</span><br></pre></td></tr></table></figure>
+<p><strong>Linux的默认逻辑：</strong></p>
 <ol>
-<li>发给我的：<br>在prerouting调用ipv4_conntrack_in,创建跟踪链接记录；在input调用ipv4_confirm，将这个连接跟踪记录挂在内核的连接跟踪表里面；</li>
-<li>我发给别人的：<br>在output调用ipv4_conntrack_in，创建连接跟踪记录，在postrouting调用ipv4_confirm；</li>
-<li>从我这里经过的：<br>在preouting调用ipv4_conntrack_in，创建连接跟踪记录，在postrouting调用ipv4_confirm；</li>
+<li>如果是一个跨网段的调用，便不会直接将包发送到网络上，而是将包发送到网关；</li>
+<li>只有是一个网段的，才会发送APR请求，获取MAC地址；</li>
 </ol>
-<p>当“3、从我这里经过的”涉及NAT网关的时候：<br><br>如果是prerouting，先调用ipv4_conntrack_in，创建连接跟踪记录，有NAT规则，调用nf_nat_ipv4_in,进行地质转换；<br><br>如果是postrouting，有NAT规则.</p>
-<p><strong>涉及到的数据结构：</strong></p>
-<ol>
-<li>连接跟踪记录</li>
-<li>连接跟踪表；</li>
-</ol>
-<p>每个网络包都是一个struck sk_buff,它有一个成员变量_nfct指向一个连接跟踪记录struct nf_conn.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">连接跟踪记录：</span><br><span class="line">- nf_conntrack 其实才是 _nfct变量指向的地址；</span><br><span class="line">- tuplehash虽然是数组，但里面只有两个，IP_CT_DIR_ORIGINAL为下标0，表示连接的发起方向，IP_CT_DIR_REPLY为下标1，表示连接的回复方向；</span><br><span class="line"></span><br><span class="line">struct nf_conn &#123;</span><br><span class="line"> ......</span><br><span class="line"> struct nf_conntrack ct_general;</span><br><span class="line"> ......</span><br><span class="line"> struct nf_conntrack_tuple_hash tuplehash[IP_CT_DIR_MAX];</span><br><span class="line"> ......</span><br><span class="line"> unsigned long status;</span><br><span class="line"> ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>连接跟踪表：<br><br>nf_contrack_hash是一个数组，数组每一项是一个双向链表的头，每一项后面都挂着一个双向链表，链表的每一项都是这个结构；</p>
-<p>nf_contrack_tuple是用来标识是否同一个连接：<br><br>src：包含源IP地址，如果是TCP或UDP，包含源端口，如果是ICMP，包含的是ID；<br><br>dst：包含目标IP地址，如果是TCP或UDP，包含目标端口；如果是ICMP，包含是type，code；</p>
-<p><strong>包发送和接收的过程</strong>：<br><br>发送：<br><br>创建一个新的连接跟踪记录nf_conn,这里面有两个nf_conntrack_tuple_hash;<br><br>一去：{源IP：客户端IP，源端口：客户端port，目标IP：服务端IP，目标端口：服务端port}；<br><br>一回：{源IP：服务端IP，源端口：服务端port，目标IP：客户端IP，目标端口；客户端port}；<br></p>
-<p>接下来经过forward过程，假设包没有被filter掉，于是要转发出去，进入postrouting的过程，有NAT规则，则调用na_nav_ipv4_out进行地质转换，此时，源地址转换为NAT网关的IP地址，对于masquerade，会自动选择一个公网IP地址和一个随机端口。</p>
-<p>为了让包回来的时候，能找到链接跟踪记录，需要修改两个nf_conntrack_tuple_hash中来回的那一项，{源IP：服务端IP，源端口：服务端port，目标IP：NAT网关IP，目标端口：随机端口}</p>
-<p>将包真正发出去的时候，除了要修改包里面的源IP和源端口之外，还需要将刚才的一去一回的两个nf_conntrack_tuple_hash放入连接跟踪表这个哈希表中，</p>
-<p>当网络包到达服务端，然后回复一个包的时候，这个包sk_buff为：{源IP：服务端IP，源端口：服务端port，目标IP：NAT网关IP，目标端口：随机端口}</p>
-<p>将这个转换为nf_conntrack_tuple后，进行哈希运算，在连接跟踪表里面查找，是能找回相应记录的，找到nf_conntrack_tuple_hash之后，Linux会提供一个函数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static inline struct nf_conn *</span><br><span class="line">nf_ct_tuplehash_to_ctrack(const struct nf_conntrack_tuple_hash *hash)</span><br><span class="line">&#123;</span><br><span class="line"> return container_of(hash, struct nf_conn,</span><br><span class="line">       tuplehash[hash-&gt;tuple.dst.dir]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>通过nf_conntrack_tuple_hash找到外面的连接跟踪记录nf_conn,通过这个可以找到来方向的那个nf_conntrack_tuple_hash，{源IP：客户端IP，源端口：客户端port，目标IP：服务端IP，目标端口：服务端port}，这样就能找到客户端的IP和端口，从而可以NAT回去；</p>
+<p><strong>动态主机配置协议（DHCP）：</strong></p>
+<p>工作方式：<br><br>1、DHCP Discover：<br><br>新机器使用IP地址：0.0.0.0发送了一个广播包，目的地ip是255.255.255.255。广播包封装了UDP，UDP封装了BOOTP；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/4.png" alt="ping"></p>
+<p>2、DHCP Offer：<br><br>只有MAC地址唯一，IP管理员为新机器租一个IP地址，同时DHCP Server为此机器保留提供的IP；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/5.png" alt="ping"></p>
+<p>3、新机器选择一个DHCP Offer ，向网络发送一个DHCP Request 广播数据包，包含客户端的MAC地址，IP地址，DHCP服务器地址等；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/6.png" alt="ping"></p>
+<p>4、由于没有得到DHCP Server的最后确认，新机器仍使用0.0.0.0为源IP地址，255.255.255.255为目标地址进行广播；<br><br>当DHCP Server接收到新机器的request后，会广播返回给客户机一个DHCP ACK消息包，将IP地址的合法租用信息和其他的配置信息放到该广播包，发送给客户机；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/7.png" alt="ping"></p>
+<p><strong>IP地址的续租：</strong><br>客户机在租期过去50%的时候，直接向 DHCP Server发送DHCP request 消息包，之后收到服务器的ACK消息包，根据包里面新的租期和其它更新的TCP/IP参数，更新自己的配置；</p>
 
       
 
@@ -298,7 +299,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/10/08/HTTP的路由协议和ARP广播协议（下）/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/01/23/HTTP中的ping和ip/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -312,18 +313,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/10/27/HTTP中的ping和ip/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/23/HTTP的RCP协议/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          HTTP中的ping和ip
+          HTTP的RCP协议
         
       </div>
     </a>
   
   
-    <a href="/2019/09/29/HTTP的路由协议和ARP广播协议（上）/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HTTP的路由协议和ARP广播协议（上）</div>
+    <a href="/2020/01/22/Nginx的缓存使用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx的缓存使用</div>
       <i class="icon-circle-right"></i>
     </a>
   
