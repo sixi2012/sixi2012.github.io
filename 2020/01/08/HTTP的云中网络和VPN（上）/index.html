@@ -6,27 +6,34 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>HTTP中的ping和ip | 依然在路上</title>
+  <title>HTTP的云中网络和VPN（上） | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="ping 是基于 ICMP 协议工作的。 ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？">
+  <meta name="description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP中的ping和ip">
-<meta property="og:url" content="https://sixi2012.github.io/2020/01/08/HTTP中的ping和ip/index.html">
+<meta property="og:title" content="HTTP的云中网络和VPN（上）">
+<meta property="og:url" content="https://sixi2012.github.io/2020/01/08/HTTP的云中网络和VPN（上）/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="ping 是基于 ICMP 协议工作的。 ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？">
+<meta property="og:description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/1.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/7.png">
-<meta property="og:updated_time" content="2020-04-04T12:21:31.031Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/14.png">
+<meta property="og:updated_time" content="2020-04-07T07:10:38.226Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP中的ping和ip">
-<meta name="twitter:description" content="ping 是基于 ICMP 协议工作的。 ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/1.jpg">
+<meta name="twitter:title" content="HTTP的云中网络和VPN（上）">
+<meta name="twitter:description" content="当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -154,19 +161,19 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-HTTP中的ping和ip" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-HTTP的云中网络和VPN（上）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP中的ping和ip
+      HTTP的云中网络和VPN（上）
     </h1>
   
 
         
-          <a href="/2020/01/08/HTTP中的ping和ip/" class="archive-article-date">
+          <a href="/2020/01/08/HTTP的云中网络和VPN（上）/" class="archive-article-date">
   	<time datetime="2020-01-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-08</time>
 </a>
         
@@ -174,84 +181,116 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/1.jpg" alt="ping"></p>
-<p>ping 是基于 ICMP 协议工作的。<br></p>
-<p>ICMP全称Internet Control Message Protocol，就是互联网控制报文协议。这里面的关键词是“控制”，那具体是怎么控制的呢？</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/1.jpg" alt="vpn"></p>
+<p>当一个公司里有很多个数据中心，需要将多个数据中心连接起来，该怎么办呢？</p>
 <a id="more"></a>
-<p><strong>ICMP：互联网控制协议报文</strong><br><br>ICMP的报文是封装在IP包里面的：</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/2.png" alt="ping"></p>
-<p>常用的类型：主动请求为8，主动请求的应对为0；</p>
-<p><strong>ping就是查询报文，是一种主动请求，并且获得主动应答ICMP协议</strong><br></p>
-<ul>
-<li>主动请求:ICMP ECHO REQUEST</li>
-<li>回复：ICMP ECHO REPLY</li>
-<li>比起原生的ICMP，里面多了两个字段，一个是标识符，另一个是序号，</li>
-</ul>
-<p><strong>差错报文<br><br>类型：</strong><br><br>1、终点不可达；<br><br>场景：</p>
-<ul>
-<li>网络不可达；</li>
-<li>主机不可达；</li>
-<li>协议不可达；</li>
-<li>端口不可达;</li>
-<li>需要进行分片，但设置不了分片位</li>
-</ul>
-<p>2、源站抑制：让源站放慢发送速度<br><br>3、时间超时：超过网络包的生存时间还没到<br><br>4、路由重定向：让下次发给另一个路由器</p>
-<p>结构：<br><br>IP，ICMP的前8字节不变，后面跟上出错的那个IP包的IP头和IP正文的前8个字节；</p>
-<p>ping的发送和接收过程：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/3.png" alt="ping"></p>
+<p>VPN通过隧道技术在公共网络仿真一条点到点的专线，是通过利用一种协议来传输另外一种协议的技术，涉及三种协议：乘客协议，隧道协议和承载协议；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/2.png" alt="vpn"></p>
 <ol>
-<li>源主机构建一个ICMP请求的数据包，ICMP数据包内包含多个字段，最重要的两个是类型字段（主动请求是8）和顺序号（用于区分连续ping的时候发出的多个数据包）；</li>
-<li>由ICMP协议将这个数据包连同地址192.168.1.2，一起交给IP层，IP层将以192.168.1.2作为目的地址，本机IP地址作为源地址，加上其他的控制信息，构建一个IP数据包；</li>
-<li>加上MAC头。若APR映射表中有192.168.1.2对应的MAC地址可以直接使用；如果没有，则需要发送ARP协议查询MAC地址，</li>
-<li>数据链路层构建一个数据帧，目的地址是IP层传过来的MAC地址，源地址是本机的MAC地址，附加上一些控制信息，依据以太网的访问规则，将它们传送出去；</li>
-<li>主机B收到这个数据帧后，先检查它的目的MAC地址，并和本机的MAC地址做对比，符合就接收，不符合则丢弃。接收后检查该数据帧，将IP数据包从帧中提取出来，交给本机ip层，同样ip层检查后将有用的信息提取交给ICMP协议;</li>
-<li>主机B构建一个ICMP应答包，字段类型为0，顺序号为请求数据包中的顺序号，然后再发送给主机A；</li>
-<li>在规定的时间内，源主机如果没有接到ICMP的应答包，则说明目标主机不可达；如果接手到ICMP应答包，则说明目标主机可达。此时，主机会用当前时刻减去该数据包最初从源主机上发出的时刻，就是ICMP数据包的时间延迟；</li>
+<li>私密性：<br>采用对称加密，因特网秘钥交换协议（IKE）；</li>
+<li>完整性：<br>通过对数据进行哈希运算，产生类似指纹的数据摘要，以保证数据的完整性；</li>
+<li>真实性：</li>
 </ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/3.png" alt="vpn"></p>
+<p><strong>IPsec  VPN的协议簇：</strong></p>
+<p>两种协议：</p>
+<ol>
+<li>AH：只能进行数据摘要，不能实现数据加密；</li>
+<li>ESP：能够进行数据加密和数据摘要；</li>
+</ol>
+<p>两类算法：</p>
+<ol>
+<li>加密算法；</li>
+<li>摘要算法；</li>
+</ol>
+<p>两大组件：</p>
+<ol>
+<li>进行对称秘钥的交换的IKE组件；</li>
+<li>对连接进行维护的SA组件；</li>
+</ol>
+<p><strong>IPsec VPN的建立过程：</strong><br><br>第一阶段<br><br>建立IKE自己的SA，这个SA用来维护一个通过身份认证和安全保护的通道，为第二阶段提供服务；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/4.png" alt="vpn"></p>
+<p>第二阶段<br><br>建立IPsec SA，在这个SA里面，双方生成一个随机的对称秘钥M，由k加密传给对方，然后使用M进行双方接下来的通信数据。</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/5.png" alt="vpn"></p>
+<p>注：IPsec里的内容<br></p>
+<ol>
+<li>SPI：用于标识不同的连接；</li>
+<li>双方商量好的加密算法，哈希算法和封装模式；</li>
+<li>生存周期，超过这个周期，需要重新生成一个IPsec SA，从新生成对称秘钥；</li>
+</ol>
+<p>客户端发送明文IP包，会被加上ESP头和IP头，在公网上传输，由于加密，可以保证不被盗窃，到了对端后，去掉ESP的头，进行解密；</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/6.png" alt="vpn"></p>
+<p>多协议标签交换（MPLS）</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/7.png" alt="vpn"></p>
+<p>这个路由器会有两个表格，一个是传统的FIB，也即路由表，另一个就是LFIB，标签转发表</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/8.png" alt="vpn"></p>
+<p>在MPLS区域，使用标签进行转发；<br><br>非MPLS区域，使用普通路由进行转发；</p>
+<p>在MPLS VPN中，网络中的路由器分成以下几类：</p>
+<ul>
+<li>PE：运营商网络与客户端网络相连的边缘网络设备；</li>
+<li>CE：客户端网络与PE相连接的边缘设备；</li>
+<li>P：特指运营商网络中除PE之外的其他运营商网络；</li>
+</ul>
+<p>VPN报文转发采用两层标签方式：<br></p>
+<ol>
+<li>外层标签在骨干网内部进行交换，指示从PE到对端PE的一条LSP；</li>
+<li>内层标签在从对端PE到达CE时使用，在PE上，通过查找VRF表项，指示报文应被送到哪个VPN用户，或者更具体一些，到达哪一个CE；</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/9.png" alt="vpn"></p>
 <p>注：</p>
 <ul>
-<li>遇到网络不通的问题，除了直接ping目标的ip地址之外，还应该有一个清晰的网络拓扑图，清楚知道一个网络包从源地址到目标地址都需要经过哪些设备，然后逐个ping中间的这些设备或者机器。如果可能的话，在这些关键点，通过tcpdump -i eho0 icmp，查看包有没有到达某个点，回复的包到达了哪个点，可以更容易推断出错的位置；</li>
-<li>很多中间设备是禁止ping的，但ping不通不代表网络不通，这时候要使用Telnet，通过其他协议来测试网络是否通；</li>
+<li>机构A和机构B都发送了一个目的地为 192.168.101.0/24的IP报文，分别由格子的CE将报文发送至PE；</li>
+<li>PE会根据报文到达的接口及目的地查找VPN实例表项VRF，匹配后将报文转发出去，同时打上内层和外层两个标签。假设通过MP-BGP配置的路由，两个报文在骨干走相同的路径；</li>
+<li>MPLS网络利用报文的外层标签，将报文传送到出口PE，报文在到达出口PE2前一跳时已被剥离外层标签，仅含有内层标签；</li>
+<li>出口PE根据内层标签和目的地查找VPN实例表项VRF，确定报文的出接口，将报文转发至格子的CE；</li>
+<li>CE根据正常的IP转发过程将报文传送至目的地；</li>
 </ul>
-<p>Traceroute：差错报文类型的使用</p>
+<p><strong>云计算中的网络需要注意的点</strong></p>
 <ul>
-<li>故意设置特殊的TTL，来追踪来往目的地时沿途经过的路由器；</li>
-<li>参数指向某个ip，它会发送一个UDP的数据包，将TTL设置成1，也就是说一旦遇到一个路由器或者一个关卡，表示它“牺牲”了；</li>
-<li>故意设置不分片，从而确定路径的MTU；</li>
+<li>共享：多个虚拟网卡如何共享同一个出口；</li>
+<li>互通：同一台机器上的两个虚拟机，属于同一个用户的话，如何互相通信；</li>
+<li>隔离：安全隔离和流量隔离；</li>
+<li>灵活：创建，删除等需要灵活的配置；</li>
 </ul>
-<p>不会导致产生ICMP差错报文的情况：</p>
+<p><strong>访问外部网络的方式：</strong></p>
 <ol>
-<li>ICMP差错报文（ICMP查询报文可能会产生ICMP差错报文）；</li>
-<li>目的地址是广播地址或多播地址的ip数据包；</li>
-<li>作为链路层广播的数据报；</li>
-<li>不是ip分片的第一片；</li>
-<li>源地址不是单个主机的数据报，即：源地址不是零地址，环回地址，广播地址或多播地址；</li>
+<li>桥接：虚拟机的地址和笔记本电脑的网段是一个网段的；</li>
 </ol>
-<p>对于ping来讲，使用ICMP，创建Socket入下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket(AF_INET, SOCK_RAW, IPPROTO_ICMP)</span><br></pre></td></tr></table></figure>
-<p>SOCK_RAW就是基于ip层协议建立通信机制；</p>
-<p>如果是TCP，则建立下面的Socket：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)</span><br></pre></td></tr></table></figure>
-<p>如果是UDP，则建立下面的Socket：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)</span><br></pre></td></tr></table></figure>
-<p><strong>手动配置IP地址：</strong><br><br>使用net-tools：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$sudo ifconfig eth1 10.0.0.1/24</span><br><span class="line">$ sudo ifconfig eth1 up</span><br></pre></td></tr></table></figure>
-<p>使用iproute2：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ip addr add 10.0.0.1/24 dev eth1</span><br><span class="line">$ sudo ip link set up eth1</span><br></pre></td></tr></table></figure>
-<p><strong>Linux的默认逻辑：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/10.png" alt="vpn"></p>
 <ol>
-<li>如果是一个跨网段的调用，便不会直接将包发送到网络上，而是将包发送到网关；</li>
-<li>只有是一个网段的，才会发送APR请求，获取MAC地址；</li>
+<li>NAT：虚拟机的网络和物理机的网络不同；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/11.png" alt="vpn"></li>
 </ol>
-<p><strong>动态主机配置协议（DHCP）：</strong></p>
-<p>工作方式：<br><br>1、DHCP Discover：<br><br>新机器使用IP地址：0.0.0.0发送了一个广播包，目的地ip是255.255.255.255。广播包封装了UDP，UDP封装了BOOTP；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/4.png" alt="ping"></p>
-<p>2、DHCP Offer：<br><br>只有MAC地址唯一，IP管理员为新机器租一个IP地址，同时DHCP Server为此机器保留提供的IP；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/5.png" alt="ping"></p>
-<p>3、新机器选择一个DHCP Offer ，向网络发送一个DHCP Request 广播数据包，包含客户端的MAC地址，IP地址，DHCP服务器地址等；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/6.png" alt="ping"></p>
-<p>4、由于没有得到DHCP Server的最后确认，新机器仍使用0.0.0.0为源IP地址，255.255.255.255为目标地址进行广播；<br><br>当DHCP Server接收到新机器的request后，会广播返回给客户机一个DHCP ACK消息包，将IP地址的合法租用信息和其他的配置信息放到该广播包，发送给客户机；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-ping/7.png" alt="ping"></p>
-<p><strong>IP地址的续租：</strong><br>客户机在租期过去50%的时候，直接向 DHCP Server发送DHCP request 消息包，之后收到服务器的ACK消息包，根据包里面新的租期和其它更新的TCP/IP参数，更新自己的配置；</p>
+<p><strong>隔离</strong>：</p>
+<ol>
+<li>VLAN功能，设置两个虚拟机的tag，</li>
+<li>在虚拟网桥上，两个虚拟机是不互通的；</li>
+<li>出了网桥，由于vlan不同，也不会将包发到另一个网桥上；</li>
+<li>出了物理机，也是带着VLAN ID的，只会讲包发给相同的VLAN的网卡和网桥；</li>
+</ol>
+<p><strong>软件定义网络（SDN）</strong><br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/12.png" alt="vpn"></p>
+<ol>
+<li>控制与转发分离；</li>
+<li>控制平面与转发平面之间的开放接口；</li>
+<li>逻辑上的集中控制；</li>
+</ol>
+<p>SDN控制器是通过OpenFlow协议控制网络的：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/13.png" alt="vpn"></p>
+<p>在OpenSwith里，有一个流表规则，对包进行处理，进行接收转发和放弃；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-vpn/14.png" alt="vpn"></p>
+<p>物理层：<br>1、匹配规则：从哪个口进来；<br>2、执行动作：从哪个口出去；</p>
+<p>MAC层：</p>
+<ol>
+<li>匹配规则：源MAC地址(dl_src),目标MAC（dl_dst）,所属vlan（dl_vlan）</li>
+<li>执行动作：修改原MAC（mod_dl_src）,目标MAC（mod_dl_dst）,修改VLAN（mod_vlan_vid）,删除VLAN（strip_vlan）,MAC地址学习（learn）</li>
+</ol>
+<p>网络层：</p>
+<ol>
+<li>匹配规则：源IP地址多少（nw_src）,目标IP（nw_dst）;</li>
+<li>执行动作：修改IP（mod_nw_src）,修改目标IP地址（mod_nw_dst）;</li>
+</ol>
+<p>传输层：</p>
+<ol>
+<li>匹配规则：源端口（tp_src）,目标端口（tp_dst）</li>
+<li>执行动作：修改源端口（mod_tp_src）,修改目标端口（mod_tp_dst）</li>
+</ol>
 
       
 
@@ -299,7 +338,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/01/08/HTTP中的ping和ip/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2020/01/08/HTTP的云中网络和VPN（上）/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -313,11 +352,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/01/22/HTTP和HTTPS协议的区别/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/22/HTTP的云中网络和VPN（下）/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          HTTP和HTTPS协议的区别
+          HTTP的云中网络和VPN（下）
         
       </div>
     </a>

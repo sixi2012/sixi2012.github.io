@@ -6,32 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://sixi2012.github.io">
-  <title>HTTP的云中网络和VPN（下） | 依然在路上</title>
+  <title>HTTP和HTTPS协议的区别 | 依然在路上</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。">
+  <meta name="description" content="HTTP协议，几乎是每个人上网用的第一个协议，同时也是很容易被人忽略的协议。 但是在很多严肃的场景中，存在安全风险，需要加密，即我们说的HTTPS协议。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP的云中网络和VPN（下）">
-<meta property="og:url" content="https://sixi2012.github.io/2019/11/25/HTTP的云中网络和VPN（下）/index.html">
+<meta property="og:title" content="HTTP和HTTPS协议的区别">
+<meta property="og:url" content="https://sixi2012.github.io/2019/11/27/HTTP和HTTPS协议的区别/index.html">
 <meta property="og:site_name" content="依然在路上">
-<meta property="og:description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。">
+<meta property="og:description" content="HTTP协议，几乎是每个人上网用的第一个协议，同时也是很容易被人忽略的协议。 但是在很多严肃的场景中，存在安全风险，需要加密，即我们说的HTTPS协议。">
 <meta property="og:locale" content="php">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/1.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/10.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/11.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/12.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/13.png">
-<meta property="og:updated_time" content="2019-11-25T09:10:34.609Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/WechatIMG155.jpeg">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/7.png">
+<meta property="og:updated_time" content="2020-04-07T07:10:53.868Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP的云中网络和VPN（下）">
-<meta name="twitter:description" content="当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/1.jpg">
+<meta name="twitter:title" content="HTTP和HTTPS协议的区别">
+<meta name="twitter:description" content="HTTP协议，几乎是每个人上网用的第一个协议，同时也是很容易被人忽略的协议。 但是在很多严肃的场景中，存在安全风险，需要加密，即我们说的HTTPS协议。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/WechatIMG155.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="依然在路上" type="application/atom+xml">
   
@@ -159,122 +155,111 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-HTTP的云中网络和VPN（下）" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-HTTP和HTTPS协议的区别" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP的云中网络和VPN（下）
+      HTTP和HTTPS协议的区别
     </h1>
   
 
         
-          <a href="/2019/11/25/HTTP的云中网络和VPN（下）/" class="archive-article-date">
-  	<time datetime="2019-11-25T09:08:14.597Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-25</time>
+          <a href="/2019/11/27/HTTP和HTTPS协议的区别/" class="archive-article-date">
+  	<time datetime="2019-11-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-27</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/1.jpg" alt="yun"></p>
-<p>当数据中心里堆着一大片机器，用网络连接起来的时候是很不灵活的，于是发明了虚拟机技术，并基于它产生了云计算。</p>
+        <p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/WechatIMG155.jpeg" alt="qb"></p>
+<p>HTTP协议，几乎是每个人上网用的第一个协议，同时也是很容易被人忽略的协议。</p>
+<p>但是在很多严肃的场景中，存在安全风险，需要加密，即我们说的HTTPS协议。</p>
 <a id="more"></a>
-<p><strong>云计算中使用OpenSwitch</strong></p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/4.png" alt="yun"></p>
-<p>由于OpenSwitch本身就是支持Vlan的，所有的虚拟机都可以放在一个网桥br0上，通过不同的用户配置不同的tag，就能够实现隔离。<br><br>配置简单而灵活，可以解耦物理网络和虚拟网络；</p>
-<p>安全和保障<br><br>对于公有云上的虚拟机，仅仅开放需要的端口，而将其他的端口一概关闭，这个时候，只要通过安全措施守护好这个唯一的入口就可以了。</p>
-<p><strong>一个包进入一台机器后的过程</strong></p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/3.png" alt="yun"></p>
-<p>linux的内核模块ip_tables:<br><br>按功能分为四大类：连接跟踪（conntrack），数据包的过滤（filter），网络地址转换（nat）和数据包的修改（mangle）</p>
-<p>ip_tables表分为四种：<br><br>raw-&gt;mangle-&gt;nat-&gt;filter</p>
-<p>filter表处理过滤功能：</p>
-<ol>
-<li>nput链：过滤所有目标地址是本机的数据包；</li>
-<li>forward链：过滤所有路过本机的数据包；</li>
-<li>output链：过滤由本机产生的数据包；</li>
-</ol>
-<p>nat表处理网络地址转换：</p>
-<ol>
-<li>prerouting链：可以在数据包到达防火墙时改变目标地址；</li>
-<li>output链：改变本地产生的数据包的目标地址；</li>
-<li>postrouting链：在数据包离开防火墙时改变数据包的源地址</li>
-</ol>
-<p>mangle表修改数据包：<br><br>包含prerouting链、postrouting链、input链、output链、forward链</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/5.png" alt="yun"></p>
-<p><strong>iptablesd的filter功能</strong>：<br><br>1、将所有的端口都关闭</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -t filter -A INPUT -s 0.0.0.0/0.0.0.0 -d X.X.X.X -j DROP</span><br></pre></td></tr></table></figure>
-<p>-s：源IP地址、-d：目标地址段、DROP：丢弃；</p>
-<p>2、打开ssh用的22端口，和web服务的80端口：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -s 0.0.0.0/0.0.0.0 -d X.X.X.X -p tcp --dport 22 -j ACCEPT</span><br><span class="line">iptables -A INPUT -s 0.0.0.0/0.0.0.0 -d X.X.X.X -p tcp --dport 80 -j ACCEP</span><br></pre></td></tr></table></figure>
-<p><strong>iptablesd的nat功能：</strong></p>
-<ol>
-<li>当所有的虚拟机共享一个机房网和公网的IP地址，所有从外网网口出去的，都转换成为这个IP地址；</li>
-<li>返回结果的时候，用到连接跟踪（conntrack）功能：</li>
-</ol>
+<p><strong>请求头格式：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/1.png" alt="qb"></p>
+<p><strong>返回头格式：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/2.png" alt="qb"></p>
+<p><strong>HTTP请求的构建：</strong></p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/3.png" alt="qb"></p>
+<p>1、请求头<br><br>HTTP协议的请求方法有GET、POST、PUT、HEAD、DELETE、OPTIONS、TRACE、CONNEC</p>
+<p>2、首部字段<br><br>请求头部由key/value键值对组成，每行一对，key和value用冒号”:”分隔，请求头部通知服务器有关于client端的请求信息，典型的请求头：</p>
 <ul>
-<li>源地址转换（Snat）：itables -t nat -A -s 私网 IP -j Snat –to-source 外网 IP</li>
-<li>目的地址转换（Dnat）：iptables -t nat -A -PREROUTING -d 外网 IP -j Dnat –to-destination 私网 IP</li>
+<li>Accept-Charles表示客户端可以接受的字符集；</li>
+<li>Content-Type指正文格式</li>
+<li>缓存：架构如下<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/4.png" alt="qb"></li>
 </ul>
-<p><strong>iptablesd的QUEUE实现负载均衡功能</strong>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-A PREROUTING -p tcp -m set --match-set minuteman dst,dst -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j NFQUEUE --queue-balance 50:58</span><br><span class="line">-A OUTPUT -p tcp -m set --match-set minuteman dst,dst -m tcp --tcp-flags FIN,SYN,RST,ACK SYN -j NFQUEUE --queue-balance 50:58</span><br></pre></td></tr></table></figure>
-<p>NFQUEUE的规则表示把包的处理权交给用户态的一个进程。 -queue-balance表示会将包发给几个queue</p>
-<p><strong>QoS：云平台的流量控制技术</strong><br><br>控制方式：队列</p>
-<p>第一大类：无类别排队规则：<br><br>1、pfifo_fast<br><br>分为三个先入先出的队列，称为三个Band。根据网络包里面TOS，看这个包到底该进入哪个队列。TOS总共四位，每一位表示的意思不同，总共十六种类型；</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/6.png" alt="yun"></p>
-<p>2、随机公平队列<br><br>TCP session会计算hash值，通过hash值分配到某个队列，在队列的另一端，网络包会通过轮询策略从各个队列中取出发送<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/7.png" alt="yun"></p>
-<p>3、令牌桶规则<br></p>
+<p>3、空行<br></p>
 <ul>
-<li>网络包到了队头就能发送，而是需要拿到令牌才能发送；</li>
-<li>设置桶的大小为了避免下面的情况：</li>
-<li>当长时间没有网络包发送的时候，积累了大量的令牌，突然来了大量的网络包，每个都能得到令牌，造成瞬间流量大增；<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/8.png" alt="yun"></li>
+<li>最后一个请求头之后是一个空行，发送回车符和换行符，通知服务器请求头结束。</li>
+<li>对于一个完整的http请求来说空行是必须的，否则服务器会任务本次请求的数据尚未完全发送到server，处于等待状态</li>
 </ul>
-<p>第二大类：基于类别排队规则<br></p>
+<p>4、请求正文</p>
 <ul>
-<li>分层令牌桶规则：HTB</li>
-<li><p>将总的带宽在一棵树上按照配置的比例进行分配，并且在一个分支不用的时候，可以借给另外的分支，从而增强带宽利用率</p>
-<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/9.png" alt="yun"></p>
-</li>
+<li>请求数据不在GET方法中使用，而是在POST中使用</li>
+<li>POST方法适用于需要client填写表单的场合，与请求数据相关的最常用的请求头是Content-Type和Content-Length</li>
 </ul>
-<p><strong>Overlay 网络：基于物理网络的虚拟化网络实现</strong></p>
-<p>一种是 GRE：一种IP-over-IP的隧道技术<br> <img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/10.png" alt="yun"></p>
-<p>优点：解决了Vlan ID 不足的问题；<br><br>缺点：</p>
+<p><strong>HTTP请求的发送</strong></p>
 <ol>
-<li>隧道数量的问题</li>
-<li>GRE是点对点的隧道，如果有三个网络，就需要在每两个网络之间建立隧道；</li>
-<li>GRE不支持组播<br>网络中一个虚拟机发出一个广播帧后，GRE会将其广播到所有与该节点有隧道连接的节点；</li>
+<li>HTTP协议是基于TCP协议的，使用面向连接的方式发送请求，通过stream二进制流的方式传给对方；</li>
+<li>TCP层发送每一个报文的时候，需要加上源地址和目标地址，将这两个信息放到IP头里面，交给IP层进行传输；</li>
+<li>IP层需要坚持目标地址和自己是否在同一个局域网。如果是，就发送ARP协议来请求这个目标地址对应的Mac地址，放入Mac头，发送出去即可；如果不是则需要发送网关；</li>
+<li>网关发现MAC符合，取出目标IP地址，根据路由协议找到下一跳的路由器，获取其Mac地址，发送出去</li>
+<li>最后一个路由器发给出口的局域网上；</li>
+<li>目标机器发现Mac地址符合，将包收进来，发现IP地址符合，根据IP头中的协议项，解析tcp头，里面有序列号，需要查看序列包是不是想要的，是的话收入缓存，返回一个ack，不是的话丢弃；</li>
 </ol>
-<p>另一种是VXLAN <br><br> <img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/11.png" alt="yun"></p>
-<p>从二层外就套了一个VXLAN的头，里面包含的VXLAN ID为24位，也够用了。</p>
-<p>VXLAN支持组播的隧道模式，需要在某个Tunnel Endpoint 进行封装和解封装，来实现跨物理机的互通；</p>
-<p><strong>FLow Table的设计</strong><br> <img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/12.png" alt="yun"></p>
-<p>1、Table 0是所有流量的入口：<br><br>从port1发出来的，都是发出去的流量，全部都由Table 1处理；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 in_port=1 actions=resubmit(,1)&quot;</span><br></pre></td></tr></table></figure>
-<p>从port2，3进来的，都是进入物理机的流量，全部由table 3进行处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 in_port=2 actions=resubmit(,3)&quot;</span><br><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 in_port=3 actions=resubmit(,3)&quot;</span><br></pre></td></tr></table></figure>
-<p>都没匹配上，就默认丢弃</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=0 actions=drop&quot;</span><br></pre></td></tr></table></figure>
-<p>2、Table1用于处理所有出去的网络包，分为单播和多播<br><br>单播，由Table 20进行处理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 table=1 dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)&quot;</span><br></pre></td></tr></table></figure>
-<p>多播，由Table 21进行处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 table=1 dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,21)&quot;</span><br></pre></td></tr></table></figure>
-<p>3、able2是默认丢弃</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=0 actions=drop&quot;</span><br></pre></td></tr></table></figure>
-<p>4、Table3用于处理所有进来的网络包，需要将隧道Tunnel ID 转换为Vlan ID</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 table=3 tun_id=0x1 actions=mod_vlan_vid:1,resubmit(,10)&quot;</span><br><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 table=3 tun_id=0x2 actions=mod_vlan_vid:2,resubmit(,10)&quot;</span><br></pre></td></tr></table></figure>
-<p>匹配不上则默认丢弃</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=0 table=3 actions=drop&quot;</span><br></pre></td></tr></table></figure>
-<p>5、Table10 会进行MAC地址学习，这是一个二层交换机上进行的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1 table=10  actions=learn(table=20,priority=1,hard_timeout=300,NXM_OF_VLAN_TCI[0..11],NXM_OF_ETH_DST[]=NXM_OF_ETH_SRC[],load:0-&gt;NXM_OF_VLAN_TCI[],load:NXM_NX_TUN_ID[]-&gt;NXM_NX_TUN_ID[],output:NXM_OF_IN_PORT[]),output:1&quot;</span><br></pre></td></tr></table></figure>
-<p>学习结果放在 Table 20上，Table 20被称为 MAC learning table<br> <img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-yun/13.png" alt="yun"></p>
-<p>6、如果不为空，就按照规则进行处理；如果为空，就说明没有进行MAC地址学习，只好进行广播</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=0 table=20 actions=resubmit(,21)&quot;</span><br></pre></td></tr></table></figure>
-<p>7、Table 21用于处理多播的包<br>匹配上了Vlan ID，就将Vlan ID 转换为    Tunnel ID ，从两个网卡port 2和port 3都发出去，进行广播：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1table=21dl_vlan=1 actions=strip_vlan,set_tunnel:0x1,output:2,output:3&quot;</span><br><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=1table=21dl_vlan=2 actions=strip_vlan,set_tunnel:0x2,output:2,output:3&quot;</span><br></pre></td></tr></table></figure>
-<p>匹配不上，就默认丢弃：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ovs-ofctl add-flow br1 &quot;hard_timeout=0 idle_timeout=0 priority=0 table=21 actions=drop&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>HTTP返回的构建</strong>：<br><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/5.png" alt="qb"></p>
+<p>响应报文</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Encoding: gzip</span><br><span class="line">Content-Type: text/html;charset=utf-8</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;p&gt;this is http response&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>返回的格式：</p>
+<ul>
+<li>application/json</li>
+<li>application/x-www-form-urlencoded(form标签提交的时候默认产生)</li>
+<li>multipart/form-data（文件上传时默认产生）</li>
+<li>text/xml</li>
+</ul>
+<p>keepalive模式：<br></p>
+<ul>
+<li>每个HTTP请求都要建立一个TCP连接，并且使用一次之后就断开这个TCP连接，</li>
+<li>使用keepalive之后，在一次tcp连接中可以持续发送多份数据而不会断开连接，可以减少TCP建立连接的次数，减少time_wait状态的连接；</li>
+<li>长时间的TCP连接容易导致系统资源无效占用，因而需要设置正确的keepalive timeout时间；</li>
+</ul>
+<p><strong>HTTP2.0</strong></p>
+<ul>
+<li>成功解决了 HTTP1.1的队首阻塞问题</li>
+<li>通过头压缩，分帧，二进制编码，多路复用等技术提升性能；</li>
+<li>常见的帧有Header帧，用于传输Header内容，并且开启一个新的流；Data帧，用来传输真正实体，多个帧属于同一个流；</li>
+</ul>
+<p><strong>QUIC(从tcp切到了UDP）</strong></p>
+<p>1、自定义连接机制；</p>
+<ul>
+<li>当手机信号不稳定或在WiFi和移动网络切换的情况下，都会导致TCP重连，从而进行再次的三次握手，导致一定的时延；</li>
+<li>而UDP是无连接的，当IP或端口无变化的时候，只要ID不变，就不需要重新建立连接；<br></li>
+</ul>
+<p>2、自定义重传机制；</p>
+<ul>
+<li>UDP的采样计算时间RTT相对准确;</li>
+<li>数据流里面有个偏移量offset，通过offset查看数据发送到哪，这样只要这个offset的包没有来，就要重发，如果来了，按照offset拼接，还能够拼成一个流；</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/6.png" alt="qb"></p>
+<p>3、无阻塞多路复用<br><br>一个连接上的多个stream之间没有依赖，假如stream2丢失了一个UDP包，后面跟着一个UDP包，即使stream2的那个包要重传，但stream3的包无需等待，就可以发给用户；</p>
+<p>4、自定义流量控制<br><br>TCP的ACK机制是基于序列号的累计应答，一旦ACK了一个系列号，说明前面的都到了，多以只要前面的没到，后面的到了也不能ACK，会导致后面的到了，也有可能超时重传，浪费带宽；<br>而QUIC的ACK是基于offset的，每个offset的包来了，进了缓存，就可以应答，应答后就不用重发</p>
+<p><img src="https://raw.githubusercontent.com/sixi2012/Blog-Photos/master/post_photos/http-qubie/7.png" alt="qb"></p>
+<p><strong>对称加密</strong>：<br><br>效率高，但是无法解决秘钥传输问题；</p>
+<p><strong>非对称加密：</strong><br><br>客户端和服务端都有自己的公钥和私钥。客户端给服务端发送的时候，用服务端的公钥加密，这样只有服务端用私钥才能解密；同样，服务端用客户端的公钥加密，客户端用自己的私钥才能解密；</p>
+<p><strong>数字证书：</strong><br><br>网站：cliu8site<br><br>1、创建私钥：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl genrsa -out cliu8siteprivate.key 1024</span><br></pre></td></tr></table></figure>
+<p>2、创建公钥：<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl rsa -in cliu8siteprivate.key -pubout -outcliu8sitepublic.pem</span><br></pre></td></tr></table></figure>
+<p><strong>3、生成证书：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl req -key cliu8siteprivate.key -new -out cliu8sitecertificate.req</span><br></pre></td></tr></table></figure>
+<p><strong>4、证书签名：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -req -in cliu8sitecertificate.req -CA cacertificate.pem -CAkey caprivate.key -out cliu8sitecertificate.pem</span><br></pre></td></tr></table></figure>
+<p><strong>5、查看证书内容</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl x509 -in cliu8sitecertificate.pem -noout -text</span><br></pre></td></tr></table></figure>
 
       
 
@@ -322,7 +307,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/11/25/HTTP的云中网络和VPN（下）/" alt="微信分享二维码">
+      <img src="//www.kuaizhan.com/common/encode-png?large=true&data=https://sixi2012.github.io/2019/11/27/HTTP和HTTPS协议的区别/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -346,8 +331,8 @@
     </a>
   
   
-    <a href="/2019/11/11/HTTP的云中网络和VPN（上）/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HTTP的云中网络和VPN（上）</div>
+    <a href="/2019/11/11/HTTP中的ping和ip/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP中的ping和ip</div>
       <i class="icon-circle-right"></i>
     </a>
   
